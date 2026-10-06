@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10214d">
+<!-- GitHub Pages bu sayfayı her eksik adreste sunar (/gglab-web/a/b/c gibi).
+     Göreli yollar sitenin köküne göre çözülsün diye <base> burada, tüm bağlantılardan önce eklenir:
+     proje sayfasında /gglab-web/, özel alan adı bağlanınca /. -->
+<script>
+  (function () {
+    var base = document.createElement('base');
+    base.href = /^\/gglab-web(\/|$)/.test(location.pathname) ? '/gglab-web/' : '/';
+    document.head.appendChild(base);
+  })();
+</script>
+<title>Sayfa bulunamadı — GG Lab</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/logo-yazisiz.png" type="image/png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/hud.css">
+<style>
+  .nf{min-height:100svh;padding:120px 0 72px}
+  .nf-inner{position:relative;z-index:1}
+  /* arkadaki dev 404: yalnızca kontur, içeriğin önüne geçmesin */
+  .nf-code{
+    position:absolute;right:24px;top:50%;transform:translateY(-50%);margin:0;z-index:-1;
+    font-family:Oswald,"Space Grotesk",sans-serif;font-weight:700;line-height:.8;
+    font-size:clamp(9rem,30vw,22rem);letter-spacing:-.02em;
+    color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.14);
+    pointer-events:none;user-select:none;
+  }
+  .nf .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:Oswald,Inter,sans-serif;letter-spacing:.2em}
+  .nf .eyebrow .tick{width:26px;height:1px;background:var(--accent);display:inline-block}
+  .nf h1{
+    max-width:14ch;font-family:Oswald,"Space Grotesk",sans-serif;font-size:clamp(2.2rem,6vw,4rem);
+    text-transform:uppercase;letter-spacing:-.005em;line-height:1.03;
+  }
+  .nf .lead{border-left:2px solid var(--accent);padding-left:16px;max-width:44ch}
+  @media (max-width:760px){
+    .nf{padding:110px 0 56px}
+    .nf-code{right:auto;left:16px;top:auto;bottom:-4vh;transform:none}
+  }
+</style>
+</head>
+<body>
+<header class="site-header hud-header">
+  <div class="container hud-bar">
+    <a class="hud-logo" href="./">
+      <span class="hud-logo-mark"><img src="assets/img/logo-yazili-68.webp" alt="" width="34" height="34"></span>
+      <span class="hud-logo-text">GG<span class="us">_</span>LAB</span>
+    </a>
+  </div>
+</header>
+
+<main id="main" class="hero nf">
+  <div class="hero-bg" aria-hidden="true">
+    <span class="tech-ring tech-ring-a"></span>
+    <span class="pad-symbol pad-square"></span>
+    <span class="pad-symbol pad-circle"></span>
+    <span class="pad-symbol pad-x"></span>
+  </div>
+  <div class="container nf-inner">
+    <p class="nf-code" aria-hidden="true">404</p>
+    <p class="eyebrow"><span class="tick" aria-hidden="true"></span>Hata 404</p>
+    <h1>Bu bölüm henüz açılmadı.</h1>
+    <p class="lead">Aradığın sayfa taşınmış ya da hiç var olmamış olabilir. Ana sayfadan devam edebilirsin.</p>
+    <div class="hero-actions">
+      <a class="cut-btn cut-btn-light" href="./"><span><i>&#8592;</i> Ana sayfaya dön</span></a>
+      <a class="cut-btn cut-btn-ghost" href="./#etkinlikler"><span>Etkinliklere bak</span></a>
+    </div>
+  </div>
+</main>
+</body>
+</html>

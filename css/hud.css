@@ -1,0 +1,663 @@
+/* ============================================================
+   GG Lab — HUD katmanı
+   Sadece header + hero'yu "oyun arayüzü" diline çevirir.
+   style.css'ten sonra yüklenir; v1.html bu dosyayı yüklemez.
+   ============================================================ */
+
+:root{
+  --hud-line:rgba(255,255,255,.22);
+  --hud-line-soft:rgba(255,255,255,.10);
+  --hud-panel:rgba(16,33,77,.72);
+  --cut:14px;
+}
+
+/* --- kesik köşeli kutu tekniği: dış katman çizgi, iç katman zemin --- */
+.cut-btn{
+  --shape:polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+  clip-path:var(--shape);
+}
+
+/* ---------------- HEADER ---------------- */
+.hud-header{padding-top:18px}
+.hud-header.scrolled{background:none;backdrop-filter:none;border-bottom-color:transparent}
+.hud-bar{
+  display:flex;align-items:center;gap:14px;height:auto;justify-content:flex-start;
+}
+
+/* logo bloğu */
+.hud-logo{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 26px 12px 18px;
+  background:var(--hud-panel);backdrop-filter:blur(12px);
+  border:1px solid var(--hud-line);
+  border-radius:4px 4px 4px 22px;
+  flex:0 0 auto;
+}
+.hud-logo-mark{display:grid;place-items:center;width:34px;height:34px}
+.hud-logo-mark img{border-radius:30%}
+.hud-logo-text{
+  font-family:Oswald,"Space Grotesk",sans-serif;font-weight:600;letter-spacing:.06em;
+  font-size:1.22rem;text-transform:uppercase;line-height:1;
+}
+.hud-logo-text .us{color:var(--accent)}
+
+/* menü kapsülü */
+.hud-navwrap{flex:1 1 auto;min-width:0}
+.nav.hud-nav{
+  display:flex;align-items:center;justify-content:space-between;gap:4px;
+  background:var(--hud-panel);backdrop-filter:blur(12px);
+  border:1px solid var(--hud-line);
+  border-radius:22px 4px 22px 4px;
+  padding:0 10px;height:58px;
+}
+.nav.hud-nav a:not(.cut-btn){
+  font-family:Oswald,Inter,sans-serif;font-size:.86rem;letter-spacing:.04em;
+  flex:1 1 auto;text-align:center;white-space:nowrap;
+  padding:0 12px;line-height:38px;border-radius:12px 3px 12px 3px;
+  color:var(--muted);position:relative;
+  transition:color .2s,background .25s var(--ease),box-shadow .25s var(--ease);
+}
+.nav.hud-nav a:not(.cut-btn)::after{display:none}
+.nav.hud-nav a:not(.cut-btn):hover{background:rgba(255,255,255,.05)}
+.nav.hud-nav a.active:not(.cut-btn){
+  color:#fff;
+  background:linear-gradient(135deg,rgba(255,138,61,.22),rgba(139,92,246,.30));
+  box-shadow:inset 0 0 0 1px rgba(167,139,250,.45),0 0 16px rgba(139,92,246,.25);
+}
+.nav.hud-nav .nav-cta{display:none}
+
+/* sağdaki aksiyon butonu */
+.hud-menu{flex:0 0 auto}
+
+/* kesik köşeli buton */
+.cut-btn{
+  display:inline-block;padding:1px;border:0;cursor:pointer;
+  background:var(--hud-line);
+  font-family:Oswald,Inter,sans-serif;text-transform:uppercase;letter-spacing:.07em;
+  transition:transform .2s var(--ease),background .25s;
+}
+.cut-btn > span{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:clamp(11px,1.6vh,16px) clamp(20px,2vw,30px);clip-path:var(--shape);
+  font-size:.88rem;font-weight:600;line-height:1;
+}
+.cut-btn i{font-style:normal;transition:transform .25s var(--ease)}
+.cut-btn:hover{transform:translateY(-2px)}
+.cut-btn:hover i{transform:translateX(-4px)}
+
+.cut-btn-light{background:rgba(255,255,255,.55)}
+.cut-btn-light > span{
+  background:linear-gradient(120deg,#f4f6ff,#c9d2ef 60%,#e8ecff);color:#101a3a;
+}
+.cut-btn-light:hover{background:var(--accent)}
+.cut-btn-light:hover > span{background:linear-gradient(120deg,#ffb066,var(--accent))}
+
+.cut-btn-ghost{background:var(--hud-line)}
+.cut-btn-ghost > span{background:var(--bg-2);color:var(--text)}
+.cut-btn-ghost:hover{background:var(--accent-4)}
+
+.hud-menu{height:46px}
+.hud-menu > span{height:100%;padding:0 20px;font-size:.8rem}
+/* katıl düğmesi 5 sn'de bir dikkat çeker: turuncu ışık şeridi ~1 sn'de geçerken düğme kısaca
+   sağa sola sallanır, kalan süre durur. isolation sayesinde şerit zeminin üstünde, yazının altında
+   kalır; kesik köşe span'in clip-path'iyle kırpılır. Sallanma ayrı `rotate` özelliğiyle: hover'daki
+   transform'la çakışmaz. */
+.hud-menu{animation:join-wiggle 5s ease-in-out 2s infinite}
+.hud-menu > span{position:relative;isolation:isolate}
+.hud-menu > span::after{
+  content:"";position:absolute;inset:0 auto 0 0;width:50%;z-index:-1;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,176,102,.95) 45%,rgba(244,124,32,.9) 55%,transparent);
+  transform:translateX(-120%) skewX(-20deg);
+  animation:join-glint 5s ease-in-out 2s infinite;
+}
+@keyframes join-glint{
+  0%{transform:translateX(-120%) skewX(-20deg)}
+  21%,100%{transform:translateX(240%) skewX(-20deg)}
+}
+@keyframes join-wiggle{
+  0%,16.8%,100%{rotate:0deg}
+  2.8%{rotate:-5deg}
+  5.6%{rotate:5deg}
+  8.4%{rotate:-4deg}
+  11.2%{rotate:3deg}
+  14%{rotate:-1.5deg}
+}
+@media (prefers-reduced-motion:reduce){
+  .hud-menu{animation:none}
+  .hud-menu > span::after{animation:none;display:none}
+}
+
+/* ---------------- HERO ----------------
+   Hedef: hero tek ekrana sığsın. Ölçüler hem genişliğe (vw) hem
+   yüksekliğe (vh) bağlı; kısa ekranlarda kendiliğinden küçülür. */
+.hud-hero{
+  min-height:100svh;padding:clamp(88px,11vh,124px) 0 clamp(20px,3vh,40px);
+  display:flex;align-items:center;
+}
+.hud-hero .container{position:relative;z-index:3;width:100%}
+/* alt kenar: hero tonunu About zeminine yumuşakça eritir (dikiş kalmasın) */
+.hud-hero::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:clamp(50px,8vh,90px);
+  background:linear-gradient(180deg,transparent,var(--bg-2));
+  pointer-events:none;z-index:2;
+}
+
+/* akış kabı: görünür çerçeve yok, sahne hissi arka planda */
+.hud-frame{
+  position:relative;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  padding:clamp(24px,3.4vh,46px) clamp(26px,3.4vw,52px) 0;
+  overflow:visible;
+}
+.hud-hero-grid{
+  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  gap:clamp(20px,3vw,44px);align-items:center;
+  padding-bottom:clamp(20px,3.2vh,40px);
+}
+
+/* başlık — genişlik VE yükseklikle ölçekleniyor */
+.hud-hero h1{
+  font-family:Oswald,"Space Grotesk",sans-serif;
+  font-size:clamp(1.9rem,min(4.6vw,7.4vh),3.7rem);font-weight:700;
+  text-transform:uppercase;letter-spacing:-.005em;line-height:1.03;
+  margin-bottom:clamp(.3em,1.6vh,.5em);
+}
+.hud-hero .eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:Oswald,Inter,sans-serif;letter-spacing:.2em;
+  margin-bottom:clamp(6px,1.4vh,14px);
+}
+.hud-hero .eyebrow .tick{width:26px;height:1px;background:var(--accent);display:inline-block}
+.hud-hero .lead{
+  border-left:2px solid var(--accent);padding-left:16px;max-width:44ch;margin-bottom:0;
+  font-size:clamp(.88rem,min(1.15vw,1.85vh),1.02rem);line-height:1.55;
+}
+.hud-hero .hero-actions{margin:clamp(16px,2.8vh,32px) 0 0;gap:12px}
+
+/* görsel */
+.hud-hero .hero-visual{position:relative;z-index:0}
+.hud-hero .hero-visual::after{
+  content:"";position:absolute;pointer-events:none;z-index:0;
+}
+.hud-hero .hero-visual::after{
+  width:min(440px,100%);aspect-ratio:1;left:50%;top:50%;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(244,124,32,.18),transparent 62%);
+  transform:translate(-50%,-50%);
+  filter:blur(10px);
+}
+.hud-hero .hero-visual img{
+  position:relative;z-index:1;width:min(380px,100%,42vh);height:auto;margin:0 auto;border-radius:24px;
+  filter:drop-shadow(0 30px 70px rgba(0,0,0,.55));
+  image-rendering:auto;
+}
+
+/* alt paydaş şeridi
+   Dolgu ve kutu yok: üstte kenarlara doğru eriyen ince çizgi, solda etiket,
+   sağda eşit genişlikte 5 sütun, aralarında kısa ayraçlar. Logolar gri tonda
+   durur (renkli logolar şeridi dağıtıyordu), üzerine gelince rengine döner. */
+.hud-partners{
+  --logo-h:clamp(24px,4.6vh,36px);
+  position:relative;
+  display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;
+  gap:clamp(18px,3vw,44px);
+  margin:16px calc(-1 * clamp(26px,3.4vw,52px)) 0;
+  padding:clamp(12px,2vh,22px) clamp(26px,3.4vw,52px);
+}
+.hud-partners::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:1px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,var(--hud-line-soft) 16%,var(--hud-line-soft) 84%,transparent);
+}
+.hud-partners-label{
+  display:inline-flex;align-items:center;gap:10px;white-space:nowrap;
+  font-family:Oswald,Inter,sans-serif;font-size:.72rem;letter-spacing:.2em;color:var(--muted);
+}
+/* hero eyebrow'undaki turuncu çizgiyle aynı dil */
+.hud-partners-label::before{content:"";width:18px;height:1px;background:var(--accent)}
+.hud-partners-list{
+  list-style:none;margin:0;padding:0;min-width:0;
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:center;
+}
+.hud-partners li{
+  display:flex;align-items:center;justify-content:center;
+  height:calc(var(--logo-h) * 1.5);padding:0 clamp(8px,1.6vw,22px);
+}
+.hud-partners li + li{border-left:1px solid var(--hud-line-soft)}
+/* --k: logonun görünür en/boy oranına göre optik denge (kare logo büyür, çok enli küçülür) */
+.hud-partners .logo-mark{
+  display:block;height:calc(var(--logo-h) * var(--k,1));width:auto;max-width:100%;object-fit:contain;
+  filter:grayscale(1) brightness(1.7);opacity:.78;
+  transition:filter .3s var(--ease),opacity .3s var(--ease);
+}
+.hud-partners li:hover .logo-mark{filter:none;opacity:1}
+.hud-partners.hero-enter{animation-delay:.3s}
+
+/* ---------------- responsive ---------------- */
+@media (max-width:1100px){
+  .nav.hud-nav a:not(.cut-btn){padding:0 8px;font-size:.8rem}
+  .hud-logo{padding:12px 18px}
+}
+/* 9 bağlantı 900–1000px arasında kapsüle sığsın */
+@media (max-width:1000px){
+  .nav.hud-nav{padding:0 6px;gap:2px}
+  .nav.hud-nav a:not(.cut-btn){padding:0 5px;font-size:.78rem;letter-spacing:.02em}
+}
+@media (max-width:900px){
+  .hud-menu{display:none}
+  .hud-frame{padding:28px 24px 0;border-radius:20px}
+  .hud-partners{margin:0 -24px;padding:14px 24px}
+  .hud-hero-grid{grid-template-columns:1fr;gap:28px;padding-bottom:32px}
+  .hud-hero .hero-visual{order:-1}
+  .hud-hero .hero-visual img{width:min(120px,18vh);margin:0}
+}
+@media (max-width:760px){
+  .hud-bar{justify-content:space-between}
+  .hud-navwrap{position:static;flex:0 0 auto}
+  .nav.hud-nav{
+    position:fixed;inset:92px 16px auto 16px;flex-direction:column;align-items:stretch;
+    height:auto;padding:8px 18px 18px;border-radius:18px 4px 18px 4px;
+    background:rgba(13,27,66,.97);
+    /* style.css'teki kapalı konum bu seçiciyle de geçerli olsun */
+    transform:translateY(calc(-100% - 110px));
+    opacity:0;pointer-events:none;
+    /* visibility: kapalı menüdeki bağlantılar Tab ile seçilmesin; kapanış animasyonu bitince gizlenir */
+    visibility:hidden;
+    transition:transform .35s var(--ease),opacity .25s var(--ease),visibility 0s .35s;
+  }
+  .nav.hud-nav.open{transform:translateY(0);opacity:1;pointer-events:auto;visibility:visible;transition-delay:0s}
+  .nav.hud-nav a:not(.cut-btn){line-height:1.4;padding:12px 14px;font-size:1rem;text-align:left;flex:0 0 auto}
+  .nav.hud-nav .nav-cta{display:block;margin-top:14px}
+  .nav.hud-nav .nav-cta > span{padding:14px 20px}
+  .hud-hero{min-height:auto;padding:100px 0 40px}
+  .hud-frame{padding-top:22px}
+  .hud-hero-grid{gap:18px;padding-bottom:24px}
+  .hud-hero .hero-visual img{width:min(86px,14vh);border-radius:18px}
+  /* etiket üstte; logolar 3 + 2 dizilir, alt satır yarıya bölünür */
+  .hud-partners{--logo-h:28px;grid-template-columns:1fr;gap:10px}
+  .hud-partners-list{grid-template-columns:repeat(6,minmax(0,1fr));row-gap:6px}
+  .hud-partners li:nth-child(-n+3){grid-column:span 2}
+  .hud-partners li:nth-child(n+4){grid-column:span 3}
+  .hud-partners li:nth-child(1),.hud-partners li:nth-child(4){border-left:0}
+  .cut-btn > span{padding:14px 22px;font-size:.84rem}
+}
+
+/* ---------------- dil değiştirici ----------------
+   Tek düğme; üzerinde yalnızca yürürlükteki dil görünür.
+   EN şimdilik kapalı olduğu için i18n.js düğmeye hidden ekliyor. */
+.lang-toggle[hidden]{display:none}
+.lang-toggle{
+  flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+  min-width:52px;height:46px;padding:0 14px;
+  font-family:Oswald,Inter,sans-serif;font-size:.8rem;letter-spacing:.1em;font-weight:600;
+  color:var(--muted);cursor:pointer;
+  background:var(--hud-panel);backdrop-filter:blur(12px);
+  border:1px solid var(--hud-line);border-radius:0;
+  clip-path:var(--shape);
+  transition:color .25s var(--ease),border-color .25s var(--ease),background .25s var(--ease);
+}
+.lang-toggle:hover{color:var(--accent);border-color:var(--accent)}
+.lang-toggle:active{transform:translateY(1px)}
+@media (max-width:760px){
+  .lang-toggle{margin-left:auto;margin-right:4px;min-width:46px;height:44px;padding:0 11px;font-size:.75rem}
+}
+
+/* hero girişi: .reveal yerine yalnızca transform animasyonu. İçerik ilk karede
+   görünür olduğu için LCP main.js'i ve scroll kontrolünü beklemez.
+   prefers-reduced-motion'da style.css'teki genel animation:none kapatır. */
+@keyframes hero-enter{from{transform:translateY(18px)}}
+@keyframes hero-enter-r{from{transform:translateX(26px)}}
+.hero-enter{animation:hero-enter .7s var(--ease) both}
+.hero-visual.hero-enter{animation-name:hero-enter-r;animation-duration:.75s}
+.hero-text .hero-enter:nth-child(2){animation-delay:.07s}
+.hero-text .hero-enter:nth-child(3){animation-delay:.14s}
+.hero-text .hero-enter:nth-child(4){animation-delay:.21s}
+
+
+/* ---- kısa ekranlar (dizüstü, ölçeklenmiş görünüm) ----
+   Hero'nun tek ekrana sığması için yükseklik bazlı sıkılaştırma. */
+@media (max-height:780px){
+  .hud-hero{padding-top:84px;padding-bottom:18px}
+  .hud-hero h1{font-size:clamp(1.8rem,min(4.3vw,7vh),3rem);margin-bottom:.34em}
+  .hud-hero .eyebrow{margin-bottom:6px;font-size:.68rem}
+  .hud-hero .lead{font-size:.86rem;line-height:1.5;max-width:40ch;padding-left:14px}
+  .hud-hero .hero-actions{margin-top:16px}
+  .hud-hero .hero-visual img{width:min(330px,100%,40vh)}
+  .hud-frame{padding-top:20px;border-radius:22px}
+  .hud-hero-grid{padding-bottom:16px;gap:24px}
+  .hud-partners{padding-top:9px;padding-bottom:9px;column-gap:16px}
+  .hud-partners-label{font-size:.66rem}
+  .cut-btn > span{padding:11px 20px;font-size:.82rem}
+}
+@media (max-width:900px) and (max-height:780px){
+  .hud-hero .hero-visual img{width:min(92px,15vh)}
+}
+@media (max-height:620px){
+  .hud-hero{padding-top:74px;padding-bottom:12px}
+  .hud-hero h1{font-size:clamp(1.5rem,5.9vh,2.3rem);margin-bottom:.28em}
+  .hud-hero .lead{font-size:.83rem;line-height:1.5;max-width:40ch}
+  .hud-hero .hero-actions{margin-top:12px}
+  .hud-hero .hero-visual img{width:min(270px,100%,35vh)}
+  .hud-hero-grid{gap:22px;padding-bottom:12px}
+  .hud-frame{padding-top:16px}
+  .hud-partners{padding-top:7px;padding-bottom:7px}
+}
+
+/* ---------------- hero ızgarası ----------------
+   İki katman: ince (13px) + kalın (52px) çizgiler, blueprint hissi.
+   Maske kenarlara doğru soldurur, ortada net kalır. */
+.hud-hero .hero-bg::after{
+  opacity:1;
+  background-image:
+    linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px),
+    linear-gradient(rgba(255,255,255,.14) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.14) 1px,transparent 1px);
+  background-size:13px 13px,13px 13px,52px 52px,52px 52px;
+  background-attachment:fixed;
+  -webkit-mask-image:radial-gradient(ellipse 85% 75% at 50% 42%,#000 35%,rgba(0,0,0,.35) 70%,transparent 100%);
+  mask-image:radial-gradient(ellipse 85% 75% at 50% 42%,#000 35%,rgba(0,0,0,.35) 70%,transparent 100%);
+}
+.hud-frame > *{position:relative;z-index:1}
+
+.tech-ring,
+.pad-symbol,
+.light-orb{
+  position:absolute;display:block;pointer-events:none;z-index:1;
+}
+.tech-ring{
+  width:clamp(170px,22vw,320px);aspect-ratio:1;border-radius:50%;
+  border:1px solid rgba(255,255,255,.14);
+  background:
+    conic-gradient(from 0deg,transparent 0 18%,rgba(244,124,32,.7) 19% 22%,transparent 23% 56%,rgba(122,170,255,.6) 57% 60%,transparent 61%),
+    radial-gradient(circle at 50% 50%,transparent 0 55%,rgba(255,255,255,.08) 56% 57%,transparent 58%);
+  opacity:.45;filter:drop-shadow(0 0 28px rgba(122,170,255,.16));
+  animation:target-spin 16s linear infinite;
+}
+/* harita hedef işareti: radar süpürmesi + merkezde ping dalgaları */
+.tech-ring{
+  background:
+    conic-gradient(from 0deg,transparent 0 80%,rgba(244,124,32,.32) 99.4%,rgba(255,190,120,.85) 99.6% 100%),
+    radial-gradient(circle at 50% 50%,transparent 0 55%,rgba(255,255,255,.08) 56% 57%,transparent 58%);
+  -webkit-mask-image:radial-gradient(circle,transparent 0 3%,#000 4%);
+  mask-image:radial-gradient(circle,transparent 0 3%,#000 4%);
+}
+.tech-ring::before,
+.tech-ring::after{
+  content:"";position:absolute;left:50%;top:50%;width:100%;aspect-ratio:1;border-radius:50%;
+  border:1px solid rgba(244,124,32,.8);
+  transform:translate(-50%,-50%) scale(.04);opacity:0;
+  animation:map-ping 9.6s ease-out infinite;
+}
+.tech-ring::after{animation-delay:-4.8s;border-color:rgba(122,170,255,.8)}
+@keyframes map-ping{
+  0%{transform:translate(-50%,-50%) scale(.04);opacity:.9}
+  100%{transform:translate(-50%,-50%) scale(.95);opacity:0}
+}
+.tech-ring-a{right:9vw;top:13vh}
+.tech-ring-b{left:7vw;bottom:24vh;animation-duration:22s;width:clamp(120px,17vw,220px);animation-direction:reverse;opacity:.28}
+.pad-symbol{
+  --pad-rot:0deg;
+  width:clamp(34px,4.6vw,68px);aspect-ratio:1;
+  opacity:.26;mix-blend-mode:screen;
+  filter:drop-shadow(0 0 20px rgba(122,170,255,.24));
+  transform:rotate(var(--pad-rot));
+}
+.pad-square{left:64vw;top:20vh;border:2px solid rgba(244,124,32,.48);border-radius:5px}
+.pad-circle{right:12vw;top:43vh;border:2px solid rgba(122,170,255,.48);border-radius:50%;width:clamp(42px,5.8vw,82px)}
+.pad-triangle{
+  --pad-rot:-10deg;
+  left:22vw;bottom:18vh;width:clamp(42px,5.5vw,78px);
+  clip-path:polygon(50% 5%,96% 90%,4% 90%);
+  background:linear-gradient(135deg,rgba(244,124,32,.5),rgba(122,170,255,.22));
+}
+.pad-x{
+  --pad-rot:18deg;
+  right:28vw;bottom:22vh;width:clamp(42px,5.3vw,76px);
+}
+.pad-x::before,
+.pad-x::after{
+  content:"";position:absolute;left:50%;top:50%;width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.56),rgba(139,92,246,.38),transparent);
+  box-shadow:0 0 20px rgba(139,92,246,.34);
+}
+.pad-x::before{transform:translate(-50%,-50%) rotate(45deg)}
+.pad-x::after{transform:translate(-50%,-50%) rotate(-45deg)}
+.light-orb{
+  width:clamp(170px,24vw,360px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.18) 0 2%,rgba(244,124,32,.16) 8%,rgba(122,170,255,.13) 32%,transparent 68%);
+  filter:blur(2px);opacity:.44;mix-blend-mode:screen;
+}
+.orb-a{right:15vw;top:8vh}
+.orb-b{left:5vw;bottom:9vh;width:clamp(130px,18vw,260px);opacity:.26}
+
+/* yukarıdan aşağı düşen PlayStation tuşları */
+.xb{
+  --xc:122,170,255;
+  position:absolute;top:-12vh;z-index:0;pointer-events:none;
+  display:grid;place-items:center;
+  width:var(--xs,44px);aspect-ratio:1;border-radius:50%;
+  color:rgba(var(--xc),.9);
+  border:2px solid rgba(var(--xc),.55);
+  background:radial-gradient(circle,rgba(var(--xc),.16),rgba(var(--xc),.03) 70%);
+  box-shadow:0 0 22px rgba(var(--xc),.28);
+  opacity:0;will-change:transform,opacity;
+  animation:xb-fall var(--xd,18s) linear infinite;animation-delay:var(--xl,0s);
+}
+.xb svg{width:52%;height:52%;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}
+/* a=üçgen  b=daire  x=çarpı  y=kare (PlayStation renkleri) */
+.xb[data-k=a]{--xc:88,214,140}
+.xb[data-k=b]{--xc:255,96,96}
+.xb[data-k=x]{--xc:122,170,255}
+.xb[data-k=y]{--xc:238,130,200}
+.xb-a{left:6vw;--xs:38px;--xd:19s;--xl:-3s}
+.xb-b{left:19vw;--xs:56px;--xd:15s;--xl:-9s}
+.xb-c{left:34vw;--xs:30px;--xd:24s;--xl:-14s}
+.xb-d{left:47vw;--xs:48px;--xd:17s;--xl:-6s}
+.xb-e{left:61vw;--xs:34px;--xd:22s;--xl:-1s}
+.xb-f{left:73vw;--xs:60px;--xd:14s;--xl:-11s}
+.xb-g{left:84vw;--xs:36px;--xd:21s;--xl:-16s}
+.xb-h{left:93vw;--xs:44px;--xd:18s;--xl:-7s}
+.xb-i{left:12vw;--xs:46px;--xd:20s;--xl:-12s}
+.xb-l{left:54vw;--xs:34px;--xd:23s;--xl:-9s}
+/* mini oyun: tuşlar tıklanabilir. Hero içeriği tam genişlikte olduğundan
+   kapsayıcılar tıklamayı geçirir, yalnızca gerçek içerik yakalar. */
+.hud-hero .xb{pointer-events:auto;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.hud-hero .xb:hover{border-color:rgba(var(--xc),.95);box-shadow:0 0 30px rgba(var(--xc),.6)}
+.hud-hero .xb.xb-hit{visibility:hidden}
+.hud-hero .hero-bg::after{pointer-events:none}
+.hud-hero .container,
+.hud-frame,
+.hud-hero-grid{pointer-events:none}
+.hero-text,
+.hero-visual,
+.hud-partners{pointer-events:auto}
+.xb-plus{
+  position:absolute;z-index:6;pointer-events:none;
+  font-family:Oswald,Inter,sans-serif;font-weight:700;font-size:1.3rem;letter-spacing:.04em;
+  color:#fff;text-shadow:0 0 12px rgba(244,124,32,.9),0 0 2px #000;
+  transform:translate(-50%,-50%);
+  animation:xb-plus .8s var(--ease) forwards;
+}
+@keyframes xb-plus{
+  0%{transform:translate(-50%,-50%) scale(.6);opacity:0}
+  20%{transform:translate(-50%,-90%) scale(1.15);opacity:1}
+  100%{transform:translate(-50%,-260%) scale(1);opacity:0}
+}
+.xb-score{
+  position:absolute;z-index:5;right:clamp(16px,3vw,40px);top:clamp(96px,13vh,140px);
+  display:flex;align-items:baseline;gap:8px;
+  padding:8px 14px;
+  font-family:Oswald,Inter,sans-serif;font-size:.72rem;letter-spacing:.2em;color:var(--muted);
+  background:var(--hud-panel);backdrop-filter:blur(10px);
+  border:1px solid var(--hud-line);border-radius:4px 14px 4px 14px;
+}
+.xb-score[hidden]{display:none}
+.xb-score b{font-size:1.15rem;letter-spacing:.08em;color:#fff;font-variant-numeric:tabular-nums}
+.xb-score.bump b{animation:xb-bump .3s var(--ease)}
+@keyframes xb-bump{50%{color:var(--accent-2);transform:scale(1.18)}}
+.xb-score b{display:inline-block}
+@media (max-width:760px){
+  .xb-score{top:96px;right:16px}
+}
+
+@keyframes xb-fall{
+  0%{transform:translate3d(0,0,0) rotate(-14deg);opacity:0}
+  10%{opacity:.5}
+  78%{opacity:.4}
+  100%{transform:translate3d(2vw,112vh,0) rotate(20deg);opacity:0}
+}
+@keyframes target-spin{
+  to{transform:rotate(360deg)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hud-hero .hero-bg::after,
+  .tech-ring,
+  .xb,
+  .tech-ring::before,
+  .tech-ring::after{animation:none!important}
+  .xb{opacity:.22;top:20vh}
+  .hud-hero .hero-visual img{transform:none!important}
+}
+
+@media (max-width:760px){
+  .pad-symbol{opacity:.16}
+  .pad-square{left:72vw;top:22vh}
+  .pad-x{right:12vw;bottom:28vh}
+  .pad-triangle{display:none}
+  .light-orb{opacity:.22}
+  .tech-ring{opacity:.2}
+  .tech-ring-a{right:-18vw;top:15vh}
+  .tech-ring-b{left:-20vw;bottom:26vh}
+  .hud-hero .hero-bg::after{opacity:.62}
+}
+
+/* ---------------- TOPLULUĞA KATIL: tam ekran bölüm ---------------- */
+#uyelik{
+  position:relative;isolation:isolate;overflow:hidden;
+  min-height:100svh;display:flex;align-items:flex-start;
+  padding:clamp(88px,11vh,124px) 0 clamp(40px,8vh,96px);
+  background:#0b1130 url('../assets/img/uyelik-gece.webp') center 38%/cover no-repeat;
+}
+/* görsel sayfanın en altında: main.js bölüme yaklaşınca .bg-in ekler, o zamana kadar inmez.
+   JS yoksa .js sınıfı da olmadığından görsel normal yüklenir. */
+.js #uyelik:not(.bg-in){background-image:none}
+/* üstteki ve alttaki bölümlere yumuşak geçiş */
+#uyelik::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(180deg,var(--bg) 0%,transparent 18%,transparent 78%,var(--bg) 100%);
+}
+/* metnin arkasını hafifçe karart, görseli tamamen kapatma */
+#uyelik::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(58% 48% at 50% 36%,rgba(5,8,20,.62),rgba(5,8,20,.2) 62%,transparent 80%);
+}
+#uyelik > .container{position:relative;z-index:1;width:100%}
+
+/* kayan yıldızlar */
+.shooting-stars{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none}
+.shooting-stars i{
+  position:absolute;top:var(--y);left:var(--x);
+  width:2px;height:2px;border-radius:50%;background:#fff;
+  box-shadow:0 0 6px 1px rgba(255,255,255,.85),0 0 14px 3px rgba(167,139,250,.35);
+  opacity:0;
+  animation:gg-shoot var(--dur,8s) linear infinite;
+  animation-delay:var(--delay,0s);
+}
+.shooting-stars i::before{
+  content:"";position:absolute;top:50%;left:50%;width:120px;height:1px;
+  background:linear-gradient(90deg,rgba(255,255,255,.85),transparent);
+  transform:translateY(-50%) rotate(327deg);transform-origin:0 50%;
+}
+@keyframes gg-shoot{
+  0%{opacity:1;transform:translate(0,0)}
+  10%{opacity:1;transform:translate(calc(var(--dx) * .5),calc(var(--dy) * .5))}
+  20%{opacity:0;transform:translate(var(--dx),var(--dy))}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy))}
+}
+@media (prefers-reduced-motion:reduce){.shooting-stars{display:none}}
+#uyelik .section-head{max-width:none;margin-bottom:0;text-align:center}
+#uyelik .section-head h2{font-size:clamp(2.6rem,6.5vw,5.6rem);line-height:1.02;margin:6px 0 24px}
+#uyelik .section-head .lead{max-width:60ch;margin-inline:auto;font-size:clamp(.82rem,1vw,.96rem)}
+
+/* portal ikonlar: ince çizgi üzerinde dizili */
+.portals{
+  --p:56px;position:relative;display:flex;justify-content:center;align-items:center;
+  gap:clamp(26px,5vw,64px);margin:clamp(40px,8vh,80px) auto 0;padding-bottom:34px;
+}
+.portals::before{content:"";position:absolute;top:calc(var(--p)/2);height:1px;pointer-events:none;left:0;right:0;background:linear-gradient(90deg,transparent,var(--hud-line) 12%,var(--hud-line) 88%,transparent)}
+.portal{
+  position:relative;z-index:1;display:grid;place-items:center;flex:0 0 auto;
+  width:var(--p);height:var(--p);border-radius:50%;
+  color:var(--text);background:rgba(10,17,40,.88);backdrop-filter:blur(6px);
+  border:1.5px solid rgba(255,255,255,.4);
+  box-shadow:0 8px 20px rgba(0,0,0,.5);
+  transition:transform .3s var(--ease),color .3s,border-color .3s,box-shadow .3s;
+}
+.portal::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;opacity:0;transition:opacity .3s;
+  background:radial-gradient(circle at 50% 50%,rgba(167,139,250,.55),rgba(255,138,61,.18) 55%,transparent 72%);
+}
+.portal svg{position:relative;width:42%;height:42%}
+.portal-main{--s:1.2;width:calc(var(--p)*1.2);height:calc(var(--p)*1.2);color:var(--text);border-color:rgba(167,139,250,.65);
+  border-radius:20px}
+.portal-name{
+  position:absolute;top:calc(100% + 12px);left:50%;transform:translate(-50%,-4px);white-space:nowrap;
+  font-family:Oswald,Inter,sans-serif;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text);
+  opacity:0;pointer-events:none;transition:opacity .3s,transform .3s var(--ease);
+}
+.portal:hover,.portal:focus-visible{transform:translateY(-3px);color:#fff;border-color:var(--accent-4);box-shadow:0 0 26px rgba(139,92,246,.4)}
+.portal:hover::before,.portal:focus-visible::before{opacity:1}
+.portal:hover .portal-name,.portal:focus-visible .portal-name{opacity:1;transform:translate(-50%,0)}
+.portal.todo-link{opacity:.5;cursor:default}
+@media (max-width:640px){
+  .portals{--p:42px;gap:10px}
+}
+
+/* Discord: üstte kendi satırında */
+.portal-top{display:flex;justify-content:center;margin-top:clamp(28px,5vh,48px);padding-bottom:40px}
+.portal-top .portal-main{--p:64px;width:calc(var(--p)*1.2);height:calc(var(--p)*1.2);
+  box-shadow:0 0 30px rgba(139,92,246,.28);border-color:rgba(167,139,250,.7)}
+.portal-top .portal-name{opacity:1;transform:translate(-50%,0);color:var(--text);font-size:.85rem}
+.portal-top .portal-main::before{opacity:.55}
+.portal-top .portal-main:hover::before{opacity:1}
+.portals{margin-top:28px}
+
+/* ---------------- telefon düzeltmeleri ---------------- */
+@media (max-width:760px){
+  /* kaydırınca içerik header'ın arkasından okunmasın: üstte koyu, aşağı doğru eriyen zemin */
+  .hud-header{padding:12px 0 10px;transition:background .3s}
+  .hud-header.scrolled{
+    background:linear-gradient(180deg,rgba(11,22,56,.94) 0%,rgba(11,22,56,.82) 72%,rgba(11,22,56,0) 100%);
+  }
+  .hud-logo{padding:9px 16px 9px 12px}
+  .hud-logo-text{font-size:1.08rem}
+  /* hamburger de logo kutusuyla aynı panel dilini taşısın, dokunma alanı 48px */
+  .nav-toggle{
+    display:grid;place-content:center;width:48px;height:48px;padding:0;
+    background:var(--hud-panel);backdrop-filter:blur(12px);
+    border:1px solid var(--hud-line);border-radius:4px 14px 4px 14px;
+  }
+  .nav-toggle span{margin:3px 0}
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(5px) rotate(45deg)}
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+  .nav.hud-nav{inset:80px 16px auto 16px;max-height:calc(100svh - 96px);overflow:auto}
+  /* style.css'teki .nav a dolgusu kesik butonun 1px çerçeve katmanını kalınlaştırıyordu */
+  .nav.hud-nav .nav-cta{padding:1px;border-bottom:0}
+
+  /* dar ekranda tuşlar üst üste biner: 8'i kalsın, bant arası daralsın */
+  .xb-i,.xb-l{display:none}
+
+  /* hero butonları yan yana sığmıyorsa eşit genişlikte alt alta */
+  .hud-hero .hero-actions .cut-btn{flex:1 1 150px;text-align:center}
+
+  /* etkinlik kartları: dar iki sütun yerine görsel üstte, metin altta */
+  .event-card{grid-template-columns:1fr;gap:12px}
+  .event-media{aspect-ratio:16/9}
+
+  /* footer bağlantıları: parmakla rahat basılsın */
+  .footer-inner nav a,.footer-inner div a:not(.brand){padding:9px 0}
+
+}

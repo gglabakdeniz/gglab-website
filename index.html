@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10214d">
+<script>document.documentElement.classList.add('js')</script>
+<title data-i18n="meta.title">GG Lab — Akdeniz Üniversitesi Oyun ve Oyunlaştırma Topluluğu</title>
+<meta name="description" data-i18n-meta="meta.desc" content="Akdeniz Üniversitesi Oyun ve Oyunlaştırma Topluluğu (GG Lab). Oyun geliştirme atölyeleri, Game Jam etkinlikleri, Indie Talks ve kutu oyunu günleri.">
+<meta property="og:title" content="GG Lab — Oyun ve Oyunlaştırma Topluluğu">
+<meta property="og:description" content="Akdeniz Üniversitesi'nde oyun geliştir, oyunlaştırmayı keşfet, birlikte üret.">
+<!-- og:image mutlak URL olmalı; alan adı değişirse bu iki satırı güncelle -->
+<meta property="og:url" content="https://nehirra.github.io/gglab-web/">
+<meta property="og:image" content="https://nehirra.github.io/gglab-web/assets/img/logo-yazili.png">
+<meta name="twitter:card" content="summary">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/img/logo-yazisiz.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/logo-yazisiz.png">
+<!-- Hero'nun ilk karede kullandığı fontlar; diğerleri style.css'teki @font-face ile gerektiğinde iner -->
+<link rel="preload" href="assets/fonts/oswald-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/oswald-tr.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/hud.css">
+</head>
+<body>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+<a class="skip-link" href="#main" data-i18n="a11y.skip">İçeriğe geç</a>
+
+<header class="site-header hud-header" id="siteHeader">
+  <div class="container hud-bar">
+
+    <a class="hud-logo" href="#top">
+      <span class="hud-logo-mark"><img src="assets/img/logo-yazili-68.webp" alt="" width="34" height="34"></span>
+      <span class="hud-logo-text">GG<span class="us">_</span>LAB</span>
+    </a>
+
+    <div class="hud-navwrap">
+      <nav class="nav hud-nav" id="nav" aria-label="Ana menü" data-i18n-aria="a11y.nav">
+        <a href="#top" class="active" data-i18n="nav.home">Ana Sayfa</a>
+        <a href="#hakkimizda" data-i18n="nav.about">Biz Kimiz</a>
+        <a href="#yaklasan" data-i18n="nav.upcoming">Yaklaşan</a>
+        <a href="#vizyon" data-i18n="nav.vision">Vizyon</a>
+        <a href="#faaliyet" data-i18n="nav.what">Ne Yaparız</a>
+        <a href="#gamejam" data-i18n="nav.jam">Game Jam</a>
+        <a href="#etkinlikler" data-i18n="nav.events">Etkinlikler</a>
+        <a href="#galeri" data-i18n="nav.gallery">Galeri</a>
+        <a href="#iletisim" data-i18n="nav.contact">İletişim</a>
+        <a class="cut-btn cut-btn-light nav-cta" href="#uyelik"><span data-i18n="nav.cta">ARAMIZA KATIL</span></a>
+      </nav>
+    </div>
+
+    <button type="button" class="lang-toggle" id="langToggle" hidden aria-label="İngilizceye geç" data-i18n-aria="a11y.lang">
+      <span class="lang-current">TR</span>
+    </button>
+
+    <a class="cut-btn cut-btn-light hud-menu" href="#uyelik"><span data-i18n="nav.ctaShort">KATIL <i>&#8594;</i></span></a>
+
+    <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="nav" aria-label="Menüyü aç" data-i18n-aria="a11y.menuOpen">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero hud-hero" id="top">
+    <div class="hero-bg" aria-hidden="true">
+      <span class="tech-ring tech-ring-a"></span>
+      <span class="tech-ring tech-ring-b"></span>
+      <span class="pad-symbol pad-square"></span>
+      <span class="pad-symbol pad-x"></span>
+      <span class="pad-symbol pad-circle"></span>
+      <span class="pad-symbol pad-triangle"></span>
+      <span class="xb xb-a" data-k="a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 21 20H3Z"/></svg></span>
+      <span class="xb xb-b" data-k="b"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/></svg></span>
+      <span class="xb xb-c" data-k="x"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg></span>
+      <span class="xb xb-d" data-k="y"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="4.5" width="15" height="15"/></svg></span>
+      <span class="xb xb-e" data-k="b"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/></svg></span>
+      <span class="xb xb-f" data-k="a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 21 20H3Z"/></svg></span>
+      <span class="xb xb-g" data-k="y"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="4.5" width="15" height="15"/></svg></span>
+      <span class="xb xb-h" data-k="x"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg></span>
+      <span class="xb xb-i" data-k="y"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="4.5" width="15" height="15"/></svg></span>
+      <span class="xb xb-l" data-k="b"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/></svg></span>
+      <span class="light-orb orb-a"></span>
+      <span class="light-orb orb-b"></span>
+    </div>
+    <!-- mini oyun skoru: ilk puanda görünür (main.js) -->
+    <div class="xb-score" id="xbScore" aria-hidden="true" hidden><span data-i18n="game.score">SKOR</span> <b class="xb-score-val">0000</b></div>
+    <div class="container">
+      <div class="hud-frame">
+        <div class="hud-hero-grid">
+          <div class="hero-text">
+            <p class="eyebrow hero-enter"><span class="tick" aria-hidden="true"></span><span data-i18n="hero.eyebrow">Akdeniz Üniversitesi · Antalya</span></p>
+            <h1 class="hero-enter" data-i18n="hero.title">OYUN VE<br><span class="grad">OYUNLAŞTIRMA</span><br>TOPLULUĞU.</h1>
+            <p class="lead hero-enter" data-i18n="hero.lead">Oyun sadece eğlence değil. GG Lab'de fikirlerini gerçek projelere
+              dönüştür, ekibinle birlikte tasarla ve geliştir. Bölümün, yeteneğin ya da
+              seviyen fark etmez — burada herkesin katkısı değerli.</p>
+            <div class="hero-actions hero-enter">
+              <a class="cut-btn cut-btn-light" href="#uyelik"><span data-i18n="hero.cta1"><i>&#8592;</i> Aramıza katıl</span></a>
+              <a class="cut-btn cut-btn-ghost" href="#etkinlikler"><span data-i18n="hero.cta2">Etkinlikler</span></a>
+            </div>
+          </div>
+
+          <div class="hero-visual hero-enter">
+            <img src="assets/img/logo-yazili.webp" alt="" width="512" height="512" fetchpriority="high" style="aspect-ratio:1">
+          </div>
+        </div>
+
+        <div class="hud-partners hero-enter">
+          <span class="hud-partners-label" data-i18n="hero.partners">PARTNERLER</span>
+          <ul class="hud-partners-list">
+            <li><img class="logo-mark" src="assets/img/logos/keep-the-engine.webp" alt="Keep The Engine" width="232" height="120" decoding="async"></li>
+            <li><img class="logo-mark" style="--k:1.3" src="assets/img/logos/heat-interactive.webp" alt="Heat Interactive" width="207" height="96" decoding="async"></li>
+            <li><img class="logo-mark" style="--k:1.23" src="assets/img/logos/solymos-games.webp" alt="Solymos Games" width="130" height="120" decoding="async"></li>
+            <li><img class="logo-mark" style="--k:1.18" src="assets/img/logos/gamfed-turkiye.webp" alt="GamFed Türkiye" width="170" height="110" decoding="async"></li>
+            <li><img class="logo-mark" style="--k:.92" src="assets/img/logos/reedon-games.webp" alt="Reedon Games" width="210" height="62" decoding="async"></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BİZ KİMİZ -->
+  <section class="section about-bridge" id="hakkimizda">
+    <div class="container about-bridge-inner">
+      <div class="about-copy reveal">
+        <p class="eyebrow" data-i18n="about.eyebrow">01 — Biz Kimiz</p>
+        <h2 data-i18n="about.head">Fikirleri oynanabilir şeylere dönüştüren <span class="accent">kampüs ekibi</span>.</h2>
+        <p class="about-lead" data-i18n="about.p1">GG Lab; oyun geliştirme, oyunlaştırma ve masaüstü oyun kültürü etrafında buluşan Akdeniz Üniversitesi öğrencilerinin üretim alanı.</p>
+        <p data-i18n="about.p2">Atölyelerde öğrenir, game jam etkinliklerinde dener, etkinliklerde birbirimizi ve sektörü tanırız. Deneyim seviyen ne olursa olsun, burada fikirler masaya gelir ve birlikte şekillenir.</p>
+      </div>
+      <div class="about-panel reveal reveal-r" role="group" aria-label="GG Lab çalışma alanları" data-i18n-aria="about.panelAria">
+        <span class="about-panel-line" aria-hidden="true"></span>
+        <article class="about-signal">
+          <span class="signal-code" data-i18n="about.s1k">ÜRET</span>
+          <h3 data-i18n="about.s1h">Oyun prototipleri</h3>
+          <p data-i18n="about.s1p">Fikirden oynanabilir denemeye.</p>
+        </article>
+        <article class="about-signal">
+          <span class="signal-code" data-i18n="about.s2k">ÖĞREN</span>
+          <h3 data-i18n="about.s2h">Atölyeler ve buluşmalar</h3>
+          <p data-i18n="about.s2p">Tasarım, kod, sanat ve anlatı.</p>
+        </article>
+        <article class="about-signal">
+          <span class="signal-code" data-i18n="about.s3k">PAYLAŞ</span>
+          <h3 data-i18n="about.s3h">Açık topluluk ruhu</h3>
+          <p data-i18n="about.s3p">Her bölümden ve seviyeden katkıya açık.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- YAKLAŞAN ETKİNLİKLER — liste data-sheet'teki CSV'den gelir: şimdilik repodaki
+       content/etkinlikler.csv, ileride yayınlanmış bir Google E-Tablosu adresi.
+       Sütunlar ve düzenleme: README > Yaklaşan etkinlikler. Geçmiş tarihler kendiliğinden gizlenir. -->
+  <section class="section upcoming-section" id="yaklasan" data-sheet="content/etkinlikler.csv" aria-labelledby="upHeading">
+    <div class="container">
+      <div class="section-head up-heading reveal">
+        <p class="eyebrow" data-i18n="up.eyebrow">Birlikte oynayalım</p>
+        <h2 id="upHeading" data-i18n="up.head">Yaklaşan <span>etkinlikler.</span></h2>
+        <p class="lead" data-i18n="up.lead">Takvimdeki sıradaki buluşmalar. Kayıt bağlantısı varsa yerini şimdiden ayırt.</p>
+      </div>
+      <div class="upcoming" id="upcoming" aria-busy="true">
+        <div class="up-skeleton" aria-hidden="true"><span></span><span></span></div>
+        <ol class="up-list" id="upList" hidden></ol>
+        <div class="up-footer" id="upFooter" hidden>
+          <p data-i18n="up.followNote">Yeni buluşmalardan ilk sen haberdar ol.</p>
+          <a href="#uyelik"><span data-i18n="up.follow">Discord'da takip et</span><span class="up-arrow" aria-hidden="true">↓</span></a>
+        </div>
+        <div class="up-empty" id="upEmpty" hidden>
+          <p class="up-empty-h" id="upEmptyH" data-i18n="up.emptyH">Takvim şu an boş, ama uzun sürmez.</p>
+          <p data-i18n="up.emptyP">Yeni etkinlikler ilk Discord'da duyuruluyor; katıl, kaçırma.</p>
+          <a class="cut-btn cut-btn-light" href="https://discord.gg/wFtA5EvmnW" target="_blank" rel="noopener noreferrer"><span><span data-i18n="up.emptyCta"><span lang="en">Discord</span>'a katıl</span></span></a>
+        </div>
+        <noscript><p class="up-noscript">Etkinlik takvimi için JavaScript gerekiyor. Duyurular Discord ve Instagram hesaplarımızda.</p></noscript>
+      </div>
+    </div>
+  </section>
+
+  <!-- VİZYON & MİSYON -->
+  <section class="section section-alt" id="vizyon">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow" data-i18n="vision.eyebrow">03 — Vizyon &amp; Misyon</p>
+        <h2 data-i18n="vision.head">Vizyon &amp; Misyon</h2>
+      </div>
+      <div class="vm-grid">
+        <article class="vm-card spotlight reveal reveal-l">
+          <h3><span class="vm-ico" aria-hidden="true">🎯</span> <span data-i18n="vision.v">Vizyonumuz</span></h3>
+          <p data-i18n="vision.vp">Akdeniz Üniversitesi'ni, öğrencilerin oyunu yalnızca oynamadığı; tasarladığı, geliştirdiği ve
+            farklı alanlara uyguladığı bir üretim merkezine dönüştürmek. Türkiye'nin oyun geliştirme
+            ekosistemine öğrenci projeleriyle katkı sağlayan, uluslararası ölçekte görünür bir topluluk olmak.</p>
+        </article>
+        <article class="vm-card spotlight reveal reveal-r">
+          <h3><span class="vm-ico" aria-hidden="true">🚀</span> <span data-i18n="vision.m">Misyonumuz</span></h3>
+          <p data-i18n="vision.mp">Eğitimler, atölyeler, Game Jam'ler ve sektör buluşmalarıyla öğrencilerin oyun tasarımı ve
+            oyunlaştırma alanındaki bilgi, beceri ve üretim kapasitesini geliştirmek; ekip çalışmasını ve
+            yaratıcı düşünmeyi destekleyerek herkese açık, kapsayıcı bir üretim ortamı kurmak.</p>
+        </article>
+      </div>
+      <div class="values reveal">
+        <div class="value"><span>01</span><h4 data-i18n="vision.n1h">Gönüllülük</h4><p data-i18n="vision.n1p">Katılım zorunlu değil; istekle gelinen bir alan.</p></div>
+        <div class="value"><span>02</span><h4 data-i18n="vision.n2h">Eşitlik</h4><p data-i18n="vision.n2p">Bölüm, yetenek ya da seviye fark etmez; herkesin katkısı değerli.</p></div>
+        <div class="value"><span>03</span><h4 data-i18n="vision.n3h">Şeffaflık</h4><p data-i18n="vision.n3p">Kararlar ve mali işler belgeli ve açık şekilde yürütülür.</p></div>
+        <div class="value"><span>04</span><h4 data-i18n="vision.n4h">Üretim Odağı</h4><p data-i18n="vision.n4p">Konuşmakla kalmaz, bitmiş iş çıkarırız.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAALİYET ALANLARI -->
+  <section class="section" id="faaliyet">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow" data-i18n="act.eyebrow">04 — Ne Yaparız</p>
+        <h2 data-i18n="act.head">Faaliyet alanlarımız</h2>
+      </div>
+      <div class="feature-grid">
+        <article class="card feature spotlight reveal reveal-l"><span class="card-num">01</span><h3 data-i18n="act.f1h">Oyun Geliştirme Eğitimleri</h3><p data-i18n="act.f1p">Unity, Unreal Engine ve benzeri motorlarla eğitim ve atölyeler düzenliyoruz.</p></article>
+        <article class="card feature spotlight reveal reveal-zoom"><span class="card-num">02</span><h3 data-i18n="act.f2h">Tasarım &amp; Sanat Programları</h3><p data-i18n="act.f2p">Oyun tasarımı, oyun sanatı, hikâye anlatımı ve kullanıcı deneyimi üzerine eğitim programları.</p></article>
+        <article class="card feature spotlight reveal reveal-r"><span class="card-num">03</span><h3 data-i18n="act.f3h">Game Jam &amp; Projeler</h3><p data-i18n="act.f3p">Ekip tabanlı oyun geliştirme projeleri, masaüstü oyun etkinlikleri ve oyun analizi çalışmaları.</p></article>
+        <article class="card feature spotlight reveal reveal-l"><span class="card-num">04</span><h3 data-i18n="act.f4h">Oyunlaştırma Projeleri</h3><p data-i18n="act.f4p">Oyunlaştırma uygulamaları üzerine akademik ve sosyal projeler geliştiriyoruz.</p></article>
+        <article class="card feature spotlight reveal reveal-zoom"><span class="card-num">05</span><h3 data-i18n="act.f5h">Sektör Buluşmaları</h3><p data-i18n="act.f5p">Oyun sektörü profesyonelleriyle konferans, panel ve söyleşiler.</p></article>
+        <article class="card feature spotlight reveal reveal-r"><span class="card-num">06</span><h3 data-i18n="act.f6h">Sosyal &amp; Kültürel Etkinlikler</h3><p data-i18n="act.f6p">Üyeler arası iletişimi güçlendiren buluşmalar ve topluluk geceleri.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAME JAM AKDENİZ — "bölüm seçme" ekranı: oyun kutusu kapağı, bölüm bilgileri,
+       ekran görüntüleri, kilitli sıradaki bölüm ve jenerik -->
+  <section class="section section-alt" id="gamejam">
+    <div class="container">
+      <article class="level reveal">
+        <figure class="level-cover">
+          <img class="level-cover-img" src="assets/img/gallery/jam-06-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async">
+          <img class="level-logo" src="assets/img/gamejam-logo.svg" alt="Game Jam Akdeniz" width="1281" height="489" loading="lazy">
+        </figure>
+
+        <div class="level-info">
+          <h2 data-i18n="jam.head">Game Jam <span class="accent">Akdeniz</span></h2>
+          <p class="level-when">
+            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v3M17 3v3M4 9h16M5 6h14a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z"/></svg>
+            <span data-i18n="jam.when">2–4 Mayıs 2026 · Antalya</span>
+          </p>
+          <p data-i18n="jam.p1">Bugüne kadar düzenlediğimiz <strong>en büyük etkinlik</strong>.
+            Akdeniz Üniversitesi, AÜBT ve GG Lab'in birlikte
+            yürüttüğü, on altı kurum, stüdyo ve markanın desteklediği 48 saatlik oyun geliştirme maratonu.</p>
+          <p data-i18n="jam.p2">Katılımcılar 48 saat boyunca takımlar kurup açıklanan tema
+            etrafında sıfırdan oynanabilir prototipler geliştirdi.</p>
+
+          <dl class="level-stats">
+            <div><dt data-count="48">48</dt><dd data-i18n="jam.s1">saat</dd></div>
+            <div><dt data-count="16">16</dt><dd data-i18n="jam.s2">destekçi</dd></div>
+            <div><dt data-count="3">3</dt><dd data-i18n="jam.s3">düzenleyen kurum</dd></div>
+            <div><dt>2026</dt><dd data-i18n="jam.s4">ilk yılı</dd></div>
+          </dl>
+
+          <div class="level-actions">
+            <a class="cut-btn cut-btn-play" href="https://itch.io/jam/akdeniz-gamejam-2026/entries" target="_blank" rel="noopener noreferrer">
+              <span><svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5Z"/></svg><span data-i18n="jam.itch">Jam oyunlarını oyna</span></span>
+            </a>
+            <span class="level-actions-sub" data-i18n="jam.itchSub">Game Jam Akdeniz 2026 oyunları · itch.io</span>
+          </div>
+
+          <p class="level-by">
+            <span class="level-label" data-i18n="jam.byLabel">Düzenleyen</span>
+            <img class="logo-mark" src="assets/img/logos/akdeniz-universitesi.webp" alt="Akdeniz Üniversitesi" width="96" height="96" decoding="async">
+            <span class="level-by-sep" aria-hidden="true">·</span>
+            <img class="logo-mark" src="assets/img/logos/aubt.webp" alt="AÜBT" width="96" height="96" decoding="async">
+            <span class="level-by-sep" aria-hidden="true">·</span>
+            <img class="logo-mark" src="assets/img/logo-yazili-68.webp" alt="GG Lab" width="68" height="68" decoding="async">
+          </p>
+        </div>
+      </article>
+
+      <!-- ekran görüntüleri: tıklanınca galerideki aynı fotoğrafın büyük hâli açılır (main.js);
+           JS yoksa bağlantı fotoğrafın kendisini açar -->
+      <div class="level-shots reveal">
+        <p class="level-label" data-i18n="jam.shotsH">Galeri</p>
+        <ul>
+          <li><a class="level-shot" href="assets/img/gallery/jam-05.webp" data-shot="jam-05" aria-label="Jam alanı" data-i18n-aria="gal.g5"><img src="assets/img/gallery/jam-05-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></a></li>
+          <li><a class="level-shot" href="assets/img/gallery/jam-08.webp" data-shot="jam-08" aria-label="Sahnede oyun sunumu" data-i18n-aria="gal.g8"><img src="assets/img/gallery/jam-08-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></a></li>
+          <li><a class="level-shot" href="assets/img/gallery/jam-01.webp" data-shot="jam-01" aria-label="Game Jam Akdeniz — katılımcılar" data-i18n-aria="gal.g1"><img src="assets/img/gallery/jam-01-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></a></li>
+          <li><a class="level-shot" href="assets/img/gallery/jam-02.webp" data-shot="jam-02" aria-label="Ödül töreni" data-i18n-aria="gal.g2"><img src="assets/img/gallery/jam-02-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></a></li>
+        </ul>
+      </div>
+
+      <!-- sıradaki bölüm: tarih açıklanana kadar kilitli -->
+      <div class="level-next reveal">
+        <span class="level-lock" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 11V8a5 5 0 0 1 10 0v3M6 11h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1Z"/></svg></span>
+        <div class="level-next-text">
+          <p class="level-label" data-i18n="jam.nextK">Sıradaki bölüm · Level 02</p>
+          <h3 data-i18n="jam.nextH">Game Jam Akdeniz 2027</h3>
+          <p data-i18n="jam.nextP">Tarih henüz belli değil. İlk duyuru Discord'da ve yukarıdaki "Yaklaşan" bölümünde olacak.</p>
+        </div>
+        <a class="cut-btn cut-btn-ghost" href="https://discord.gg/wFtA5EvmnW" target="_blank" rel="noopener noreferrer"><span data-i18n="jam.nextCta">Haber al</span></a>
+      </div>
+
+      <!-- jenerik: destekçiler, oyunların bitişindeki emeği geçenler listesi gibi -->
+      <div class="level-credits reveal">
+        <p class="level-label" data-i18n="jam.creditsH">Destekçilerimiz</p>
+        <dl>
+          <div><dt data-i18n="jam.studioH">Oyun stüdyoları ve sektör</dt><dd>Rogue Duck, Keep The Engine, GameDev.ist, Heat Interactive, Mythronix Interactive, Solymos, .bug Lab, OSE — Oyun Sektörü Etkinlikleri</dd></div>
+          <div><dt data-i18n="jam.instH">Kurumsal destek</dt><dd>Antalya Gençlik ve Spor İl Müdürlüğü, Özgecan Aslan Gençlik Merkezi, Antalya Teknokent, Girişimcilik ve Kariyer Ofisi</dd></div>
+          <div><dt data-i18n="jam.sponsorH">Sponsorlar</dt><dd>Red Bull, Ratio Roastery, DRN Ajans &amp; PR, MT</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- DÜZENLİ ETKİNLİKLER -->
+  <section class="section" id="etkinlikler">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow" data-i18n="ev.eyebrow">06 — Düzenli Etkinlikler</p>
+        <h2 data-i18n="ev.head">Düzenli etkinliklerimiz</h2>
+        <p class="lead" data-i18n="ev.lead">Yıl boyunca dört ana başlıkta bir araya geliyoruz.
+          Tarihler netleştikçe burada ve sosyal medya hesaplarımızda duyuruyoruz.</p>
+      </div>
+
+      <div class="events" id="events">
+        <article class="event-card spotlight reveal reveal-zoom">
+          <div class="event-media"><img src="assets/img/event-kutu.webp" alt="" width="800" height="450" loading="lazy" decoding="async"></div>
+          <div class="event-body">
+            <div>
+              <h3 data-i18n="ev.e1h">Kutu Oyunu Günleri</h3>
+              <p data-i18n="ev.e1p">Masaüstü oyun etkinlikleri ve oyun analizi çalışmaları.
+                Oyunları hem oynuyor hem birlikte inceliyoruz.</p>
+              <details class="event-games">
+                <summary data-i18n="ev.games">Oyunlarımızdan bazıları</summary>
+                <ul>
+                  <li>Marvel Champions</li>
+                  <li>Bang! <span data-i18n="ev.twoCopies">(2 adet)</span></li>
+                  <li>Munchkin + DLC</li>
+                  <li>Munchkin Cthulhu</li>
+                  <li>Cascadia</li>
+                  <li>Gulyabani</li>
+                  <li>İz Peşinde</li>
+                  <li>Kayıp Ada</li>
+                  <li>Epik Büyü Savaşları</li>
+                  <li>Monopoly Star Wars</li>
+                </ul>
+              </details>
+            </div>
+          </div>
+        </article>
+
+        <article class="event-card spotlight reveal reveal-zoom">
+          <div class="event-media"><img src="assets/img/event-atolye.webp" alt="" width="800" height="473" loading="lazy" decoding="async"></div>
+          <div class="event-body">
+            <div>
+              <h3 data-i18n="ev.e2h">Oyun Geliştirme Atölyeleri</h3>
+              <p data-i18n="ev.e2p">Unity ve Unreal Engine ile sıfırdan oyun geliştirme.
+                Başlangıç seviyesi için de uygun.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="event-card spotlight reveal reveal-zoom">
+          <div class="event-media"><img src="assets/img/event-talks.webp" alt="" width="800" height="533" loading="lazy" decoding="async"></div>
+          <div class="event-body">
+            <div>
+              <h3 data-i18n="ev.e3h">Indie Talks &amp; Sektörden Konuklar</h3>
+              <p data-i18n="ev.e3p">Bağımsız stüdyolar ve sektör profesyonelleriyle
+                konferans, panel ve söyleşiler.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="event-card spotlight reveal reveal-zoom">
+          <div class="event-media"><img src="assets/img/event-jam.webp" alt="" width="800" height="533" loading="lazy" decoding="async"></div>
+          <div class="event-body">
+            <div>
+              <h3 data-i18n="ev.e4h">Game Jam'ler ve Yarışmalar</h3>
+              <p data-i18n="ev.e4p">Ekip tabanlı oyun geliştirme maratonları:
+                fikirden oynanabilir prototipe.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERİ -->
+  <section class="section" id="galeri">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow" data-i18n="gal.eyebrow">07 — Galeri</p>
+        <h2 data-i18n="gal.head">Topluluktan kareler</h2>
+        <p class="lead" data-i18n="gal.lead">Game Jam Akdeniz'den kareler. Diğer etkinliklerin fotoğrafları eklendikçe burası büyüyecek.</p>
+      </div>
+      <div class="gallery" id="gallery">
+        <button type="button" class="shot gallery-reveal reveal wide tall" data-full="assets/img/gallery/jam-01.webp" data-caption="Game Jam Akdeniz — katılımcılar" data-i18n-cap="gal.g1" aria-label="Game Jam Akdeniz — katılımcılar" data-i18n-aria="gal.g1"><img src="assets/img/gallery/jam-01-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></button>
+        <button type="button" class="shot gallery-reveal reveal tall" data-full="assets/img/gallery/jam-02.webp" data-caption="Ödül töreni" data-i18n-cap="gal.g2" aria-label="Ödül töreni" data-i18n-aria="gal.g2"><img src="assets/img/gallery/jam-02-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></button>
+        <button type="button" class="shot gallery-reveal reveal tall" data-full="assets/img/gallery/jam-03.webp" data-caption="Ödül töreni" data-i18n-cap="gal.g3" aria-label="Ödül töreni" data-i18n-aria="gal.g3"><img src="assets/img/gallery/jam-03-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></button>
+        <button type="button" class="shot gallery-reveal reveal wide tall" data-full="assets/img/gallery/jam-04.webp" data-caption="Ödül töreni" data-i18n-cap="gal.g4" aria-label="Ödül töreni" data-i18n-aria="gal.g4"><img src="assets/img/gallery/jam-04-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></button>
+        <button type="button" class="shot gallery-reveal reveal wide tall" data-full="assets/img/gallery/jam-05.webp" data-caption="Jam alanı" data-i18n-cap="gal.g5" aria-label="Jam alanı" data-i18n-aria="gal.g5"><img src="assets/img/gallery/jam-05-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></button>
+        <button type="button" class="shot gallery-reveal reveal tall" data-full="assets/img/gallery/jam-08.webp" data-caption="Sahnede oyun sunumu" data-i18n-cap="gal.g8" aria-label="Sahnede oyun sunumu" data-i18n-aria="gal.g8"><img src="assets/img/gallery/jam-08-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></button>
+        <button type="button" class="shot gallery-reveal reveal wide tall" data-full="assets/img/gallery/jam-06.webp" data-caption="Unity'de geliştirme" data-i18n-cap="gal.g6" aria-label="Unity'de geliştirme" data-i18n-aria="gal.g6"><img src="assets/img/gallery/jam-06-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></button>
+        <button type="button" class="shot gallery-reveal reveal tall" data-full="assets/img/gallery/jam-07.webp" data-caption="Jam gecesinden bir kare" data-i18n-cap="gal.g7" aria-label="Jam gecesinden bir kare" data-i18n-aria="gal.g7"><img src="assets/img/gallery/jam-07-t.webp" alt="" width="700" height="1244" loading="lazy" decoding="async"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- İLETİŞİM -->
+  <section class="section" id="iletisim">
+    <!-- İletişim formu bir servise (Formspree vb.) bağlanana kadar gizli. Açmak için:
+         forma action ekle, `hidden`'ı kaldır, bülten kutusunu bilgi sütununun altına taşı. -->
+    <div class="container grid-2">
+      <div class="reveal">
+        <p class="eyebrow" data-i18n="ct.eyebrow">08 — İletişim</p>
+        <h2 data-i18n="ct.head">Bize ulaş</h2>
+        <p class="lead" data-i18n="ct.lead">Soruların, iş birliği tekliflerin ya da etkinlik fikirlerin için bize yaz.</p>
+
+        <p class="contact-line"><span aria-hidden="true">📍</span> <a href="https://www.google.com/maps/search/?api=1&amp;query=Akdeniz+%C3%9Cniversitesi" target="_blank" rel="noopener noreferrer" data-i18n="ct.place">Akdeniz Üniversitesi, Konyaaltı / Antalya</a></p>
+        <p class="contact-line"><span aria-hidden="true">📧</span> <a href="mailto:team@gglabakdeniz.com" data-i18n="ct.mail">team@gglabakdeniz.com</a></p>
+      </div>
+
+      <!-- Bülten: action boşken gönderim yapmaz, "yakında" notu gösterir.
+           Servis/alan adı hazır olunca action="…" ve method="post" eklemek yeterli (main.js fetch ile yollar). -->
+      <form class="newsletter reveal" id="newsletterForm" novalidate>
+        <p class="eyebrow" data-i18n="nl.eyebrow">Bülten</p>
+        <h3 data-i18n="nl.head">Duyurular e-postana gelsin</h3>
+        <p class="muted" data-i18n="nl.lead">Etkinlik, atölye ve Game Jam duyurularını ilk sen duy. Abonelikten istediğin an çıkabilirsin.</p>
+        <div class="newsletter-row">
+          <label class="sr-only" for="nlEmail" data-i18n="form.email">E-posta</label>
+          <input id="nlEmail" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="sen@ornek.com" data-i18n-ph="form.emailPh">
+          <button class="cut-btn cut-btn-light" type="submit"><span data-i18n="nl.send">Abone ol</span></button>
+        </div>
+        <p class="form-note" id="nlNote" role="status"></p>
+      </form>
+
+      <form class="contact-form reveal" id="contactForm" novalidate hidden>
+        <div class="field">
+          <label for="name" data-i18n="form.name">Ad Soyad</label>
+          <input id="name" name="name" type="text" required placeholder="Adın ne?" data-i18n-ph="form.namePh">
+        </div>
+        <div class="field">
+          <label for="email" data-i18n="form.email">E-posta</label>
+          <input id="email" name="email" type="email" required placeholder="sen@ornek.com" data-i18n-ph="form.emailPh">
+        </div>
+        <div class="field">
+          <label for="topic" data-i18n="form.topic">Konu</label>
+          <select id="topic" name="topic">
+            <option data-i18n="form.t4">Sponsorluk ve iş birliği</option>
+            <option data-i18n="form.t1">Topluluğa üye olmak istiyorum</option>
+            <option data-i18n="form.t2">Etkinlik / atölye sorusu</option>
+            <option data-i18n="form.t3">Game Jam katılımı</option>
+            <option data-i18n="form.t5">Diğer</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="message" data-i18n="form.msg">Mesaj</label>
+          <textarea id="message" name="message" rows="4" required placeholder="Kısaca anlat..." data-i18n-ph="form.msgPh"></textarea>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit" data-i18n="form.send">Gönder</button>
+        <p class="form-note" id="formNote" role="status"></p>
+        <p class="muted form-hint" data-i18n="form.hint">Form şu an taslak: gönderim için bir servis (Formspree, Google Form vb.) bağlanmalı.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ÜYELİK -->
+  <section class="section section-alt" id="uyelik">
+    <div class="shooting-stars" aria-hidden="true">
+      <i style="--x:4%;--y:8%;--dx:-220px;--dy:144px;--dur:20s;--delay:0s"></i>
+      <i style="--x:16%;--y:20%;--dx:-195px;--dy:127px;--dur:20s;--delay:2.2s"></i>
+      <i style="--x:30%;--y:10%;--dx:-240px;--dy:157px;--dur:20s;--delay:4.4s"></i>
+      <i style="--x:42%;--y:18%;--dx:-205px;--dy:134px;--dur:20s;--delay:6.7s"></i>
+      <i style="--x:54%;--y:7%;--dx:-260px;--dy:170px;--dur:20s;--delay:8.9s"></i>
+      <i style="--x:64%;--y:16%;--dx:-215px;--dy:140px;--dur:20s;--delay:11.1s"></i>
+      <i style="--x:74%;--y:9%;--dx:-230px;--dy:150px;--dur:20s;--delay:13.3s"></i>
+      <i style="--x:84%;--y:19%;--dx:-190px;--dy:124px;--dur:20s;--delay:15.6s"></i>
+      <i style="--x:92%;--y:6%;--dx:-250px;--dy:163px;--dur:20s;--delay:17.8s"></i>
+    </div>
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow" data-i18n="join.eyebrow">09 — Üyelik</p>
+        <h2 data-i18n="join.head">Topluluğa katıl</h2>
+        <p class="lead" data-i18n="join.lead">GG Lab, topluluğun ürettikleriyle büyüyor. Bölümün, yeteneğin ya da seviyen fark etmez: soru sormak, ekip bulmak, yaptıklarını paylaşmak ya da sadece merhaba demek için Discord'a gel. Etkinlik ve Game Jam duyuruları ilk orada. Diğer kanallardan da bizi takip edebilirsin.</p>
+      </div>
+      <div class="portal-top reveal">
+        <a class="portal portal-main" href="uyelik/" aria-label="Başvuru Formu" title="Başvuru Formu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4.5 2A1.5 1.5 0 0 0 3 3.5v17A1.5 1.5 0 0 0 4.5 22h15a1.5 1.5 0 0 0 1.5-1.5V8.621a1.5 1.5 0 0 0-.44-1.06l-5.122-5.122A1.5 1.5 0 0 0 14.378 2H4.5Zm9.75 1.5v4.5a1.5 1.5 0 0 0 1.5 1.5h4.5v10.75a.25.25 0 0 1-.25.25h-15a.25.25 0 0 1-.25-.25v-17a.25.25 0 0 1 .25-.25h9.25ZM6 13.25a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H6.75a.75.75 0 0 1-.75-.75Zm0 3.5a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H6.75a.75.75 0 0 1-.75-.75Zm.75-7.25a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5Z"/></svg><span class="portal-name" data-i18n="join.form">Başvuru Formu</span></a>
+      </div>
+      <nav class="portals reveal" aria-label="Sosyal medya" data-i18n-aria="a11y.social">
+          <a class="portal" href="https://www.instagram.com/gglabakdeniz/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg><span class="portal-name" lang="en">Instagram</span></a>
+          <a class="portal" href="https://www.youtube.com/@GGLabAkdeniz" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><span class="portal-name" lang="en">YouTube</span></a>
+          <a class="portal" href="https://discord.gg/wFtA5EvmnW" target="_blank" rel="noopener noreferrer" aria-label="Discord" title="Discord"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg><span class="portal-name" lang="en">Discord</span></a>
+          <a class="portal" href="https://x.com/gglabakdeniz" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter" title="X / Twitter"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg><span class="portal-name" lang="en">X / Twitter</span></a>
+          <a class="portal" href="https://www.linkedin.com/company/gglab-oyun-ve-oyunlastirma-toplulugu/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg><span class="portal-name" lang="en">LinkedIn</span></a>
+      </nav>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>
+      <a class="brand" href="#top"><img src="assets/img/logo-yazili-68.webp" alt="" width="34" height="34"><span class="brand-text">GG<span class="accent">Lab</span></span></a>
+      <p class="muted" data-i18n="foot.about">Akdeniz Üniversitesi Oyun ve Oyunlaştırma Topluluğu<br>Games &amp; Gamification Lab · Antalya</p>
+    </div>
+    <nav aria-label="Alt menü" data-i18n-aria="a11y.footNav">
+      <h3 data-i18n="foot.menu">Menü</h3>
+      <a href="#hakkimizda" data-i18n="nav.about">Biz Kimiz</a>
+      <a href="#yaklasan" data-i18n="nav.upcoming">Yaklaşan</a>
+      <a href="#vizyon" data-i18n="foot.vision">Vizyon &amp; Misyon</a>
+      <a href="#faaliyet" data-i18n="nav.what">Ne Yaparız</a>
+      <a href="#gamejam" data-i18n="nav.jam">Game Jam</a>
+      <a href="#etkinlikler" data-i18n="nav.events">Etkinlikler</a>
+      <a href="#galeri" data-i18n="nav.gallery">Galeri</a>
+    </nav>
+    <div>
+      <h3 data-i18n="foot.community">Topluluk</h3>
+      <a href="#uyelik" data-i18n="foot.join">Aramıza Katıl</a>
+      <a href="#iletisim" data-i18n="nav.contact">İletişim</a>
+      <a href="https://linktr.ee/gglabakdeniz" target="_blank" rel="noopener noreferrer" data-i18n="foot.links">Tüm Bağlantılar (Linktree)</a>
+    </div>
+  </div>
+  <div class="container copyright">
+    <p>© <span id="year">2026</span> <span data-i18n="foot.copy">GG Lab — Akdeniz Üniversitesi Oyun ve Oyunlaştırma Topluluğu.</span></p>
+    <a href="#top" class="to-top" data-i18n="foot.top">Yukarı ↑</a>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Görsel önizleme" data-i18n-aria="a11y.lightbox" hidden>
+  <button type="button" class="lb-close" id="lbClose" aria-label="Kapat" data-i18n-aria="a11y.close">✕</button>
+  <button type="button" class="lb-nav lb-prev" id="lbPrev" aria-label="Önceki" data-i18n-aria="a11y.prev">‹</button>
+  <!-- src, lightbox açılınca main.js tarafından verilir -->
+  <figure><!-- [html-validate-disable-next element-required-attributes] --><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure>
+  <button type="button" class="lb-nav lb-next" id="lbNext" aria-label="Sonraki" data-i18n-aria="a11y.next">›</button>
+</div>
+
+<!-- İngilizce kapalı: açmak için bu satırı geri koy ve dil düğmesindeki hidden'ı kaldır.
+<script src="js/i18n.js"></script> -->
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
