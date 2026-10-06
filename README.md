@@ -30,7 +30,7 @@ npx stylelint@16 "css/*.css"
 - `js/main.js` — menü, scroll reveal, galeri lightbox, yaklaşan etkinlikler, form doğrulama
 - `js/i18n.js` — TR/EN dil katmanı (şu an kapalı, bkz. Dil)
 - `content/icerik.md` — topluluktan gelen ham metinler
-- `content/etkinlikler.csv` — Yaklaşan etkinlikler listesi (bkz. aşağı)
+- `content/site-tablosu-sablon.xlsx` — site tablosunun boş şablonu (bkz. Site tablosu)
 - `assets/img/logos/` — paydaş ve sponsor logoları
 
 ## Logo arşivi (`assets/img/logos/`)
@@ -43,6 +43,10 @@ Yeni logo eklerken: `.png` kaynağı + küçültülmüş `.webp` ekle, `<li clas
 `<img class="logo-mark">` olarak koy, en/boy oranına göre `logo-tall` (~1.1 ve altı), `logo-square`
 (~1.5) veya `logo-wide` (~2.8 ve üstü) sınıfı ver; ~2 civarı oranlar sınıfsız kalır.
 
+Jam destekçilerinden gelen logolar (`rogue-duck`, `mages-market`, `demonsoft`, `broken-lyre-entertainment`,
+`vellichor-games`) arşivde bekliyor; `#gamejam` jeneriği şimdilik düz metin, 16 logonun tamamı gelince
+logolu sürüme geçilecek.
+
 `akdeniz-universitesi.png` düşük çözünürlüklü (300×300); üniversiteden daha iyi sürüm gelirse
 yalnızca `.png`'yi değiştirip `.webp`'yi yeniden üretmek yeterli.
 
@@ -53,15 +57,72 @@ yalnızca `.png`'yi değiştirip `.webp`'yi yeniden üretmek yeterli.
 - `#etkinlikler` etkinlik **türlerini** tanıtır, tarih içermez. Tarihi kesin etkinlikler
   `#yaklasan`'da listelenir.
 
+## Site tablosu (Google E-Tablolar + Drive)
+
+Etkinlik listesi ve görseller koda dokunmadan tek bir Google E-Tablosundan yönetilir.
+Tablo "Dosya → Paylaş → Web'de yayınla" ile her sheet ayrı CSV olarak yayında; adresi
+`index.html`'de `<main data-sheets="…/pub">`, her bölüm kendi sheet'inin `data-gid`'ini taşır.
+Görseller Drive'daki public kök klasörde, her sheet için aynı adlı bir alt klasörde durur.
+
+| Sheet | gid | Bölüm | Sütunlar |
+| --- | --- | --- | --- |
+| `ana sayfa` | *(gid `<main data-home-gid>`'e yazılır)* | tüm bölüm başlıkları | `alan, ust, baslik, aciklama` — aşağıda |
+| `etkinlikler` | 353119909 | `#yaklasan` | aşağıdaki tablo |
+| `galeri` | 78690489 | `#galeri` | `gorsel, kucuk, aciklama, boyut` (normal/genis/uzun/buyuk) |
+| `gamejam` | 1856434088 | `#gamejam` | `alan, gorsel, aciklama` — alan: kapak, ekran1–4 |
+| `duzenli` | 1461908741 | `#etkinlikler` (düzenli etkinlik kartları) | `alan, gorsel, baslik, aciklama` — alan: kutu, atolye, talks, jam; baslik/aciklama kartın metni |
+| `uyelik` | 892993642 | `#uyelik` sosyal bağlantıları | `alan, baslik, link, ikon` — aşağıda |
+
+- `gorsel`: Drive paylaşım linki ya da repodaki yol (`assets/img/…`). Drive linki
+  `lh3.googleusercontent.com/d/KİMLİK=wGENİŞLİK` adresine çevrilir (`main.js` > `safeImage`).
+- `alan` değerleri HTML'deki `data-slot` öznitelikleriyle eşleşir; yeni bir yer için HTML'e de `data-slot` eklenmeli.
+  Bir `data-slot` içindeki `data-col="sütun"` öğesi o sütunla doldurulur (`<img>` ise görsel, değilse metin); boş hücrede HTML'deki metin kalır.
+- Drive görseli açılmazsa yerine bir şey konmaz, yeri boş kalır: Drive sorunu sitede hemen görünsün diye.
+- Tablonun kendisi açılmazsa ya da hücre boşsa metinler HTML'deki hâliyle kalır. Görsellerin repoda
+  yedeği yok: yerleri boş kutu olarak görünür. Üyelik arka planı tablodan gelmez, hep
+  `assets/img/uyelik-gece.webp`.
+  Yaklaşan etkinlikler açılmazsa "yüklenemedi" notu çıkar.
+- Değişiklikler ~5 dakikada yansır (Google önbelleği). Linki değiştirmeden görsel yenilemek için
+  Drive'da "Sürümleri yönet → Yeni sürüm yükle".
+- Bu tablo herkese açık: form yanıtı ya da kişisel veri asla bu dosyaya konmaz.
+- Tablodan gelen açıklamalar yalnızca Türkçe; İngilizce açılırsa `data-i18n` kapsamı dışında kalır.
+
+### `ana sayfa` sheet'i (bölüm başlıkları)
+
+```csv
+alan,ust,baslik,aciklama
+hakkimizda,01 — Biz Kimiz,Fikirleri oynanabilir şeylere dönüştüren *kampüs ekibi*.,GG Lab; oyun geliştirme …
+faaliyet,03 — Ne Yaparız,Faaliyet alanlarımız,
+```
+
+- `alan` bölümün id'si: `hakkimizda, yaklasan, vizyon, faaliyet, gamejam, etkinlikler, galeri, iletisim, uyelik`.
+- `ust` küçük turuncu başlık (numarası dahil yazılır), `baslik` büyük başlık, `aciklama` altındaki paragraf.
+- Boş hücrede HTML'deki metin kalır. `vizyon` ve `faaliyet`te HTML'de açıklama yok; hücre doluysa görünür.
+  `gamejam`te yalnızca `baslik` kullanılır.
+- `*yıldız içindeki*` kısım vurgu rengiyle (turuncu) yazılır.
+- Hero (en üst) ve bülten kutusu tablodan gelmez.
+
+### `uyelik` sheet'i
+
+```csv
+alan,baslik,link,ikon
+sosyal,Instagram,https://www.instagram.com/gglabakdeniz/,assets/img/icons/instagram.svg
+sosyal,YouTube,https://www.youtube.com/@GGLabAkdeniz,assets/img/icons/youtube.svg
+```
+
+- Bölümün başlığı ve açıklaması `ana sayfa` sheet'inden (`alan` = `uyelik`).
+- Her `sosyal` satırı bir bağlantı, sitede tablodaki sırayla dizilir. Satır eklemek/silmek yeterli.
+  `baslik` ve `link` (http/https) zorunlu; geçerli `sosyal` satırı yoksa HTML'deki liste kalır.
+- `ikon` yalnızca repodaki bir dosya olabilir (`assets/…`, `.svg/.webp/.png`); Drive linki kabul
+  edilmez. Boşsa ya da geçersizse genel bağlantı ikonu (`assets/img/icons/link.svg`) çıkar.
+  Hazır ikonlar `assets/img/icons/` altında: instagram, youtube, discord, x, linkedin, link.
+  Yeni ikon: açık renkli (`#eef2ff`) tek renk SVG, 24×24 viewBox.
+- "Başvuru Formu" düğmesi tablodan gelmez, HTML'de sabit.
+
 ## Yaklaşan etkinlikler
 
-Liste **`content/etkinlikler.csv`**'den okunur (ileride Google E-Tablosuna geçilebilir;
-`data-sheet` attribute'üne yayınlanmış CSV linkini yazmak yeterli).
-
-**Etkinlik eklemek / düzenlemek**
-1. GitHub'da `content/etkinlikler.csv` dosyasını aç, kalem simgesiyle düzenle.
-2. Her etkinlik bir satır. Boş bırakılan alan sitede görünmez.
-3. "Commit changes" de; site 1–2 dakika içinde güncellenir.
+Liste site tablosunun **`etkinlikler`** sheet'inden okunur. Her etkinlik bir satır;
+boş bırakılan alan sitede görünmez.
 
 ```csv
 baslik,tarih,saat,yer,tur,aciklama,link

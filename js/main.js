@@ -37,6 +37,88 @@ function perFrame(fn) {
   };
 }
 
+const make = (tag, cls, text) => {
+  const el = document.createElement(tag);
+  if (cls) el.className = cls;
+  if (text) el.textContent = text;
+  return el;
+};
+
+/* --- site tablosu (Google E-Tablolar) ---
+   <main data-sheets> yayınlanmış tablonun adresi; tabloyu kullanan her bölüm kendi
+   sheet'inin data-gid'ini taşır. Tablo açılmazsa ya da hücre boşsa HTML'deki hâli kalır.
+   Tablodaki metinler yalnızca textContent / öznitelik olarak yazılır. */
+const SHEETS = (document.getElementById('main')?.dataset.sheets || '').trim();
+const sheetUrl = (gid) => (SHEETS && gid ? `${SHEETS}?gid=${gid}&single=true&output=csv` : '');
+
+const fetchText = (url) => {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 8000);
+  return fetch(url, { signal: ctrl.signal })
+    .then((res) => { if (!res.ok) throw new Error(res.status); return res.text(); })
+    .finally(() => clearTimeout(timer));
+};
+
+/* tırnaklı alanları, alan içindeki virgül ve satır sonlarını destekleyen küçük CSV ayrıştırıcı */
+const parseCSV = (text) => {
+  const rows = [];
+  let row = [];
+  let cell = '';
+  let quoted = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (quoted) {
+      if (c !== '"') cell += c;
+      else if (text[i + 1] === '"') { cell += '"'; i++; }
+      else quoted = false;
+    } else if (c === '"') quoted = true;
+    else if (c === ',') { row.push(cell); cell = ''; }
+    else if (c === '\n' || c === '\r') {
+      if (c === '\r' && text[i + 1] === '\n') i++;
+      row.push(cell); rows.push(row); row = []; cell = '';
+    } else cell += c;
+  }
+  if (cell || row.length) { row.push(cell); rows.push(row); }
+  return rows.filter((r) => r.some((v) => v.trim()));
+};
+
+/* "Açıklama" → "aciklama" */
+const plain = (s) => s.trim().toLocaleLowerCase('tr').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ı/g, 'i');
+
+/* ilk satır başlık; her satır { başlık: değer } nesnesi olur */
+const sheetRows = (text) => {
+  const [head = [], ...rows] = parseCSV(text);
+  const keys = head.map((h) => plain(h).replace(/\s+/g, ''));
+  return rows.map((r) => Object.fromEntries(keys.map((k, i) => [k, (r[i] || '').trim()])));
+};
+
+/* görsel: repodaki bir dosya (assets/img/…) ya da https adresi. Google Drive paylaşım
+   linki ("…/file/d/KİMLİK/view") doğrudan görsel adresine çevrilir, w verilirse o genişlikte
+   istenir; dosya herkese açık olmalı.
+   ponytail: lh3…/d/KİMLİK Google'ın belgelemediği bir adres; bozulursa yalnızca burası değişir. */
+const safeImage = (v, w) => {
+  const s = (v || '').trim();
+  if (!s) return '';
+  if (/^[\w\-./]+\.(webp|avif|jpe?g|png|gif)$/i.test(s) && !s.startsWith('/') && !s.includes('..')) return s;
+  try {
+    const u = new URL(s);
+    if (u.protocol !== 'https:') return '';
+    if (u.hostname === 'drive.google.com') {
+      const id = (u.pathname.match(/\/d\/([\w-]+)/) || [])[1] || u.searchParams.get('id');
+      return id ? `https://lh3.googleusercontent.com/d/${id}${w ? '=w' + w : ''}` : '';
+    }
+    return u.href;
+  } catch { return ''; }
+};
+
+/* bağlantı: yalnızca http(s) */
+const safeLink = (v) => {
+  try {
+    const u = new URL((v || '').trim());
+    return u.protocol === 'https:' || u.protocol === 'http:' ? u.href : '';
+  } catch { return ''; }
+};
+
 /* --- yıl --- */
 const year = document.getElementById('year');
 if (year) year.textContent = new Date().getFullYear();
@@ -94,10 +176,10 @@ if (nav) {
    IntersectionObserver yerine scroll tabanlı kontrol: sayfa büyük adımlarla
    (jump scroll, anchor, yenileme sonrası konum) kaydığında atlanan öğeler
    görünmez kalmasın. */
-const reveals = $$('.reveal');
-if (reduceMotion) {
-  reveals.forEach((el) => el.classList.add('in'));
-} else {
+const reveals = [];
+/* sonradan eklenen öğeler (tablodan gelen galeri) de buradan kaydolur */
+let addReveals = (els) => els.forEach((el) => el.classList.add('in'));
+if (!reduceMotion) {
   const checkReveals = () => {
     const vh = window.innerHeight;
     let batch = 0;
@@ -111,30 +193,36 @@ if (reduceMotion) {
     }
   };
   const requestCheck = perFrame(checkReveals);
-  checkReveals();
+  addReveals = (els) => { reveals.push(...els); requestCheck(); };
   window.addEventListener('scroll', requestCheck, { passive: true });
   window.addEventListener('resize', requestCheck);
   window.addEventListener('load', requestCheck);
 }
+addReveals($$('.reveal'));
 
-/* --- galeri lightbox --- */
-const shots = $$('.shot');
+/* --- galeri lightbox ---
+   Kareler tablodan sonradan gelebildiği için liste her açılışta yeniden okunur.
+   Liste galeri kareleri (data-full, data-caption) ya da Game Jam ekran görüntüleridir (href, aria-label). */
 const lb = document.getElementById('lightbox');
-if (lb && shots.length) {
+if (lb) {
   const lbImg = document.getElementById('lbImg');
   const lbCap = document.getElementById('lbCap');
   const lbClose = document.getElementById('lbClose');
+  let shots = [];
   let idx = 0;
   let lastFocus = null;
 
   const show = (i) => {
     idx = (i + shots.length) % shots.length;
-    const { full, caption = '' } = shots[idx].dataset;
+    const el = shots[idx];
+    const full = el.dataset.full || el.getAttribute('href');
+    const caption = el.dataset.caption ?? el.getAttribute('aria-label') ?? '';
     lbImg.src = full;
     lbImg.alt = caption;
     lbCap.textContent = caption;
   };
-  const open = (i) => {
+  const open = (list, i) => {
+    shots = list;
     lastFocus = document.activeElement;
     show(i);
     lb.hidden = false;
@@ -147,14 +235,21 @@ if (lb && shots.length) {
     lastFocus?.focus();
   };
 
-  shots.forEach((s, i) => s.addEventListener('click', () => open(i)));
-  /* Game Jam ekran görüntüleri galerideki aynı fotoğrafı açar; JS yoksa bağlantı fotoğrafın kendisine gider */
-  $$('[data-shot]').forEach((a) => a.addEventListener('click', (e) => {
-    const i = shots.findIndex((s) => s.dataset.full.endsWith('/' + a.dataset.shot + '.webp'));
-    if (i < 0) return;
+  /* Game Jam ekran görüntüsü galeride de varsa galerinin içinde açılır; galeri henüz
+     yüklenmediyse ya da fotoğraf orada yoksa ekran görüntüleri kendi aralarında gezilir.
+     Boş kutular (tablo gelmedi) açılmaz. JS kapalıysa bağlantı fotoğrafın kendisine gider. */
+  document.addEventListener('click', (e) => {
+    const list = $$('.shot[data-full]');
+    const shot = e.target.closest('.shot[data-full]');
+    if (shot) { open(list, list.indexOf(shot)); return; }
+    const a = e.target.closest('.level-shot[href]');
+    if (!a) return;
     e.preventDefault();
-    open(i);
-  }));
+    const i = list.findIndex((s) => s.dataset.full === a.getAttribute('href'));
+    if (i >= 0) { open(list, i); return; }
+    const own = $$('.level-shot[href]');
+    open(own, own.indexOf(a));
+  });
   lbClose.addEventListener('click', close);
   document.getElementById('lbPrev').addEventListener('click', () => show(idx - 1));
   document.getElementById('lbNext').addEventListener('click', () => show(idx + 1));
@@ -228,8 +323,8 @@ if (nlForm && nlNote) {
 }
 
 /* --- yaklaşan etkinlikler ---
-   Liste #yaklasan'daki data-sheet adresinden okunur: Google E-Tablolar > Dosya > Paylaş >
-   Web'de yayınla > CSV. Sütunlar (ilk satır başlık, Türkçe karakterli de olabilir):
+   Liste site tablosunun "etkinlikler" sheet'inden okunur (#yaklasan data-gid).
+   Sütunlar (ilk satır başlık, Türkçe karakterli de olabilir):
    baslik, tarih, saat, yer, tur, aciklama, link, gorsel, oncelik (1/2/3; varsayılan 3). Tarih 2026-10-15 ya da 15.10.2026 biçiminde;
    günü belli değilse yalnızca ay: 2027-01, 01.2027 ya da "Ocak 2027".
    Geçmiş etkinlikler gizlenir; ilk öncelikli etkinlik ana afiştir. "Sıradaki" etiketi tarihe bağlıdır.
@@ -252,35 +347,7 @@ if (upSec) {
     gorsel: 'gorsel', foto: 'gorsel', fotograf: 'gorsel', resim: 'gorsel', image: 'gorsel'
   };
 
-  /* tırnaklı alanları, alan içindeki virgül ve satır sonlarını destekleyen küçük CSV ayrıştırıcı */
-  const parseCSV = (text) => {
-    const rows = [];
-    let row = [];
-    let cell = '';
-    let quoted = false;
-    for (let i = 0; i < text.length; i++) {
-      const c = text[i];
-      if (quoted) {
-        if (c !== '"') cell += c;
-        else if (text[i + 1] === '"') { cell += '"'; i++; }
-        else quoted = false;
-      } else if (c === '"') quoted = true;
-      else if (c === ',') { row.push(cell); cell = ''; }
-      else if (c === '\n' || c === '\r') {
-        if (c === '\r' && text[i + 1] === '\n') i++;
-        row.push(cell); rows.push(row); row = []; cell = '';
-      } else cell += c;
-    }
-    if (cell || row.length) { row.push(cell); rows.push(row); }
-    return rows.filter((r) => r.some((v) => v.trim()));
-  };
-
-  /* "Başlık" → "baslik", "Açıklama" → "aciklama" */
-  const headerKey = (h) => ALIASES[h.trim().toLocaleLowerCase('tr')
-    .normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/ı/g, 'i').replace(/\s+/g, '')] || null;
-
   const MONTHS = ['ocak', 'subat', 'mart', 'nisan', 'mayis', 'haziran', 'temmuz', 'agustos', 'eylul', 'ekim', 'kasim', 'aralik'];
-  const plain = (s) => s.trim().toLocaleLowerCase('tr').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ı/g, 'i');
 
   /* { date, monthOnly }: tam gün ya da yalnızca ay (o zaman ayın 1'i, sıralama için) */
   const parseDate = (v) => {
@@ -298,37 +365,11 @@ if (upSec) {
     return { date, monthOnly: !d };
   };
 
-  const safeLink = (v) => {
-    try {
-      const u = new URL(v.trim());
-      return u.protocol === 'https:' || u.protocol === 'http:' ? u.href : '';
-    } catch { return ''; }
-  };
-
-  /* görsel: repodaki bir dosya (assets/img/…) ya da https adresi. Google Drive paylaşım
-     linki ("…/file/d/KİMLİK/view") doğrudan görsel adresine çevrilir; dosya herkese açık olmalı. */
-  const safeImage = (v) => {
-    const s = v.trim();
-    if (!s) return '';
-    if (/^[\w\-./]+\.(webp|avif|jpe?g|png|gif)$/i.test(s) && !s.startsWith('/') && !s.includes('..')) return s;
-    try {
-      const u = new URL(s);
-      if (u.protocol !== 'https:') return '';
-      if (u.hostname === 'drive.google.com') {
-        const id = (u.pathname.match(/\/d\/([\w-]+)/) || [])[1] || u.searchParams.get('id');
-        return id ? `https://lh3.googleusercontent.com/d/${id}` : '';
-      }
-      return u.href;
-    } catch { return ''; }
-  };
-
   const toEvents = (text) => {
-    const [head = [], ...rows] = parseCSV(text);
-    const keys = head.map(headerKey);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const events = rows
-      .map((r) => Object.fromEntries(keys.map((k, i) => [k, (r[i] || '').trim()]).filter(([k]) => k)))
+    const events = sheetRows(text)
+      .map((r) => Object.fromEntries(Object.entries(r).map(([k, v]) => [ALIASES[k], v]).filter(([k]) => k)))
       .map((ev) => ({ ...ev, ...parseDate(ev.tarih || ''), priority: /^[123]$/.test(ev.oncelik || '') ? Number(ev.oncelik) : 3 }))
       /* yalnızca ayı bilinen etkinlik o ay bitene kadar görünür */
       .filter((ev) => ev.baslik && ev.date
@@ -339,13 +380,6 @@ if (upSec) {
     const featured = events.find((ev) => ev.priority === 1);
     const selected = featured ? [featured, ...events.filter((ev) => ev !== featured)] : events;
     return selected.slice(0, MAX_SHOWN).map((ev) => ({ ...ev, isNext: ev === next, isFeatured: ev === featured }));
-  };
-
-  const make = (tag, cls, text) => {
-    const el = document.createElement(tag);
-    if (cls) el.className = cls;
-    if (text) el.textContent = text;
-    return el;
   };
 
   const render = (events) => {
@@ -400,8 +434,8 @@ if (upSec) {
       content.append(time, body);
       li.append(meta);
 
-      /* fotoğraf isteğe bağlı; yüklenemezse kart fotoğrafsız düzene döner */
-      const src = safeImage(ev.gorsel || '');
+      /* fotoğraf isteğe bağlı; yüklenemezse yeri boş kalır (Drive sorunu görünsün) */
+      const src = safeImage(ev.gorsel, 1200);
       if (src) {
         const fig = make('div', 'up-img');
         const img = make('img');
@@ -410,7 +444,6 @@ if (upSec) {
         img.decoding = 'async';
         img.width = 800;
         img.height = 450;
-        img.addEventListener('error', () => { fig.remove(); li.classList.remove('has-img'); }, { once: true });
         img.src = src;
         fig.append(img);
         li.append(fig);
@@ -446,17 +479,124 @@ if (upSec) {
     box.setAttribute('aria-busy', 'false');
   };
 
-  const url = (upSec.dataset.sheet || '').trim();
+  const url = sheetUrl(upSec.dataset.gid);
   if (!url) finish([]);
-  else {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 8000);
-    fetch(url, { signal: ctrl.signal })
-      .then((res) => { if (!res.ok) throw new Error(res.status); return res.text(); })
-      .then((text) => finish(toEvents(text), false))
-      .catch(() => finish([], true))
-      .finally(() => clearTimeout(timer));
-  }
+  else fetchText(url).then((text) => finish(toEvents(text), false)).catch(() => finish([], true));
+}
+
+/* --- tablodan görseller ---
+   Galeri: her satır bir kare (gorsel, kucuk, aciklama, boyut); satır yoksa HTML'deki kareler kalır.
+   Diğer bölümler: tablodaki "alan" sütunu, bölümdeki data-slot'la eşleşir.
+     <img data-slot>        → görsel değişir
+     <a data-slot><img></a> → bağlantı büyük, içteki görsel küçük hâle
+     <… data-slot> içindeki [data-col="sütun"] → o sütunun değeri: <img> ise görsel, değilse metin
+                                                (boş hücrede HTML'deki metin kalır)
+   Drive'daki görsel açılmazsa yerine bir şey konmaz: boş kalan yer, sorunu görünür kılar. */
+const GAL_SIZES = { genis: 'wide', uzun: 'tall', buyuk: 'wide tall' };
+const fillGallery = (sec, rows) => {
+  const tiles = rows.map((r, i) => {
+    const full = safeImage(r.gorsel, 1600);
+    if (!full) return null;
+    const label = r.aciklama || `Fotoğraf ${i + 1}`;
+    const b = make('button', `shot gallery-reveal reveal ${GAL_SIZES[r.boyut] || ''}`.trim());
+    b.type = 'button';
+    b.dataset.full = full;
+    b.dataset.caption = r.aciklama || '';
+    b.setAttribute('aria-label', label);
+    const img = make('img');
+    img.alt = '';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.width = 700;
+    img.height = 933;
+    img.src = safeImage(r.kucuk, 700) || safeImage(r.gorsel, 700);
+    b.append(img);
+    return b;
+  }).filter(Boolean);
+  if (!tiles.length) return;
+  $('#gallery', sec).replaceChildren(...tiles);
+  addReveals(tiles);
+};
+
+const fillSlots = (sec, rows) => {
+  const byKey = Object.fromEntries(rows.map((r) => [r.alan, r]));
+  $$('[data-slot]', sec).forEach((el) => {
+    const row = byKey[el.dataset.slot];
+    if (!row) return;
+    $$('[data-col]', el).forEach((c) => {
+      const v = row[c.dataset.col];
+      if (!v) return;
+      if (c.tagName !== 'IMG') c.textContent = v;
+      else if (safeImage(v)) c.src = safeImage(v, c.getAttribute('width'));
+    });
+    if (el.tagName === 'IMG') {
+      const src = safeImage(row.gorsel, el.getAttribute('width'));
+      if (src) el.src = src;
+      if (row.aciklama) el.alt = row.aciklama;
+    } else if (el.tagName === 'A') {
+      const full = safeImage(row.gorsel, 1600);
+      if (!full) return;
+      el.href = full;
+      $('img', el).src = safeImage(row.gorsel, 700);
+      el.setAttribute('aria-label', row.aciklama || 'Game Jam fotoğrafı');
+    }
+  });
+};
+
+/* Üyelik: her "sosyal" satırı, tablodaki sırayla bir bağlantı olur (baslik, link, ikon). İkon yalnızca repodaki bir dosya
+   (assets/…); boşsa ya da geçersizse genel bağlantı ikonu. Geçerli satır yoksa HTML'deki liste kalır. */
+const DEFAULT_ICON = 'assets/img/icons/link.svg';
+const localIcon = (v) => {
+  const s = (v || '').trim();
+  return /^assets\/[\w\-./]+\.(svg|webp|png)$/i.test(s) && !s.includes('..') ? s : '';
+};
+const fillJoin = (sec, rows) => {
+  const links = rows.filter((r) => r.alan === 'sosyal').map((r) => {
+    const href = safeLink(r.link);
+    if (!href || !r.baslik) return null;
+    const a = make('a', 'portal');
+    a.href = href;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.title = r.baslik;
+    a.setAttribute('aria-label', r.baslik);
+    const img = make('img');
+    img.alt = '';
+    img.width = 24;
+    img.height = 24;
+    img.src = localIcon(r.ikon) || DEFAULT_ICON;
+    a.append(img, make('span', 'portal-name', r.baslik));
+    return a;
+  }).filter(Boolean);
+  if (links.length) $('.portals', sec).replaceChildren(...links);
+};
+
+const FILLERS = { galeri: fillGallery, uyelik: fillJoin };
+$$('[data-gid]').forEach((sec) => {
+  const url = sec !== upSec && sheetUrl(sec.dataset.gid);
+  if (!url) return;
+  const fill = FILLERS[sec.id] || fillSlots;
+  fetchText(url).then((text) => fill(sec, sheetRows(text))).catch(() => { /* HTML'deki hâli kalır */ });
+});
+
+/* --- bölüm başlıkları: "ana sayfa" sheet'i ---
+   Gid'i <main data-home-gid>. Her satır bir bölüm: alan = bölümün id'si (hakkimizda, yaklasan, …);
+   ust / baslik / aciklama sütunları bölümdeki [data-head="…"] öğesine yazılır, boş hücrede HTML'deki
+   metin kalır. *Yıldız içindeki* kısım vurgu rengiyle yazılır (yine yalnızca metin olarak). */
+const setHead = (el, v) => {
+  el.replaceChildren(...v.split('*').map((part, i) => (i % 2 ? make('span', 'accent', part) : part)));
+  el.hidden = false;
+};
+const homeUrl = sheetUrl(document.getElementById('main')?.dataset.homeGid);
+if (homeUrl) {
+  fetchText(homeUrl).then((text) => sheetRows(text).forEach((row) => {
+    const sec = row.alan && document.getElementById(row.alan);
+    if (!sec) return;
+    $$('[data-head]', sec).forEach((el) => {
+      const v = row[el.dataset.head];
+      if (v) setHead(el, v);
+    });
+  })).catch(() => { /* HTML'deki başlıklar kalır */ });
 }
 
 /* --- scroll ilerleme çubuğu --- */

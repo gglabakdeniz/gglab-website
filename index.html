@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10214d">
+<!-- Drive görselleri (lh3.googleusercontent.com) Referer taşıyan isteklere kota uyguluyor (429);
+     sayfa adresi yalnızca kendi sitemize gönderilir -->
+<meta name="referrer" content="same-origin">
 <script>document.documentElement.classList.add('js')</script>
 <title data-i18n="meta.title">GG Lab — Akdeniz Üniversitesi Oyun ve Oyunlaştırma Topluluğu</title>
 <meta name="description" data-i18n-meta="meta.desc" content="Akdeniz Üniversitesi Oyun ve Oyunlaştırma Topluluğu (GG Lab). Oyun geliştirme atölyeleri, Game Jam etkinlikleri, Indie Talks ve kutu oyunu günleri.">
@@ -62,7 +65,10 @@
   </div>
 </header>
 
-<main id="main">
+<!-- Site tablosu (Google E-Tablolar, "Web'de yayınla"): tabloyu kullanan bölümler kendi sheet'inin
+     data-gid'ini taşır, görsel yerleri data-slot'la işaretli. Bölüm başlıkları (data-head) "ana sayfa"
+     sheet'inden gelir: gid'i data-home-gid'e yazılır. Ayrıntı: README > Site tablosu -->
+<main id="main" data-home-gid="" data-sheets="https://docs.google.com/spreadsheets/d/e/2PACX-1vQYcHtkd72JI4csMB-9wqnWK6Vy93kgGUiOgyNKxqhwf9q1ifC_QCoQEmoYLSgjwOJI05SOu9kH7YdU/pub">
 
   <!-- HERO -->
   <section class="hero hud-hero" id="top">
@@ -126,9 +132,9 @@
   <section class="section about-bridge" id="hakkimizda">
     <div class="container about-bridge-inner">
       <div class="about-copy reveal">
-        <p class="eyebrow" data-i18n="about.eyebrow">01 — Biz Kimiz</p>
-        <h2 data-i18n="about.head">Fikirleri oynanabilir şeylere dönüştüren <span class="accent">kampüs ekibi</span>.</h2>
-        <p class="about-lead" data-i18n="about.p1">GG Lab; oyun geliştirme, oyunlaştırma ve masaüstü oyun kültürü etrafında buluşan Akdeniz Üniversitesi öğrencilerinin üretim alanı.</p>
+        <p class="eyebrow" data-head="ust" data-i18n="about.eyebrow">01 — Biz Kimiz</p>
+        <h2 data-head="baslik" data-i18n="about.head">Fikirleri oynanabilir şeylere dönüştüren <span class="accent">kampüs ekibi</span>.</h2>
+        <p class="about-lead" data-head="aciklama" data-i18n="about.p1">GG Lab; oyun geliştirme, oyunlaştırma ve masaüstü oyun kültürü etrafında buluşan Akdeniz Üniversitesi öğrencilerinin üretim alanı.</p>
         <p data-i18n="about.p2">Atölyelerde öğrenir, game jam etkinliklerinde dener, etkinliklerde birbirimizi ve sektörü tanırız. Deneyim seviyen ne olursa olsun, burada fikirler masaya gelir ve birlikte şekillenir.</p>
       </div>
       <div class="about-panel reveal reveal-r" role="group" aria-label="GG Lab çalışma alanları" data-i18n-aria="about.panelAria">
@@ -152,15 +158,14 @@
     </div>
   </section>
 
-  <!-- YAKLAŞAN ETKİNLİKLER — liste data-sheet'teki CSV'den gelir: şimdilik repodaki
-       content/etkinlikler.csv, ileride yayınlanmış bir Google E-Tablosu adresi.
+  <!-- YAKLAŞAN ETKİNLİKLER — liste site tablosunun "etkinlikler" sheet'inden gelir.
        Sütunlar ve düzenleme: README > Yaklaşan etkinlikler. Geçmiş tarihler kendiliğinden gizlenir. -->
-  <section class="section upcoming-section" id="yaklasan" data-sheet="content/etkinlikler.csv" aria-labelledby="upHeading">
+  <section class="section upcoming-section" id="yaklasan" data-gid="353119909" aria-labelledby="upHeading">
     <div class="container">
       <div class="section-head up-heading reveal">
-        <p class="eyebrow" data-i18n="up.eyebrow">Birlikte oynayalım</p>
-        <h2 id="upHeading" data-i18n="up.head">Yaklaşan <span>etkinlikler.</span></h2>
-        <p class="lead" data-i18n="up.lead">Takvimdeki sıradaki buluşmalar. Kayıt bağlantısı varsa yerini şimdiden ayırt.</p>
+        <p class="eyebrow" data-head="ust" data-i18n="up.eyebrow">Birlikte oynayalım</p>
+        <h2 id="upHeading" data-head="baslik" data-i18n="up.head">Yaklaşan <span>etkinlikler.</span></h2>
+        <p class="lead" data-head="aciklama" data-i18n="up.lead">Takvimdeki sıradaki buluşmalar. Kayıt bağlantısı varsa yerini şimdiden ayırt.</p>
       </div>
       <div class="upcoming" id="upcoming" aria-busy="true">
         <div class="up-skeleton" aria-hidden="true"><span></span><span></span></div>
@@ -183,8 +188,9 @@
   <section class="section section-alt" id="vizyon">
     <div class="container">
       <div class="section-head reveal">
-        <p class="eyebrow" data-i18n="vision.eyebrow">03 — Vizyon &amp; Misyon</p>
-        <h2 data-i18n="vision.head">Vizyon &amp; Misyon</h2>
+        <p class="eyebrow" data-head="ust" data-i18n="vision.eyebrow">02 — Vizyon &amp; Misyon</p>
+        <h2 data-head="baslik" data-i18n="vision.head">Vizyon &amp; Misyon</h2>
+        <p class="lead" data-head="aciklama" hidden></p>
       </div>
       <div class="vm-grid">
         <article class="vm-card spotlight reveal reveal-l">
@@ -213,8 +219,9 @@
   <section class="section" id="faaliyet">
     <div class="container">
       <div class="section-head reveal">
-        <p class="eyebrow" data-i18n="act.eyebrow">04 — Ne Yaparız</p>
-        <h2 data-i18n="act.head">Faaliyet alanlarımız</h2>
+        <p class="eyebrow" data-head="ust" data-i18n="act.eyebrow">03 — Ne Yaparız</p>
+        <h2 data-head="baslik" data-i18n="act.head">Faaliyet alanlarımız</h2>
+        <p class="lead" data-head="aciklama" hidden></p>
       </div>
       <div class="feature-grid">
         <article class="card feature spotlight reveal reveal-l"><span class="card-num">01</span><h3 data-i18n="act.f1h">Oyun Geliştirme Eğitimleri</h3><p data-i18n="act.f1p">Unity, Unreal Engine ve benzeri motorlarla eğitim ve atölyeler düzenliyoruz.</p></article>
@@ -229,16 +236,17 @@
 
   <!-- GAME JAM AKDENİZ — "bölüm seçme" ekranı: oyun kutusu kapağı, bölüm bilgileri,
        ekran görüntüleri, kilitli sıradaki bölüm ve jenerik -->
-  <section class="section section-alt" id="gamejam">
+  <section class="section section-alt" id="gamejam" data-gid="1856434088">
     <div class="container">
       <article class="level reveal">
         <figure class="level-cover">
-          <img class="level-cover-img" src="assets/img/gallery/jam-06-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async">
+          <!-- [html-validate-disable-block element-required-attributes: src tablodan gelir (main.js)] -->
+          <img class="level-cover-img" data-slot="kapak" alt="" width="700" height="933" loading="lazy" decoding="async">
           <img class="level-logo" src="assets/img/gamejam-logo.svg" alt="Game Jam Akdeniz" width="1281" height="489" loading="lazy">
         </figure>
 
         <div class="level-info">
-          <h2 data-i18n="jam.head">Game Jam <span class="accent">Akdeniz</span></h2>
+          <h2 data-head="baslik" data-i18n="jam.head">Game Jam <span class="accent">Akdeniz</span></h2>
           <p class="level-when">
             <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v3M17 3v3M4 9h16M5 6h14a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z"/></svg>
             <span data-i18n="jam.when">2–4 Mayıs 2026 · Antalya</span>
@@ -274,15 +282,16 @@
         </div>
       </article>
 
-      <!-- ekran görüntüleri: tıklanınca galerideki aynı fotoğrafın büyük hâli açılır (main.js);
-           JS yoksa bağlantı fotoğrafın kendisini açar -->
+      <!-- ekran görüntüleri tablodan gelir (gamejam sheet, ekran1–4); gelmezse kutular boş kalır.
+           Tıklanınca lightbox'ta açılır: fotoğraf galeride de varsa galerinin içinde (main.js) -->
       <div class="level-shots reveal">
         <p class="level-label" data-i18n="jam.shotsH">Galeri</p>
         <ul>
-          <li><a class="level-shot" href="assets/img/gallery/jam-05.webp" data-shot="jam-05" aria-label="Jam alanı" data-i18n-aria="gal.g5"><img src="assets/img/gallery/jam-05-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></a></li>
-          <li><a class="level-shot" href="assets/img/gallery/jam-08.webp" data-shot="jam-08" aria-label="Sahnede oyun sunumu" data-i18n-aria="gal.g8"><img src="assets/img/gallery/jam-08-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></a></li>
-          <li><a class="level-shot" href="assets/img/gallery/jam-01.webp" data-shot="jam-01" aria-label="Game Jam Akdeniz — katılımcılar" data-i18n-aria="gal.g1"><img src="assets/img/gallery/jam-01-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></a></li>
-          <li><a class="level-shot" href="assets/img/gallery/jam-02.webp" data-shot="jam-02" aria-label="Ödül töreni" data-i18n-aria="gal.g2"><img src="assets/img/gallery/jam-02-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></a></li>
+          <!-- [html-validate-disable-block element-required-attributes: src tablodan gelir (main.js)] -->
+          <li><a class="level-shot" data-slot="ekran1"><img alt="" width="700" height="933" loading="lazy" decoding="async"></a></li>
+          <li><a class="level-shot" data-slot="ekran2"><img alt="" width="700" height="933" loading="lazy" decoding="async"></a></li>
+          <li><a class="level-shot" data-slot="ekran3"><img alt="" width="700" height="933" loading="lazy" decoding="async"></a></li>
+          <li><a class="level-shot" data-slot="ekran4"><img alt="" width="700" height="933" loading="lazy" decoding="async"></a></li>
         </ul>
       </div>
 
@@ -310,22 +319,23 @@
   </section>
 
   <!-- DÜZENLİ ETKİNLİKLER -->
-  <section class="section" id="etkinlikler">
+  <section class="section" id="etkinlikler" data-gid="1461908741">
     <div class="container">
       <div class="section-head reveal">
-        <p class="eyebrow" data-i18n="ev.eyebrow">06 — Düzenli Etkinlikler</p>
-        <h2 data-i18n="ev.head">Düzenli etkinliklerimiz</h2>
-        <p class="lead" data-i18n="ev.lead">Yıl boyunca dört ana başlıkta bir araya geliyoruz.
+        <p class="eyebrow" data-head="ust" data-i18n="ev.eyebrow">04 — Düzenli Etkinlikler</p>
+        <h2 data-head="baslik" data-i18n="ev.head">Düzenli etkinliklerimiz</h2>
+        <p class="lead" data-head="aciklama" data-i18n="ev.lead">Yıl boyunca dört ana başlıkta bir araya geliyoruz.
           Tarihler netleştikçe burada ve sosyal medya hesaplarımızda duyuruyoruz.</p>
       </div>
 
       <div class="events" id="events">
-        <article class="event-card spotlight reveal reveal-zoom">
-          <div class="event-media"><img src="assets/img/event-kutu.webp" alt="" width="800" height="450" loading="lazy" decoding="async"></div>
+        <!-- [html-validate-disable-block element-required-attributes: src tablodan gelir (main.js)] -->
+        <article class="event-card spotlight reveal reveal-zoom" data-slot="kutu">
+          <div class="event-media"><img data-col="gorsel" alt="" width="800" height="450" loading="lazy" decoding="async"></div>
           <div class="event-body">
             <div>
-              <h3 data-i18n="ev.e1h">Kutu Oyunu Günleri</h3>
-              <p data-i18n="ev.e1p">Masaüstü oyun etkinlikleri ve oyun analizi çalışmaları.
+              <h3 data-col="baslik" data-i18n="ev.e1h">Kutu Oyunu Günleri</h3>
+              <p data-col="aciklama" data-i18n="ev.e1p">Masaüstü oyun etkinlikleri ve oyun analizi çalışmaları.
                 Oyunları hem oynuyor hem birlikte inceliyoruz.</p>
               <details class="event-games">
                 <summary data-i18n="ev.games">Oyunlarımızdan bazıları</summary>
@@ -346,34 +356,34 @@
           </div>
         </article>
 
-        <article class="event-card spotlight reveal reveal-zoom">
-          <div class="event-media"><img src="assets/img/event-atolye.webp" alt="" width="800" height="473" loading="lazy" decoding="async"></div>
+        <article class="event-card spotlight reveal reveal-zoom" data-slot="atolye">
+          <div class="event-media"><img data-col="gorsel" alt="" width="800" height="473" loading="lazy" decoding="async"></div>
           <div class="event-body">
             <div>
-              <h3 data-i18n="ev.e2h">Oyun Geliştirme Atölyeleri</h3>
-              <p data-i18n="ev.e2p">Unity ve Unreal Engine ile sıfırdan oyun geliştirme.
+              <h3 data-col="baslik" data-i18n="ev.e2h">Oyun Geliştirme Atölyeleri</h3>
+              <p data-col="aciklama" data-i18n="ev.e2p">Unity ve Unreal Engine ile sıfırdan oyun geliştirme.
                 Başlangıç seviyesi için de uygun.</p>
             </div>
           </div>
         </article>
 
-        <article class="event-card spotlight reveal reveal-zoom">
-          <div class="event-media"><img src="assets/img/event-talks.webp" alt="" width="800" height="533" loading="lazy" decoding="async"></div>
+        <article class="event-card spotlight reveal reveal-zoom" data-slot="talks">
+          <div class="event-media"><img data-col="gorsel" alt="" width="800" height="533" loading="lazy" decoding="async"></div>
           <div class="event-body">
             <div>
-              <h3 data-i18n="ev.e3h">Indie Talks &amp; Sektörden Konuklar</h3>
-              <p data-i18n="ev.e3p">Bağımsız stüdyolar ve sektör profesyonelleriyle
+              <h3 data-col="baslik" data-i18n="ev.e3h">Indie Talks &amp; Sektörden Konuklar</h3>
+              <p data-col="aciklama" data-i18n="ev.e3p">Bağımsız stüdyolar ve sektör profesyonelleriyle
                 konferans, panel ve söyleşiler.</p>
             </div>
           </div>
         </article>
 
-        <article class="event-card spotlight reveal reveal-zoom">
-          <div class="event-media"><img src="assets/img/event-jam.webp" alt="" width="800" height="533" loading="lazy" decoding="async"></div>
+        <article class="event-card spotlight reveal reveal-zoom" data-slot="jam">
+          <div class="event-media"><img data-col="gorsel" alt="" width="800" height="533" loading="lazy" decoding="async"></div>
           <div class="event-body">
             <div>
-              <h3 data-i18n="ev.e4h">Game Jam'ler ve Yarışmalar</h3>
-              <p data-i18n="ev.e4p">Ekip tabanlı oyun geliştirme maratonları:
+              <h3 data-col="baslik" data-i18n="ev.e4h">Game Jam'ler ve Yarışmalar</h3>
+              <p data-col="aciklama" data-i18n="ev.e4p">Ekip tabanlı oyun geliştirme maratonları:
                 fikirden oynanabilir prototipe.</p>
             </div>
           </div>
@@ -383,22 +393,22 @@
   </section>
 
   <!-- GALERİ -->
-  <section class="section" id="galeri">
+  <section class="section" id="galeri" data-gid="78690489">
     <div class="container">
       <div class="section-head reveal">
-        <p class="eyebrow" data-i18n="gal.eyebrow">07 — Galeri</p>
-        <h2 data-i18n="gal.head">Topluluktan kareler</h2>
-        <p class="lead" data-i18n="gal.lead">Game Jam Akdeniz'den kareler. Diğer etkinliklerin fotoğrafları eklendikçe burası büyüyecek.</p>
+        <p class="eyebrow" data-head="ust" data-i18n="gal.eyebrow">05 — Galeri</p>
+        <h2 data-head="baslik" data-i18n="gal.head">Topluluktan kareler</h2>
+        <p class="lead" data-head="aciklama" data-i18n="gal.lead">Game Jam Akdeniz'den kareler. Diğer etkinliklerin fotoğrafları eklendikçe burası büyüyecek.</p>
       </div>
       <div class="gallery" id="gallery">
-        <button type="button" class="shot gallery-reveal reveal wide tall" data-full="assets/img/gallery/jam-01.webp" data-caption="Game Jam Akdeniz — katılımcılar" data-i18n-cap="gal.g1" aria-label="Game Jam Akdeniz — katılımcılar" data-i18n-aria="gal.g1"><img src="assets/img/gallery/jam-01-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></button>
-        <button type="button" class="shot gallery-reveal reveal tall" data-full="assets/img/gallery/jam-02.webp" data-caption="Ödül töreni" data-i18n-cap="gal.g2" aria-label="Ödül töreni" data-i18n-aria="gal.g2"><img src="assets/img/gallery/jam-02-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></button>
-        <button type="button" class="shot gallery-reveal reveal tall" data-full="assets/img/gallery/jam-03.webp" data-caption="Ödül töreni" data-i18n-cap="gal.g3" aria-label="Ödül töreni" data-i18n-aria="gal.g3"><img src="assets/img/gallery/jam-03-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></button>
-        <button type="button" class="shot gallery-reveal reveal wide tall" data-full="assets/img/gallery/jam-04.webp" data-caption="Ödül töreni" data-i18n-cap="gal.g4" aria-label="Ödül töreni" data-i18n-aria="gal.g4"><img src="assets/img/gallery/jam-04-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></button>
-        <button type="button" class="shot gallery-reveal reveal wide tall" data-full="assets/img/gallery/jam-05.webp" data-caption="Jam alanı" data-i18n-cap="gal.g5" aria-label="Jam alanı" data-i18n-aria="gal.g5"><img src="assets/img/gallery/jam-05-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></button>
-        <button type="button" class="shot gallery-reveal reveal tall" data-full="assets/img/gallery/jam-08.webp" data-caption="Sahnede oyun sunumu" data-i18n-cap="gal.g8" aria-label="Sahnede oyun sunumu" data-i18n-aria="gal.g8"><img src="assets/img/gallery/jam-08-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></button>
-        <button type="button" class="shot gallery-reveal reveal wide tall" data-full="assets/img/gallery/jam-06.webp" data-caption="Unity'de geliştirme" data-i18n-cap="gal.g6" aria-label="Unity'de geliştirme" data-i18n-aria="gal.g6"><img src="assets/img/gallery/jam-06-t.webp" alt="" width="700" height="933" loading="lazy" decoding="async"></button>
-        <button type="button" class="shot gallery-reveal reveal tall" data-full="assets/img/gallery/jam-07.webp" data-caption="Jam gecesinden bir kare" data-i18n-cap="gal.g7" aria-label="Jam gecesinden bir kare" data-i18n-aria="gal.g7"><img src="assets/img/gallery/jam-07-t.webp" alt="" width="700" height="1244" loading="lazy" decoding="async"></button>
+        <div class="shot gallery-reveal reveal wide tall" aria-hidden="true"></div>
+        <div class="shot gallery-reveal reveal tall" aria-hidden="true"></div>
+        <div class="shot gallery-reveal reveal tall" aria-hidden="true"></div>
+        <div class="shot gallery-reveal reveal wide tall" aria-hidden="true"></div>
+        <div class="shot gallery-reveal reveal wide tall" aria-hidden="true"></div>
+        <div class="shot gallery-reveal reveal tall" aria-hidden="true"></div>
+        <div class="shot gallery-reveal reveal wide tall" aria-hidden="true"></div>
+        <div class="shot gallery-reveal reveal tall" aria-hidden="true"></div>
       </div>
     </div>
   </section>
@@ -409,9 +419,9 @@
          forma action ekle, `hidden`'ı kaldır, bülten kutusunu bilgi sütununun altına taşı. -->
     <div class="container grid-2">
       <div class="reveal">
-        <p class="eyebrow" data-i18n="ct.eyebrow">08 — İletişim</p>
-        <h2 data-i18n="ct.head">Bize ulaş</h2>
-        <p class="lead" data-i18n="ct.lead">Soruların, iş birliği tekliflerin ya da etkinlik fikirlerin için bize yaz.</p>
+        <p class="eyebrow" data-head="ust" data-i18n="ct.eyebrow">06 — İletişim</p>
+        <h2 data-head="baslik" data-i18n="ct.head">Bize ulaş</h2>
+        <p class="lead" data-head="aciklama" data-i18n="ct.lead">Soruların, iş birliği tekliflerin ya da etkinlik fikirlerin için bize yaz.</p>
 
         <p class="contact-line"><span aria-hidden="true">📍</span> <a href="https://www.google.com/maps/search/?api=1&amp;query=Akdeniz+%C3%9Cniversitesi" target="_blank" rel="noopener noreferrer" data-i18n="ct.place">Akdeniz Üniversitesi, Konyaaltı / Antalya</a></p>
         <p class="contact-line"><span aria-hidden="true">📧</span> <a href="mailto:team@gglabakdeniz.com" data-i18n="ct.mail">team@gglabakdeniz.com</a></p>
@@ -462,7 +472,7 @@
   </section>
 
   <!-- ÜYELİK -->
-  <section class="section section-alt" id="uyelik">
+  <section class="section section-alt" id="uyelik" data-gid="892993642">
     <div class="shooting-stars" aria-hidden="true">
       <i style="--x:4%;--y:8%;--dx:-220px;--dy:144px;--dur:20s;--delay:0s"></i>
       <i style="--x:16%;--y:20%;--dx:-195px;--dy:127px;--dur:20s;--delay:2.2s"></i>
@@ -476,19 +486,21 @@
     </div>
     <div class="container">
       <div class="section-head reveal">
-        <p class="eyebrow" data-i18n="join.eyebrow">09 — Üyelik</p>
-        <h2 data-i18n="join.head">Topluluğa katıl</h2>
-        <p class="lead" data-i18n="join.lead">GG Lab, topluluğun ürettikleriyle büyüyor. Bölümün, yeteneğin ya da seviyen fark etmez: soru sormak, ekip bulmak, yaptıklarını paylaşmak ya da sadece merhaba demek için Discord'a gel. Etkinlik ve Game Jam duyuruları ilk orada. Diğer kanallardan da bizi takip edebilirsin.</p>
+        <p class="eyebrow" data-head="ust" data-i18n="join.eyebrow">07 — Üyelik</p>
+        <h2 data-head="baslik" data-i18n="join.head">Topluluğa katıl</h2>
+        <p class="lead" data-head="aciklama" data-i18n="join.lead">GG Lab, topluluğun ürettikleriyle büyüyor. Bölümün, yeteneğin ya da seviyen fark etmez: soru sormak, ekip bulmak, yaptıklarını paylaşmak ya da sadece merhaba demek için Discord'a gel. Etkinlik ve Game Jam duyuruları ilk orada. Diğer kanallardan da bizi takip edebilirsin.</p>
       </div>
       <div class="portal-top reveal">
         <a class="portal portal-main" href="uyelik/" aria-label="Başvuru Formu" title="Başvuru Formu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M4.5 2A1.5 1.5 0 0 0 3 3.5v17A1.5 1.5 0 0 0 4.5 22h15a1.5 1.5 0 0 0 1.5-1.5V8.621a1.5 1.5 0 0 0-.44-1.06l-5.122-5.122A1.5 1.5 0 0 0 14.378 2H4.5Zm9.75 1.5v4.5a1.5 1.5 0 0 0 1.5 1.5h4.5v10.75a.25.25 0 0 1-.25.25h-15a.25.25 0 0 1-.25-.25v-17a.25.25 0 0 1 .25-.25h9.25ZM6 13.25a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H6.75a.75.75 0 0 1-.75-.75Zm0 3.5a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H6.75a.75.75 0 0 1-.75-.75Zm.75-7.25a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5Z"/></svg><span class="portal-name" data-i18n="join.form">Başvuru Formu</span></a>
       </div>
+      <!-- sosyal bağlantılar tablodan gelir (uyelik sheet, alan=sosyal); tablo açılmazsa bu liste kalır.
+           İkonlar assets/img/icons/ altında -->
       <nav class="portals reveal" aria-label="Sosyal medya" data-i18n-aria="a11y.social">
-          <a class="portal" href="https://www.instagram.com/gglabakdeniz/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg><span class="portal-name" lang="en">Instagram</span></a>
-          <a class="portal" href="https://www.youtube.com/@GGLabAkdeniz" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><span class="portal-name" lang="en">YouTube</span></a>
-          <a class="portal" href="https://discord.gg/wFtA5EvmnW" target="_blank" rel="noopener noreferrer" aria-label="Discord" title="Discord"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg><span class="portal-name" lang="en">Discord</span></a>
-          <a class="portal" href="https://x.com/gglabakdeniz" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter" title="X / Twitter"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg><span class="portal-name" lang="en">X / Twitter</span></a>
-          <a class="portal" href="https://www.linkedin.com/company/gglab-oyun-ve-oyunlastirma-toplulugu/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg><span class="portal-name" lang="en">LinkedIn</span></a>
+          <a class="portal" href="https://www.instagram.com/gglabakdeniz/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram"><img src="assets/img/icons/instagram.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">Instagram</span></a>
+          <a class="portal" href="https://www.youtube.com/@GGLabAkdeniz" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"><img src="assets/img/icons/youtube.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">YouTube</span></a>
+          <a class="portal" href="https://discord.gg/wFtA5EvmnW" target="_blank" rel="noopener noreferrer" aria-label="Discord" title="Discord"><img src="assets/img/icons/discord.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">Discord</span></a>
+          <a class="portal" href="https://x.com/gglabakdeniz" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter" title="X / Twitter"><img src="assets/img/icons/x.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">X / Twitter</span></a>
+          <a class="portal" href="https://www.linkedin.com/company/gglab-oyun-ve-oyunlastirma-toplulugu/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><img src="assets/img/icons/linkedin.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">LinkedIn</span></a>
       </nav>
     </div>
   </section>

@@ -86,7 +86,7 @@
     'up.errH': 'The calendar could not be loaded right now.',
     'up.dateSoon': 'Exact date soon',
 
-    'vision.eyebrow': '03 — Vision &amp; Mission',
+    'vision.eyebrow': '02 — Vision &amp; Mission',
     'vision.head': 'Vision &amp; Mission',
     'vision.v': 'Our Vision',
     'vision.vp': 'To turn Akdeniz University into a place where students do not only play games but design, develop and apply them across different fields. To become an internationally visible community contributing to Türkiye\'s game development ecosystem through student projects.',
@@ -102,7 +102,7 @@
     'vision.n4p': 'We don\'t just talk about it — we ship finished work.',
 
     /* --- faaliyet --- */
-    'act.eyebrow': '04 — What We Do',
+    'act.eyebrow': '03 — What We Do',
     'act.head': 'Our fields of activity',
     'act.f1h': 'Game Development Trainings',
     'act.f1p': 'We run trainings and workshops with Unity, Unreal Engine and similar engines.',
@@ -141,7 +141,7 @@
     'jam.itchSub': 'Game Jam Akdeniz 2026 games · itch.io',
 
     /* --- düzenli etkinlikler --- */
-    'ev.eyebrow': '06 — Regular Events',
+    'ev.eyebrow': '04 — Regular Events',
     'ev.head': 'Our regular events',
     'ev.lead': 'We gather around four main formats throughout the year. Dates are announced here and on our social media as they are confirmed.',
     'ev.e1h': 'Board Game Days',
@@ -156,26 +156,18 @@
     'ev.e4p': 'Team-based game development marathons: from idea to playable prototype.',
 
     /* --- galeri --- */
-    'gal.eyebrow': '07 — Gallery',
+    'gal.eyebrow': '05 — Gallery',
     'gal.head': 'Moments from the community',
     'gal.lead': 'Moments from Game Jam Akdeniz. This page will grow as photos from our other events are added.',
-    'gal.g1': 'Game Jam Akdeniz — participants',
-    'gal.g2': 'Award ceremony',
-    'gal.g3': 'Award ceremony',
-    'gal.g4': 'Award ceremony',
-    'gal.g5': 'The jam floor',
-    'gal.g6': 'Building in Unity',
-    'gal.g7': 'A moment from jam night',
-    'gal.g8': 'Presenting a game on stage',
 
     /* --- üyelik --- */
-    'join.eyebrow': '09 — Membership',
+    'join.eyebrow': '07 — Membership',
     'join.head': 'Join the community',
     'join.lead': 'GG Lab grows with what the community makes. Whatever your department, talent or level, hop into our Discord to ask questions, find a team, share what you\'re building, or just say hi. Event and Game Jam announcements land there first. You can follow us on the other channels too.',
     'join.form': 'Application Form',
 
     /* --- iletişim --- */
-    'ct.eyebrow': '08 — Contact',
+    'ct.eyebrow': '06 — Contact',
     'ct.head': 'Get in touch',
     'ct.lead': 'Write to us with your questions, collaboration offers or event ideas.',
     'ct.place': 'Akdeniz University, Konyaaltı / Antalya',

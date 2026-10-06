@@ -195,14 +195,14 @@
 }
 
 /* alt paydaş şeridi
-   Dolgu ve kutu yok: üstte kenarlara doğru eriyen ince çizgi, solda etiket,
-   sağda eşit genişlikte 5 sütun, aralarında kısa ayraçlar. Logolar gri tonda
+   Dolgu ve kutu yok: üstte kenarlara doğru eriyen ince çizgi, üstte ortada etiket,
+   altında eşit genişlikte 5 sütun, aralarında kısa ayraçlar. Logolar gri tonda
    durur (renkli logolar şeridi dağıtıyordu), üzerine gelince rengine döner. */
 .hud-partners{
   --logo-h:clamp(24px,4.6vh,36px);
   position:relative;
-  display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;
-  gap:clamp(18px,3vw,44px);
+  display:grid;grid-template-columns:minmax(0,1fr);align-items:center;
+  gap:clamp(8px,1.4vh,25px);
   margin:16px calc(-1 * clamp(26px,3.4vw,52px)) 0;
   padding:clamp(12px,2vh,22px) clamp(26px,3.4vw,52px);
 }
@@ -211,11 +211,11 @@
   background:linear-gradient(90deg,transparent,var(--hud-line-soft) 16%,var(--hud-line-soft) 84%,transparent);
 }
 .hud-partners-label{
-  display:inline-flex;align-items:center;gap:10px;white-space:nowrap;
+  display:inline-flex;align-items:center;gap:10px;white-space:nowrap;justify-self:center;
   font-family:Oswald,Inter,sans-serif;font-size:.72rem;letter-spacing:.2em;color:var(--muted);
 }
-/* hero eyebrow'undaki turuncu çizgiyle aynı dil */
-.hud-partners-label::before{content:"";width:18px;height:1px;background:var(--accent)}
+/* hero eyebrow'undaki turuncu çizgiyle aynı dil; ortada durduğu için iki yanda */
+.hud-partners-label::before,.hud-partners-label::after{content:"";width:18px;height:1px;background:var(--accent)}
 .hud-partners-list{
   list-style:none;margin:0;padding:0;min-width:0;
   display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:center;
@@ -229,9 +229,9 @@
 .hud-partners .logo-mark{
   display:block;height:calc(var(--logo-h) * var(--k,1));width:auto;max-width:100%;object-fit:contain;
   filter:grayscale(1) brightness(1.7);opacity:.78;
-  transition:filter .3s var(--ease),opacity .3s var(--ease);
+  transition:filter .3s var(--ease),opacity .3s var(--ease),transform .3s var(--ease);
 }
-.hud-partners li:hover .logo-mark{filter:none;opacity:1}
+.hud-partners li:hover .logo-mark{filter:none;opacity:1;transform:scale(1.08)}
 .hud-partners.hero-enter{animation-delay:.3s}
 
 /* ---------------- responsive ---------------- */
@@ -586,6 +586,8 @@
 .portals{
   --p:56px;position:relative;display:flex;justify-content:center;align-items:center;
   gap:clamp(26px,5vw,64px);margin:clamp(40px,8vh,80px) auto 0;padding-bottom:34px;
+  /* bağlantılar tablodan geldiği için sayısı belli değil: sığmazsa alt satıra geçer */
+  flex-wrap:wrap;row-gap:36px;
 }
 .portals::before{content:"";position:absolute;top:calc(var(--p)/2);height:1px;pointer-events:none;left:0;right:0;background:linear-gradient(90deg,transparent,var(--hud-line) 12%,var(--hud-line) 88%,transparent)}
 .portal{
@@ -600,7 +602,7 @@
   content:"";position:absolute;inset:0;border-radius:inherit;opacity:0;transition:opacity .3s;
   background:radial-gradient(circle at 50% 50%,rgba(167,139,250,.55),rgba(255,138,61,.18) 55%,transparent 72%);
 }
-.portal svg{position:relative;width:42%;height:42%}
+.portal svg,.portal img{position:relative;width:42%;height:42%;object-fit:contain}
 .portal-main{--s:1.2;width:calc(var(--p)*1.2);height:calc(var(--p)*1.2);color:var(--text);border-color:rgba(167,139,250,.65);
   border-radius:20px}
 .portal-name{

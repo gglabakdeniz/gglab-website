@@ -291,6 +291,8 @@ img{max-width:100%;display:block}
 .events{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
 .event-card{background:transparent;border:0;border-top:1px solid var(--line);border-radius:0;overflow:visible;
   display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-items:start;padding-top:18px;
+  /* kartlar en uzun karta eşitlenir; artan boşluk satırlara dağılıp başlıkları kaydırmasın */
+  align-content:start;
   transition:transform .3s var(--ease),border-color .3s}
 .event-card:hover{transform:translateY(-4px);border-color:rgba(244,124,32,.45)}
 .event-media{position:relative;aspect-ratio:3/2;overflow:hidden;background:var(--surface-2);border-radius:var(--radius-sm)}
@@ -314,6 +316,8 @@ img{max-width:100%;display:block}
 .shot::after{content:"⤢";position:absolute;inset:auto 10px 10px auto;width:30px;height:30px;display:grid;place-items:center;
   border-radius:8px;background:rgba(10,11,18,.7);opacity:0;transition:opacity .25s}
 .shot:hover::after{opacity:1}
+/* tablo gelmeden önceki boş kutu: tıklanmaz, büyüt simgesi çıkmaz */
+div.shot{cursor:default;pointer-events:none}
 .shot.wide{grid-column:span 2}
 .shot.tall{grid-row:span 2}
 

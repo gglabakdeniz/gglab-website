@@ -28,7 +28,11 @@
   .other-row{display:none;margin-top:10px}
   .other-row.show{display:block}
   .join-form .btn{margin-top:8px}
-  .join-privacy{font-size:.8rem;color:var(--muted);margin-top:14px}
+  .kvkk{font-size:.85rem;color:var(--muted);margin-bottom:14px}
+  .kvkk summary{cursor:pointer;color:var(--text);font-weight:600}
+  .kvkk p{margin:8px 0 0}
+  .consent label{align-items:flex-start}
+  .consent input{margin-top:3px}
   .join-thanks{display:none;max-width:720px;margin:0 auto;text-align:center;background:rgba(29,52,116,.62);border:1px solid var(--line);border-radius:var(--radius);padding:48px 28px}
   .join-thanks.show{display:block}
   .join-form.hide{display:none}
@@ -125,8 +129,25 @@
         <textarea id="jEk" name="entry.1987817685" rows="3"></textarea>
       </div>
 
+      <h2 class="join-section-title">Kişisel verilerin korunması</h2>
+      <!-- KVKK metni taslaktır: yayın öncesi üniversite / hukuk birimine onaylatılmalı -->
+      <details class="kvkk">
+        <summary>KVKK aydınlatma metni</summary>
+        <p><strong>Veri sorumlusu:</strong> Akdeniz Üniversitesi Oyun ve Oyunlaştırma Topluluğu (GG Lab).</p>
+        <p><strong>İşlenen veriler:</strong> ad soyad, TC kimlik numarası, e-posta, telefon, bölüm, öğrenci numarası ve bu formdaki diğer yanıtların.</p>
+        <p><strong>Amaç:</strong> üyelik başvurunun değerlendirilmesi, üye kaydının tutulması ve seninle iletişim kurulması (WhatsApp ve Discord davetleri dahil).</p>
+        <p><strong>Hukuki sebep:</strong> 6698 sayılı KVKK md. 5/1 uyarınca açık rızan.</p>
+        <p><strong>Aktarım:</strong> yanıtlar Google Forms / E-Tablolar (Google LLC) üzerinde, yurt dışındaki sunucularda saklanır; yalnızca topluluk yönetimi erişebilir, üçüncü kişilerle paylaşılmaz.</p>
+        <p><strong>Saklama süresi:</strong> üyeliğin süresince; başvuru kabul edilmezse ya da üyelik sona ererse silinir.</p>
+        <p><strong>Hakların:</strong> KVKK md. 11 kapsamında verilerinin işlenip işlenmediğini öğrenme, düzeltilmesini ya da silinmesini isteme ve rızanı geri çekme hakkın var. Başvuru: <a href="mailto:team@gglabakdeniz.com">team@gglabakdeniz.com</a></p>
+      </details>
+      <div class="field">
+        <div class="choice-group consent">
+          <label><input type="checkbox" id="jKvkk" required> Aydınlatma metnini okudum; kişisel verilerimin yukarıdaki amaçlarla işlenmesine ve yurt dışındaki sunucularda saklanmasına açık rıza veriyorum.</label>
+        </div>
+      </div>
+
       <button class="btn btn-primary btn-block" type="submit">Başvuruyu gönder</button>
-      <p class="join-privacy">Gönderdiğin bilgiler yalnızca GG Lab başvuru değerlendirmesi için kullanılır.</p>
     </form>
 
     <div class="join-thanks" id="joinThanks">
@@ -170,8 +191,10 @@
   });
 
   var submitted = false;
-  form.addEventListener('submit', function(){
-    if(!form.checkValidity()){ return; }
+  /* novalidate tarayıcının gönderimi durdurmasını kapatır; eksik form burada durdurulur
+     (yoksa KVKK onayı dahil zorunlu alanlar boşken Google'a gider) */
+  form.addEventListener('submit', function(e){
+    if(!form.checkValidity()){ e.preventDefault(); form.reportValidity(); return; }
     submitted = true;
   });
   frame.addEventListener('load', function(){

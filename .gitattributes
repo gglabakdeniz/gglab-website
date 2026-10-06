@@ -1,0 +1,2 @@
+# Depoda ve çalışma kopyasında LF; Windows autocrlf uyarılarını keser
+* text=auto eol=lf
