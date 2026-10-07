@@ -22,6 +22,7 @@
   .join-form > .join-section-title:first-child{padding-top:0;border-top:0}
   .join-section-lead{color:var(--muted);font-size:.9rem;margin:0 0 18px}
   .field .hint{display:block;font-size:.78rem;color:var(--muted);margin-top:5px}
+  .req::after{content:" *";color:#ff5a5f;font-weight:700}
   .choice-group{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:6px}
   .choice-group label{display:flex;align-items:center;gap:8px;font-size:.92rem;color:var(--text);cursor:pointer}
   .choice-group input{width:17px;height:17px;accent-color:var(--accent);flex:0 0 auto}
@@ -58,30 +59,30 @@
     <form class="join-form" id="joinForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfEpftE9JDVqMI04wBRz5IhrA6Ta3Fx3TKP5myDxRIIstmIMw/formResponse" method="POST" target="joinHiddenFrame" novalidate>
 
       <h2 class="join-section-title">Kişisel bilgiler</h2>
-      <p class="join-section-lead">Başvurunu değerlendirebilmemiz için gerekli bilgiler.</p>
+      <p class="join-section-lead">Başvurunu değerlendirebilmemiz için gerekli bilgiler. <span class="req"></span> ile işaretli alanlar zorunlu.</p>
 
       <div class="field">
-        <label for="jAd">Ad Soyad</label>
+        <label class="req" for="jAd">Ad Soyad</label>
         <input id="jAd" name="entry.715307404" type="text" required autocomplete="name">
       </div>
       <div class="field">
-        <label for="jEmail">E-posta Adresi</label>
+        <label class="req" for="jEmail">E-posta Adresi</label>
         <input id="jEmail" name="entry.594352403" type="email" required autocomplete="email">
       </div>
       <div class="field">
-        <label for="jTel">Telefon Numarası</label>
+        <label class="req" for="jTel">Telefon Numarası</label>
         <input id="jTel" name="entry.1559231557" type="tel" required autocomplete="tel" placeholder="05xx xxx xx xx">
       </div>
       <div class="field">
-        <label for="jBolum">Bölüm</label>
+        <label class="req" for="jBolum">Bölüm</label>
         <input id="jBolum" name="entry.2093882172" type="text" required>
       </div>
       <div class="field">
-        <label for="jOgrNo">Öğrenci numarası</label>
+        <label class="req" for="jOgrNo">Öğrenci numarası</label>
         <input id="jOgrNo" name="entry.1670716095" type="text" required inputmode="numeric">
       </div>
       <div class="field">
-        <label for="jTc">TC Kimlik</label>
+        <label class="req" for="jTc">TC Kimlik</label>
         <input id="jTc" name="entry.1508233597" type="text" required inputmode="numeric" pattern="[0-9]{11}" maxlength="11" autocomplete="off">
         <span class="hint">11 haneli, sadece rakam.</span>
       </div>
@@ -89,7 +90,7 @@
       <h2 class="join-section-title">Deneyim ve katkı</h2>
 
       <div class="field">
-        <label>Daha önce oyun tasarımı veya oyunlaştırma üzerine bir proje yaptınız mı?</label>
+        <label class="req">Daha önce oyun tasarımı veya oyunlaştırma üzerine bir proje yaptınız mı?</label>
         <div class="choice-group" role="radiogroup" aria-label="Daha önce oyun tasarımı veya oyunlaştırma üzerine bir proje yaptınız mı?">
           <label><input type="radio" name="entry.860246774" value="Evet" required> Evet</label>
           <label><input type="radio" name="entry.860246774" value="Hayır" required> Hayır</label>
@@ -100,7 +101,7 @@
         <textarea id="jDeneyimDetay" name="entry.2092844788" rows="3"></textarea>
       </div>
       <div class="field">
-        <label>Bir oyun geliştirme sürecine dahil olsaydınız, hangi rolü üstlenmek isterdiniz?</label>
+        <label class="req">Bir oyun geliştirme sürecine dahil olsaydınız, hangi rolü üstlenmek isterdiniz?</label>
         <div class="choice-group">
           <label><input type="checkbox" name="entry.1275043880" value="Oyun Tasarımcısı"> Oyun Tasarımcısı</label>
           <label><input type="checkbox" name="entry.1275043880" value="Yazılımcı"> Yazılımcı</label>
@@ -114,8 +115,8 @@
         </div>
       </div>
       <div class="field">
-        <label for="jKatki">Topluluğa nasıl katkıda bulunabileceğinizi düşünüyorsunuz?</label>
-        <textarea id="jKatki" name="entry.1070764940" rows="3"></textarea>
+        <label class="req" for="jKatki">Topluluğa nasıl katkıda bulunabileceğinizi düşünüyorsunuz?</label>
+        <textarea id="jKatki" name="entry.1070764940" rows="3" required></textarea>
       </div>
 
       <h2 class="join-section-title">Ek sorular</h2>
@@ -143,7 +144,7 @@
       </details>
       <div class="field">
         <div class="choice-group consent">
-          <label><input type="checkbox" id="jKvkk" required> Aydınlatma metnini okudum; kişisel verilerimin yukarıdaki amaçlarla işlenmesine ve yurt dışındaki sunucularda saklanmasına açık rıza veriyorum.</label>
+          <label class="req"><input type="checkbox" id="jKvkk" required> Aydınlatma metnini okudum; kişisel verilerimin yukarıdaki amaçlarla işlenmesine ve yurt dışındaki sunucularda saklanmasına açık rıza veriyorum.</label>
         </div>
       </div>
 
@@ -176,8 +177,18 @@
   otherHiddenResponse.type = 'hidden';
   otherHiddenResponse.name = otherCheck.dataset.otherFor + '.other_option_response';
 
+  /* rol sorusu: HTML'de "en az bir kutu" kuralı yok; ilk kutuya hata yazılır, reportValidity onu gösterir */
+  var roleBoxes = form.querySelectorAll('input[name="entry.1275043880"], #jRolDiger');
+  function checkRoles(){
+    var any = Array.prototype.some.call(roleBoxes, function(b){ return b.checked; });
+    roleBoxes[0].setCustomValidity(any ? '' : 'En az bir rol seç.');
+  }
+  Array.prototype.forEach.call(roleBoxes, function(b){ b.addEventListener('change', checkRoles); });
+  checkRoles();
+
   otherCheck.addEventListener('change', function(){
     otherRow.classList.toggle('show', otherCheck.checked);
+    otherInput.required = otherCheck.checked; /* "Diğer" seçildiyse rolü yazmak zorunlu */
     if(otherCheck.checked){
       form.appendChild(otherHiddenName);
       form.appendChild(otherHiddenResponse);
