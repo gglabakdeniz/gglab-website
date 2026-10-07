@@ -97,6 +97,16 @@ body {
 }
 .overlay > * + * { margin-top: calc(var(--u, 1px) * 12); }
 .hidden { display: none !important; }
+/* başlangıç ekranı: 4 grup, boşluk aralarına eşit dağılır */
+#title { justify-content: space-evenly; padding: calc(var(--u, 1px) * 28) calc(var(--u, 1px) * 20); }
+#title > * + * { margin-top: 0; }
+.t-head, .t-info, .t-form { display: flex; flex-direction: column; align-items: center; }
+.t-head .logo-gg { margin-top: calc(var(--u, 1px) * 18); }
+.t-head .logo-inv { margin-top: calc(var(--u, 1px) * 10); }
+.t-info .goal { margin-top: calc(var(--u, 1px) * 14); }
+.t-form .btn { margin-top: calc(var(--u, 1px) * 18); }
+.t-form .best { margin-top: calc(var(--u, 1px) * 20); }
+.t-form .best:empty { display: none; }
 .logo-gg {
   font-family: var(--px); font-size: calc(var(--u, 1px) * 44); line-height: 1; margin: 0; color: var(--orange);
   text-shadow: calc(var(--u, 1px) * 3) calc(var(--u, 1px) * 3) 0 var(--navy), calc(var(--u, 1px) * 6) calc(var(--u, 1px) * 6) 0 #0b0722;
@@ -115,7 +125,15 @@ body {
 .club { font-size: calc(var(--u, 1px) * 20); line-height: 1.15; color: var(--muted); margin: 0; }
 .club b { color: #fff; font-weight: 400; }
 .goal { font-size: calc(var(--u, 1px) * 20); line-height: 1.15; color: var(--lime); margin: 0; }
-.best { font-family: var(--px); font-size: calc(var(--u, 1px) * 8); color: var(--gold); margin: 0; min-height: calc(var(--u, 1px) * 8); }
+.nick-input {
+  font-family: var(--px); font-size: max(16px, calc(var(--u, 1px) * 12)); text-align: center; color: #fff; text-transform: uppercase;
+  width: calc(var(--u, 1px) * 260); max-width: 100%; padding: calc(var(--u, 1px) * 10); border: 0; border-radius: 0; outline: 0;
+  background: var(--panel-deep); box-shadow: 0 0 0 calc(var(--u, 1px) * 3) #3d2a8f;
+}
+.nick-input::placeholder { color: var(--muted); opacity: 0.7; }
+.nick-input:focus { box-shadow: 0 0 0 calc(var(--u, 1px) * 3) var(--cyan); }
+.nick-input.err { box-shadow: 0 0 0 calc(var(--u, 1px) * 3) var(--magenta); }
+.best { font-family: var(--px); font-size: calc(var(--u, 1px) * 10); color: var(--gold); margin: 0; min-height: calc(var(--u, 1px) * 8); }
 .keys { font-size: calc(var(--u, 1px) * 17); line-height: 1.15; color: var(--muted); margin: 0; }
 .touch-only { display: none; }
 .kbd-only { display: inline; }
@@ -148,6 +166,11 @@ html.is-touch .kbd-only { display: none; }
 #btn-mute::after { content: ""; position: absolute; left: 27px; top: 11px; width: 3px; height: 12px; background: var(--cyan); box-shadow: 4px -2px 0 -1px var(--cyan); }
 #btn-mute.off::after { background: var(--magenta); transform: rotate(45deg); box-shadow: none; width: 3px; height: 16px; top: 9px; left: 25px; }
 #btn-mute:focus-visible { outline: 3px solid var(--cyan); }
+#btn-home {
+  flex: none; display: flex; align-items: center; height: 34px; padding: 0 10px; margin-right: 12px; text-decoration: none; touch-action: manipulation;
+  font-family: var(--px); font-size: 9px; color: #fff; background: var(--panel-deep); box-shadow: 0 0 0 2px #3d2a8f;
+}
+#btn-home:focus-visible { outline: 3px solid var(--cyan); }
 @media (max-height: 520px) { #bar-text { display: none; } #bar { padding-bottom: 4px; } #stage { padding-top: 6px; } }
 
 /* ---------- kazanma penceresi ---------- */
@@ -158,7 +181,7 @@ html.is-touch .kbd-only { display: none; }
 #win .flash { position: absolute; left: 0; top: 0; right: 0; bottom: 0; background: #fff; opacity: 0; animation: flash 0.5s ease-out; pointer-events: none; }
 @keyframes flash { 0% { opacity: 0.85; } 100% { opacity: 0; } }
 .win-panel {
-  position: relative; width: 100%; max-width: 360px; background: var(--panel); text-align: center; padding: 22px 18px 20px;
+  position: relative; width: 100%; max-width: 440px; background: var(--panel); text-align: center; padding: 30px 26px 26px;
   box-shadow: 0 -5px 0 0 var(--gold), 0 5px 0 0 var(--gold), -5px 0 0 0 var(--gold), 5px 0 0 0 var(--gold), 0 0 0 10px #0b0722, 0 0 60px 8px rgba(255, 207, 63, 0.25);
   animation: pop 0.5s steps(6) both;
 }
@@ -170,11 +193,14 @@ html.is-touch .kbd-only { display: none; }
 .spark:nth-child(3) { right: 20%; top: 20%; animation-delay: 0.7s; }
 .spark:nth-child(4) { left: 30%; bottom: 10%; animation-delay: 0.5s; }
 @keyframes twinkle { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
-.win-panel h2 { font-family: var(--px); font-size: 18px; line-height: 1.55; margin: 0 0 14px; color: var(--gold); text-shadow: 3px 3px 0 #7a4a00; }
-.win-panel .stat { font-size: 11px; }
-.win-panel p.msg { font-size: 21px; line-height: 1.15; color: #fff; margin: 12px 0 14px; }
-.verify { display: flex; justify-content: space-between; background: var(--panel-deep); padding: 8px 10px; margin-bottom: 16px; font-family: var(--px); font-size: 9px; color: var(--lime); box-shadow: 0 0 0 2px #3d2a8f; }
+.win-panel h2 { font-family: var(--px); font-size: 22px; line-height: 1.55; margin: 0 0 18px; color: var(--gold); text-shadow: 3px 3px 0 #7a4a00; }
+.win-panel .nick { font-family: var(--px); font-size: 16px; color: var(--cyan); margin: 0 0 16px; word-break: break-all; }
+.win-panel .stat { font-size: 16px; line-height: 1.4; letter-spacing: 2px; }
+.win-panel .stat em { display: block; margin-top: 10px; font-size: 36px; letter-spacing: 3px; text-shadow: 3px 3px 0 #7a4a00; }
+.win-panel p.msg { font-size: 24px; line-height: 1.15; color: #fff; margin: 16px 0 18px; }
+.verify { display: flex; justify-content: space-between; background: var(--panel-deep); padding: 10px 12px; margin-bottom: 20px; font-family: var(--px); font-size: 11px; color: var(--lime); box-shadow: 0 0 0 2px #3d2a8f; }
 #win .btn { font-size: 12px; padding: 12px 18px; box-shadow: inset -4px -4px 0 var(--orange-dark), inset 4px 4px 0 var(--orange-light), 0 -3px 0 0 #000, 0 3px 0 0 #000, -3px 0 0 0 #000, 3px 0 0 0 #000; }
+.win-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
 #confetti { position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 30; pointer-events: none; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -192,16 +218,21 @@ html.is-touch .kbd-only { display: none; }
       <canvas id="game" aria-label="GGLAB Invaders oyun alanı"></canvas>
 
       <div id="title" class="overlay">
-        <div class="sprites" id="t-sprites" aria-hidden="true"></div>
-        <div>
+        <div class="t-head">
+          <div class="sprites" id="t-sprites" aria-hidden="true"></div>
           <h1 class="logo-gg">GGLAB</h1>
           <p class="logo-inv">INVADERS</p>
         </div>
-        <p class="club"><b>Akdeniz Üniversitesi</b><br>Oyun ve Oyunlaştırma Topluluğu</p>
-        <p class="goal">2 dalgayı bitir, boss'u yen,<br>ödülü kazan!</p>
-        <button class="btn" id="btn-start" type="button">BAŞLA</button>
-        <p class="best" id="best-title"></p>
-        <p class="keys"><span class="touch-only">Parmağını sağa sola sürükle,<br>gemi otomatik ateş eder.</span><span class="kbd-only">Ok tuşları veya A / D ile hareket, SPACE ile ateş.</span></p>
+        <div class="t-info">
+          <p class="club"><b>Akdeniz Üniversitesi</b><br>Oyun ve Oyunlaştırma Topluluğu</p>
+          <p class="goal">2 dalgayı bitir, boss'u yen,<br>ödülü kazan!</p>
+        </div>
+        <div class="t-form">
+          <input class="nick-input" id="nick" type="text" maxlength="12" placeholder="NICKNAME" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Nickname">
+          <button class="btn" id="btn-start" type="button">BAŞLA</button>
+          <p class="best" id="best-title"></p>
+        </div>
+        <p class="keys"><span class="touch-only">Parmağını sağa sola sürükle,<br>gemi otomatik ateş eder.</span><span class="kbd-only">Ok tuşları veya A / D ile hareket,<br>SPACE ile ateş.</span></p>
       </div>
 
       <div id="gameover" class="overlay hidden">
@@ -214,6 +245,7 @@ html.is-touch .kbd-only { display: none; }
   </div>
 
   <div id="bar">
+    <a id="btn-home" href="./">&#9664; ANA SAYFA</a>
     <p id="bar-text"><span class="kbd-only"><kbd>←</kbd><kbd>→</kbd> veya <kbd>A</kbd><kbd>D</kbd> hareket &nbsp; <kbd>SPACE</kbd> ateş</span><span class="touch-only">Sürükle &middot; otomatik ateş</span></p>
     <button id="btn-mute" type="button" aria-label="Sesi aç veya kapat" aria-pressed="false"></button>
   </div>
@@ -224,10 +256,14 @@ html.is-touch .kbd-only { display: none; }
   <div class="win-panel">
     <div class="trophy" id="win-trophy"><i class="spark"></i><i class="spark"></i><i class="spark"></i><i class="spark"></i></div>
     <h2 id="win-title">TEBRİKLER<br>ÖDÜLÜ KAZANDINIZ!</h2>
+    <p class="nick" id="win-nick"></p>
     <p class="stat">SKOR <em id="win-score">000000</em></p>
     <p class="msg">Ödülünü almak için bu ekranı Oyun ve Oyunlaştırma Topluluğu standındaki ekibe göster.</p>
     <div class="verify"><span id="win-code">GG-0000</span><span id="win-clock">00:00:00</span></div>
-    <button class="btn" id="btn-again" type="button">TEKRAR OYNA</button>
+    <div class="win-actions">
+      <button class="btn" id="btn-png" type="button">PNG İNDİR</button>
+      <button class="btn" id="btn-again" type="button">TEKRAR OYNA</button>
+    </div>
   </div>
 </div>
 <canvas id="confetti"></canvas>
@@ -395,6 +431,8 @@ let touchMode = ROOT.classList.contains('is-touch');   // dokunmatik cihaz: otom
 function setTouchMode(v) { if (v === touchMode) return; touchMode = v; ROOT.classList.toggle('is-touch', v); }
 let bestScore = 0;
 try { bestScore = +localStorage.getItem('gglab-best') || 0; } catch (e) {}
+let nick = '';
+try { nick = localStorage.getItem('gglab-nick') || ''; } catch (e) {}
 
 const stars = Array.from({ length: 70 }, () => ({
   x: rnd(0, W), y: rnd(0, H), s: Math.random() < 0.2 ? 2 : 1, sp: rnd(6, 28), ph: rnd(0, 6),
@@ -1060,6 +1098,11 @@ function frame(now) {
 /* ================= UI / OVERLAYS ================= */
 function startGame() {
   initAudio();
+  const nickEl = $('nick'), n = nickEl.value.trim().toLocaleUpperCase('tr-TR');
+  if (!n) { nickEl.classList.add('err'); nickEl.focus(); return; }
+  nickEl.classList.remove('err'); nickEl.blur();
+  if (n !== nick) { nick = n; try { localStorage.setItem('gglab-nick', nick); } catch (e) {} }
+  $('win-nick').textContent = nick;
   $('title').classList.add('hidden'); $('gameover').classList.add('hidden'); $('win').classList.add('hidden');
   Confetti.stop();
   newGame();
@@ -1078,6 +1121,32 @@ function showWin() {
   $('win').classList.remove('hidden');
   sfx.win();
   Confetti.burst();
+}
+// Kazanma kartını küçük bir PNG olarak çizip indirir (DOM ekran görüntüsü yerine canvas: ek kütüphane yok)
+function exportWinPng() {
+  const w = 400, h = 390, c = document.createElement('canvas'); c.width = w; c.height = h;
+  const x = c.getContext('2d'); x.imageSmoothingEnabled = false; x.textAlign = 'center'; x.textBaseline = 'top';
+  const txt = (s, cx, y, size, col, shadow) => {
+    x.font = size + 'px "Press Start 2P", "Courier New", monospace';
+    if (shadow) { x.fillStyle = shadow; x.fillText(s, cx + 3, y + 3); }
+    x.fillStyle = col; x.fillText(s, cx, y);
+  };
+  x.fillStyle = '#0b0722'; x.fillRect(0, 0, w, h);
+  x.fillStyle = '#ffcf3f'; x.fillRect(10, 10, w - 20, h - 20);
+  x.fillStyle = '#241a5e'; x.fillRect(16, 16, w - 32, h - 32);
+  const t = SP.trophy; x.drawImage(t.c, (w - t.w * 6) / 2, 36, t.w * 6, t.h * 6);
+  txt('TEBRİKLER', w / 2, 124, 18, '#ffcf3f', '#7a4a00');
+  txt('ÖDÜLÜ KAZANDINIZ!', w / 2, 154, 18, '#ffcf3f', '#7a4a00');
+  txt(nick, w / 2, 200, 16, '#4cc9f0');
+  txt('SKOR', w / 2, 234, 14, '#ffffff');
+  txt($('win-score').textContent, w / 2, 260, 36, '#ffcf3f', '#7a4a00');
+  txt('GGLAB INVADERS', w / 2, 336, 10, '#b9b0f0');
+  c.toBlob(b => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(b); a.download = 'gglab-odul-' + (nick || 'oyuncu') + '.png';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  }, 'image/png');
 }
 setInterval(() => {
   const d = new Date(), p = n => String(n).padStart(2, '0');
@@ -1171,6 +1240,7 @@ document.addEventListener('visibilitychange', () => {
 
 /* ================= INPUT WIRING ================= */
 addEventListener('keydown', e => {
+  if (e.target && e.target.tagName === 'INPUT') { if (e.key === 'Enter') startGame(); return; }   // nickname yazılırken oyun tuşları devre dışı
   if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Space'].includes(e.code)) e.preventDefault();
   if (touchMode && e.code && (e.code === 'Space' || e.code === 'KeyA' || e.code === 'KeyD' || e.code.indexOf('Arrow') === 0)) setTouchMode(false);
   keys[e.code] = true;
@@ -1190,7 +1260,7 @@ function mouseTargetX(e) { const r = cv.getBoundingClientRect(); return clamp((e
 appEl.addEventListener('pointerdown', e => {
   if (e.pointerType === 'touch' || e.pointerType === 'pen') setTouchMode(true);
   initAudio();
-  if (e.target && e.target.closest && e.target.closest('button')) return;
+  if (e.target && e.target.closest && e.target.closest('button, a, input')) return;
   if (drag.on) return;
   drag.on = true; drag.id = e.pointerId; drag.sx = e.clientX; drag.abs = e.pointerType === 'mouse';
   drag.base = (G && typeof G.px === 'number') ? G.px : W / 2;
@@ -1215,6 +1285,7 @@ function onTap(el, fn) {
 onTap($('btn-start'), startGame);
 onTap($('btn-retry'), startGame);
 onTap($('btn-again'), startGame);
+onTap($('btn-png'), exportWinPng);
 $('btn-mute').addEventListener('click', () => {
   muted = !muted; applyBgmMute(); $('btn-mute').classList.toggle('off', muted);
   $('btn-mute').setAttribute('aria-pressed', String(muted));
@@ -1248,7 +1319,9 @@ resize();
   const host = $(id);
   [0, 3, 5, 8, 1].forEach(i => { const s = document.createElement('span'); mountIcon(s, SP.enemies[i].a, 3); host.appendChild(s); });
 });
-mountIcon($('win-trophy'), SP.trophy, 6);
+mountIcon($('win-trophy'), SP.trophy, 8);
+$('nick').value = nick; $('win-nick').textContent = nick;
+$('nick').addEventListener('input', e => e.target.classList.remove('err'));
 $('best-title').textContent = bestScore ? 'EN YÜKSEK SKOR ' + String(bestScore).padStart(6, '0') : '';
 
 G = { state: 'title', time: 0 };
