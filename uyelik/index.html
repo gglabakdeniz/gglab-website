@@ -13,6 +13,7 @@
 <link rel="icon" href="../assets/img/logo-yazisiz.png" type="image/png">
 <link rel="apple-touch-icon" href="../assets/img/logo-yazisiz.png">
 <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/hud.css">
 <style>
   .join-header{position:fixed;inset:0 0 auto 0;z-index:100;background:rgba(10,11,18,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
   .join-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px}
@@ -36,7 +37,9 @@
   .consent input{margin-top:3px}
   .join-thanks{display:none;max-width:720px;margin:0 auto;text-align:center;background:rgba(29,52,116,.62);border:1px solid var(--line);border-radius:var(--radius);padding:48px 28px}
   .join-thanks.show{display:block}
+  .join-thanks .portals{margin:36px auto 26px;padding-bottom:34px}
   .join-form.hide{display:none}
+  .btn:disabled{opacity:.6;cursor:not-allowed;filter:grayscale(.3);pointer-events:none}
   @media (max-width:560px){.join-bar{padding:12px 16px}}
 </style>
 </head>
@@ -57,6 +60,8 @@
     <p class="lead" style="margin-bottom:34px">Aşağıdaki formu doldurarak GG Lab (Oyun ve Oyunlaştırma Atölyesi) topluluğuna başvurabilirsin. Yanıtların ekibimize ulaşır, başvurunun ardından WhatsApp ve Discord gruplarına davet edileceksin.</p>
 
     <form class="join-form" id="joinForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfEpftE9JDVqMI04wBRz5IhrA6Ta3Fx3TKP5myDxRIIstmIMw/formResponse" method="POST" target="joinHiddenFrame" novalidate>
+      <input type="hidden" name="fvv" value="1">
+      <input type="hidden" name="pageHistory" value="0,1,2">
 
       <h2 class="join-section-title">Kişisel bilgiler</h2>
       <p class="join-section-lead">Başvurunu değerlendirebilmemiz için gerekli bilgiler. <span class="req"></span> ile işaretli alanlar zorunlu.</p>
@@ -90,10 +95,10 @@
       <h2 class="join-section-title">Deneyim ve katkı</h2>
 
       <div class="field">
-        <label class="req">Daha önce oyun tasarımı veya oyunlaştırma üzerine bir proje yaptınız mı?</label>
+        <label>Daha önce oyun tasarımı veya oyunlaştırma üzerine bir proje yaptınız mı?</label>
         <div class="choice-group" role="radiogroup" aria-label="Daha önce oyun tasarımı veya oyunlaştırma üzerine bir proje yaptınız mı?">
-          <label><input type="radio" name="entry.860246774" value="Evet" required> Evet</label>
-          <label><input type="radio" name="entry.860246774" value="Hayır" required> Hayır</label>
+          <label><input type="radio" name="entry.860246774" value="Evet"> Evet</label>
+          <label><input type="radio" name="entry.860246774" value="Hayır"> Hayır</label>
         </div>
       </div>
       <div class="field">
@@ -101,7 +106,7 @@
         <textarea id="jDeneyimDetay" name="entry.2092844788" rows="3"></textarea>
       </div>
       <div class="field">
-        <label class="req">Bir oyun geliştirme sürecine dahil olsaydınız, hangi rolü üstlenmek isterdiniz?</label>
+        <label>Bir oyun geliştirme sürecine dahil olsaydınız, hangi rolü üstlenmek isterdiniz?</label>
         <div class="choice-group">
           <label><input type="checkbox" name="entry.1275043880" value="Oyun Tasarımcısı"> Oyun Tasarımcısı</label>
           <label><input type="checkbox" name="entry.1275043880" value="Yazılımcı"> Yazılımcı</label>
@@ -115,8 +120,8 @@
         </div>
       </div>
       <div class="field">
-        <label class="req" for="jKatki">Topluluğa nasıl katkıda bulunabileceğinizi düşünüyorsunuz?</label>
-        <textarea id="jKatki" name="entry.1070764940" rows="3" required></textarea>
+        <label for="jKatki">Topluluğa nasıl katkıda bulunabileceğinizi düşünüyorsunuz?</label>
+        <textarea id="jKatki" name="entry.1070764940" rows="3"></textarea>
       </div>
 
       <h2 class="join-section-title">Ek sorular</h2>
@@ -152,9 +157,21 @@
     </form>
 
     <div class="join-thanks" id="joinThanks">
-      <h2 style="font-size:1.6rem">Başvurun alındı 🎮</h2>
-      <p class="muted">İlgilendiğin için teşekkürler! Ekibimiz başvurunu inceleyecek; WhatsApp ve Discord gruplarına davet kısa süre içinde gelecek.</p>
-      <a class="btn btn-primary" href="../index.html">Ana sayfaya dön</a>
+      <h2 style="font-size:1.75rem;margin-bottom:10px">Başvurun alındı 🎮</h2>
+      <p class="muted" style="max-width:54ch;margin:0 auto 20px;line-height:1.6">İlgilendiğin için teşekkürler! Ekibimiz başvurunu inceleyecek. Aramıza katılmak, ekiple tanışmak ve duyuruları kaçırmamak için topluluk kanallarımıza katılabilirsin:</p>
+
+      <nav class="portals" aria-label="Sosyal medya ve topluluk kanalları">
+        <a class="portal" href="https://www.instagram.com/gglabakdeniz/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram"><img src="../assets/img/icons/instagram.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">Instagram</span></a>
+        <a class="portal" href="https://www.youtube.com/@GGLabAkdeniz" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"><img src="../assets/img/icons/youtube.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">YouTube</span></a>
+        <a class="portal" href="https://discord.gg/9GABbAK2rw" target="_blank" rel="noopener noreferrer" aria-label="Discord" title="Discord"><img src="../assets/img/icons/discord.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">Discord</span></a>
+        <a class="portal" href="https://chat.whatsapp.com/H4brK4kgpm51uYVX11FQht" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp"><img src="../assets/img/icons/whatsapp.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">WhatsApp</span></a>
+        <a class="portal" href="https://x.com/gglabakdeniz" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter" title="X / Twitter"><img src="../assets/img/icons/x.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">X / Twitter</span></a>
+        <a class="portal" href="https://www.linkedin.com/company/gglab-oyun-ve-oyunlastirma-toplulugu/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><img src="../assets/img/icons/linkedin.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">LinkedIn</span></a>
+      </nav>
+
+      <div style="margin-top:36px">
+        <a class="btn btn-primary" href="../index.html">Ana sayfaya dön</a>
+      </div>
     </div>
 
     <iframe name="joinHiddenFrame" id="joinHiddenFrame" style="display:none" title="form-submit-target"></iframe>
@@ -166,6 +183,11 @@
   var form = document.getElementById('joinForm');
   var frame = document.getElementById('joinHiddenFrame');
   var thanks = document.getElementById('joinThanks');
+  var submitBtn = form.querySelector('button[type="submit"]');
+  var originalBtnText = submitBtn ? submitBtn.textContent : 'Başvuruyu gönder';
+  var countdownTimer = null;
+  var isSubmitting = false;
+
   var otherCheck = document.getElementById('jRolDiger');
   var otherRow = document.getElementById('jRolDigerRow');
   var otherInput = document.getElementById('jRolDigerInput');
@@ -176,15 +198,6 @@
   var otherHiddenResponse = document.createElement('input');
   otherHiddenResponse.type = 'hidden';
   otherHiddenResponse.name = otherCheck.dataset.otherFor + '.other_option_response';
-
-  /* rol sorusu: HTML'de "en az bir kutu" kuralı yok; ilk kutuya hata yazılır, reportValidity onu gösterir */
-  var roleBoxes = form.querySelectorAll('input[name="entry.1275043880"], #jRolDiger');
-  function checkRoles(){
-    var any = Array.prototype.some.call(roleBoxes, function(b){ return b.checked; });
-    roleBoxes[0].setCustomValidity(any ? '' : 'En az bir rol seç.');
-  }
-  Array.prototype.forEach.call(roleBoxes, function(b){ b.addEventListener('change', checkRoles); });
-  checkRoles();
 
   otherCheck.addEventListener('change', function(){
     otherRow.classList.toggle('show', otherCheck.checked);
@@ -202,14 +215,49 @@
   });
 
   var submitted = false;
-  /* novalidate tarayıcının gönderimi durdurmasını kapatır; eksik form burada durdurulur
-     (yoksa KVKK onayı dahil zorunlu alanlar boşken Google'a gider) */
+  /* novalidate tarayıcının gönderimi durdurmasını kapatır; eksik form burada durdurulur */
   form.addEventListener('submit', function(e){
-    if(!form.checkValidity()){ e.preventDefault(); form.reportValidity(); return; }
+    // Zorunlu alanlar doldurulmamışsa gönderimi engelle ve kullanıcıya göster
+    if(!form.checkValidity()){
+      e.preventDefault();
+      form.reportValidity();
+      return;
+    }
+
+    // Zaten gönderiliyorsa veya buton devre dışıysa tekrar gönderilmesini (spam) engelle
+    if(isSubmitting || (submitBtn && submitBtn.disabled)){
+      e.preventDefault();
+      return;
+    }
+
+    isSubmitting = true;
     submitted = true;
+
+    // Gönderim başladığında butonu anında tıklanamaz hale getir ve 10 saniyelik sayaç başlat
+    if(submitBtn){
+      setTimeout(function(){
+        submitBtn.disabled = true;
+      }, 0);
+
+      var secondsLeft = 10;
+      submitBtn.textContent = 'Gönderiliyor... (' + secondsLeft + 's)';
+      countdownTimer = setInterval(function(){
+        secondsLeft--;
+        if(secondsLeft > 0){
+          submitBtn.textContent = 'Lütfen bekleyin (' + secondsLeft + 's)';
+        } else {
+          clearInterval(countdownTimer);
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalBtnText;
+          isSubmitting = false;
+        }
+      }, 1000);
+    }
   });
+
   frame.addEventListener('load', function(){
     if(submitted){
+      if(countdownTimer) clearInterval(countdownTimer);
       form.classList.add('hide');
       thanks.classList.add('show');
       window.scrollTo({top:0,behavior:'smooth'});

@@ -25,6 +25,14 @@ npx stylelint@16 "css/*.css"
 - `index.html` — tek sayfa, tüm bölümler
 - `404.html` — GitHub Pages'in eksik adreslerde gösterdiği sayfa
 - `uyelik/index.html` — başvuru formu (Google Form'a `formResponse` ile post eder)
+
+## Üyelik Başvuru Formu (`uyelik/index.html`)
+
+Form verileri doğrudan Google Form'un `/formResponse` uç noktasına gizli bir `<iframe>` üzerinden `POST` edilir.
+
+- **Çok Sayfalı Form Yanıtları (`pageHistory`):** Google Form 3 bölümden (sayfadan) oluştuğu için form içerisinde `<input type="hidden" name="pageHistory" value="0,1,2">` ve `<input type="hidden" name="fvv" value="1">` yer alır. Bu gizli alanlar olmadan gönderilen verilerde Google Forms yalnızca ilk bölümü (TC Kimliğe kadar olan alanları) kaydeder.
+- **Spam Engeli:** Form geçerli bir şekilde doldurulup gönderildiğinde "Başvuruyu gönder" butonu 10 saniyeliğine tıklanamaz hale getirilir ve buton üzerinde geri sayım gösterilir.
+- **Alan Zorunlulukları:** Kişisel bilgiler (Ad Soyad, E-posta, Telefon, Bölüm, Öğrenci no, TC Kimlik) ve KVKK onayı zorunludur. Deneyim, rol seçimi ve katkı soruları opsiyoneldir.
 - `css/style.css` — tema ve responsive kurallar
 - `css/hud.css` — header + hero'nun HUD tarzı katmanı
 - `js/main.js` — menü, scroll reveal, galeri lightbox, yaklaşan etkinlikler, form doğrulama
@@ -115,7 +123,7 @@ sosyal,YouTube,https://www.youtube.com/@GGLabAkdeniz,assets/img/icons/youtube.sv
   `baslik` ve `link` (http/https) zorunlu; geçerli `sosyal` satırı yoksa HTML'deki liste kalır.
 - `ikon` yalnızca repodaki bir dosya olabilir (`assets/…`, `.svg/.webp/.png`); Drive linki kabul
   edilmez. Boşsa ya da geçersizse genel bağlantı ikonu (`assets/img/icons/link.svg`) çıkar.
-  Hazır ikonlar `assets/img/icons/` altında: instagram, youtube, discord, x, linkedin, link.
+  Hazır ikonlar `assets/img/icons/` altında: instagram, youtube, discord, whatsapp, x, linkedin, link.
   Yeni ikon: açık renkli (`#eef2ff`) tek renk SVG, 24×24 viewBox.
 - "Başvuru Formu" düğmesi tablodan gelmez, HTML'de sabit.
 
