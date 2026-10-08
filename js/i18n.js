@@ -86,8 +86,8 @@
     'up.errH': 'The calendar could not be loaded right now.',
     'up.dateSoon': 'Exact date soon',
 
-    'vision.eyebrow': '02 — Vision &amp; Mission',
-    'vision.head': 'Vision &amp; Mission',
+    'vision.eyebrow': '03 — OUR FOCUS',
+    'vision.head': 'Why Are We Here?',
     'vision.v': 'Our Vision',
     'vision.vp': 'To turn Akdeniz University into a place where students do not only play games but design, develop and apply them across different fields. To become an internationally visible community contributing to Türkiye\'s game development ecosystem through student projects.',
     'vision.m': 'Our Mission',
