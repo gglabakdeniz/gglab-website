@@ -4,16 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10214d">
-<!-- GitHub Pages bu sayfayı her eksik adreste sunar (/gglab-web/a/b/c gibi).
-     Göreli yollar sitenin köküne göre çözülsün diye <base> burada, tüm bağlantılardan önce eklenir:
-     proje sayfasında /gglab-web/, özel alan adı bağlanınca /. -->
-<script>
-  (function () {
-    var base = document.createElement('base');
-    base.href = /^\/gglab-web(\/|$)/.test(location.pathname) ? '/gglab-web/' : '/';
-    document.head.appendChild(base);
-  })();
-</script>
+<!-- Cloudflare Pages bu sayfayı her eksik adreste sunar (/a/b/c gibi).
+     Göreli yollar sitenin köküne göre çözülsün diye <base>, tüm bağlantılardan önce. -->
+<base href="/">
 <title>Sayfa bulunamadı — GG Lab</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="assets/img/logo-yazisiz.png" type="image/png">

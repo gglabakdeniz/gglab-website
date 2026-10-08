@@ -1,9 +1,28 @@
 # GG Lab — taslak web sitesi
 
 Akdeniz Üniversitesi Oyun ve Oyunlaştırma Topluluğu (Games & Gamification Lab) tanıtım sitesi.
-Bağımlılık yok: düz HTML + CSS + JS, build adımı yok.
+Bağımlılık yok: düz HTML + CSS + JS, derleme yok.
 
-Canlı: **https://nehirra.github.io/gglab-web/** (GitHub Pages, `main` dalına her push'ta yeniden yayınlanır)
+Canlı: **https://gglabakdeniz.com/** (Cloudflare Pages, `main` dalına her push'ta yeniden yayınlanır)
+
+## Yayın (Cloudflare Pages)
+
+Proje `gglab-website`, GitHub reposuna bağlı. `main` = canlı site, diğer dallar önizleme adresi alır.
+Cloudflare panelinde Workers & Pages → gglab-website → Settings → Build ayarları:
+
+| Ayar | Değer |
+| --- | --- |
+| Framework preset | None |
+| Build command | `mkdir -p dist && cp -r index.html 404.html oyun.html uyelik css js assets dist/` |
+| Build output directory | `dist` |
+
+Build komutu yalnızca siteye ait dosyaları `dist/`'e kopyalar; `README.md` ve `content/` yayına çıkmaz.
+**Kök dizine yeni bir sayfa ya da klasör eklenirse bu komuta da eklenmeli**, yoksa sitede görünmez.
+
+- Pages adreslerden `.html`'yi atar: `/oyun.html` → `/oyun` (308 yönlendirme).
+- `www.gglabakdeniz.com` → `gglabakdeniz.com` yönlendirmesi Cloudflare'de Rules → Redirect Rules'ta.
+- DNS Cloudflare'de (alan adı kaydı Squarespace'te). E-posta Google Workspace: MX, SPF ve
+  `google._domainkey` (DKIM) kayıtları silinmemeli.
 
 ## Çalıştırma
 
@@ -23,7 +42,7 @@ npx stylelint@16 "css/*.css"
 ## Dosyalar
 
 - `index.html` — tek sayfa, tüm bölümler
-- `404.html` — GitHub Pages'in eksik adreslerde gösterdiği sayfa
+- `404.html` — Cloudflare Pages'in eksik adreslerde gösterdiği sayfa
 - `uyelik/index.html` — başvuru formu (Google Form'a `formResponse` ile post eder)
 
 ## Üyelik Başvuru Formu (`uyelik/index.html`)
