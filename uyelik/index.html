@@ -1,269 +1,474 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#10214d">
-<title>Üyelik Başvuru Formu — GG Lab</title>
-<meta name="description" content="GG Lab (Oyun ve Oyunlaştırma Atölyesi) topluluğuna katılmak için üyelik başvuru formu.">
-<meta name="robots" content="noindex">
-<meta property="og:title" content="Üyelik Başvuru Formu — GG Lab">
-<meta property="og:description" content="GG Lab topluluğuna katılmak için üyelik başvuru formu.">
-<meta property="og:type" content="website">
-<link rel="icon" href="../assets/img/logo-yazisiz.png" type="image/png">
-<link rel="apple-touch-icon" href="../assets/img/logo-yazisiz.png">
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="../css/hud.css">
-<style>
-  .join-header{position:fixed;inset:0 0 auto 0;z-index:100;background:rgba(10,11,18,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-  .join-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px}
-  .join-main{padding:128px 0 90px}
-  .join-form{background:rgba(29,52,116,.62);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(20px,3.4vw,34px);max-width:720px;margin:0 auto}
-  .join-section-title{font-family:"Space Grotesk",Inter,sans-serif;font-size:1.05rem;font-weight:700;margin:0 0 4px;padding-top:22px;border-top:1px solid var(--line)}
-  .join-form > .join-section-title:first-child{padding-top:0;border-top:0}
-  .join-section-lead{color:var(--muted);font-size:.9rem;margin:0 0 18px}
-  .field .hint{display:block;font-size:.78rem;color:var(--muted);margin-top:5px}
-  .req::after{content:" *";color:#ff5a5f;font-weight:700}
-  .choice-group{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:6px}
-  .choice-group label{display:flex;align-items:center;gap:8px;font-size:.92rem;color:var(--text);cursor:pointer}
-  .choice-group input{width:17px;height:17px;accent-color:var(--accent);flex:0 0 auto}
-  .other-row{display:none;margin-top:10px}
-  .other-row.show{display:block}
-  .join-form .btn{margin-top:8px}
-  .kvkk{font-size:.85rem;color:var(--muted);margin-bottom:14px}
-  .kvkk summary{cursor:pointer;color:var(--text);font-weight:600}
-  .kvkk p{margin:8px 0 0}
-  .consent label{align-items:flex-start}
-  .consent input{margin-top:3px}
-  .join-thanks{display:none;max-width:720px;margin:0 auto;text-align:center;background:rgba(29,52,116,.62);border:1px solid var(--line);border-radius:var(--radius);padding:48px 28px}
-  .join-thanks.show{display:block}
-  .join-thanks .portals{margin:36px auto 26px;padding-bottom:34px}
-  .join-form.hide{display:none}
-  .btn:disabled{opacity:.6;cursor:not-allowed;filter:grayscale(.3);pointer-events:none}
-  @media (max-width:560px){.join-bar{padding:12px 16px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10214d">
+  <title>Üyelik Başvuru Formu — GG Lab</title>
+  <meta name="description"
+    content="GG Lab (Oyun ve Oyunlaştırma Atölyesi) topluluğuna katılmak için üyelik başvuru formu.">
+  <meta name="robots" content="noindex">
+  <meta property="og:title" content="Üyelik Başvuru Formu — GG Lab">
+  <meta property="og:description" content="GG Lab topluluğuna katılmak için üyelik başvuru formu.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="../assets/img/logo-yazisiz.png" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/logo-yazisiz.png">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/hud.css">
+  <style>
+    .join-header {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 100;
+      background: rgba(10, 11, 18, .82);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line)
+    }
+
+    .join-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px
+    }
+
+    .join-main {
+      padding: 128px 0 90px
+    }
+
+    .join-form {
+      background: rgba(29, 52, 116, .62);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: clamp(20px, 3.4vw, 34px);
+      max-width: 720px;
+      margin: 0 auto
+    }
+
+    .join-section-title {
+      font-family: "Space Grotesk", Inter, sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 0 0 4px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line)
+    }
+
+    .join-form>.join-section-title:first-child {
+      padding-top: 0;
+      border-top: 0
+    }
+
+    .join-section-lead {
+      color: var(--muted);
+      font-size: .9rem;
+      margin: 0 0 18px
+    }
+
+    .field .hint {
+      display: block;
+      font-size: .78rem;
+      color: var(--muted);
+      margin-top: 5px
+    }
+
+    .req::after {
+      content: " *";
+      color: #ff5a5f;
+      font-weight: 700
+    }
+
+    .choice-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin-top: 6px
+    }
+
+    .choice-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .92rem;
+      color: var(--text);
+      cursor: pointer
+    }
+
+    .choice-group input {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--accent);
+      flex: 0 0 auto
+    }
+
+    .other-row {
+      display: none;
+      margin-top: 10px
+    }
+
+    .other-row.show {
+      display: block
+    }
+
+    .join-form .btn {
+      margin-top: 8px
+    }
+
+    .kvkk {
+      font-size: .85rem;
+      color: var(--muted);
+      margin-bottom: 14px
+    }
+
+    .kvkk summary {
+      cursor: pointer;
+      color: var(--text);
+      font-weight: 600
+    }
+
+    .kvkk p {
+      margin: 8px 0 0
+    }
+
+    .consent label {
+      align-items: flex-start
+    }
+
+    .consent input {
+      margin-top: 3px
+    }
+
+    .join-thanks {
+      display: none;
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+      background: rgba(29, 52, 116, .62);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 48px 28px
+    }
+
+    .join-thanks.show {
+      display: block
+    }
+
+    .join-thanks .portals {
+      margin: 36px auto 26px;
+      padding-bottom: 34px
+    }
+
+    .join-form.hide {
+      display: none
+    }
+
+    .btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      filter: grayscale(.3);
+      pointer-events: none
+    }
+
+    @media (max-width:560px) {
+      .join-bar {
+        padding: 12px 16px
+      }
+    }
+  </style>
 </head>
+
 <body>
-<a class="skip-link" href="#main">İçeriğe geç</a>
+  <a class="skip-link" href="#main">İçeriğe geç</a>
 
-<header class="join-header">
-  <div class="container join-bar">
-    <a class="brand" href="../index.html"><img src="../assets/img/logo-yazili-68.webp" alt="" width="34" height="34"><span class="brand-text">GG<span class="accent">Lab</span></span></a>
-    <a class="muted" href="../index.html#uyelik" style="font-size:.9rem">&larr; Ana sayfaya dön</a>
-  </div>
-</header>
-
-<main id="main" class="join-main">
-  <div class="container">
-    <p class="eyebrow">Üyelik</p>
-    <h1 style="font-size:clamp(2rem,5vw,2.8rem)">Topluluğa katıl</h1>
-    <p class="lead" style="margin-bottom:34px">Aşağıdaki formu doldurarak GG Lab (Oyun ve Oyunlaştırma Atölyesi) topluluğuna başvurabilirsin. Yanıtların ekibimize ulaşır, başvurunun ardından WhatsApp ve Discord gruplarına davet edileceksin.</p>
-
-    <form class="join-form" id="joinForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfEpftE9JDVqMI04wBRz5IhrA6Ta3Fx3TKP5myDxRIIstmIMw/formResponse" method="POST" target="joinHiddenFrame" novalidate>
-      <input type="hidden" name="fvv" value="1">
-      <input type="hidden" name="pageHistory" value="0,1,2">
-
-      <h2 class="join-section-title">Kişisel bilgiler</h2>
-      <p class="join-section-lead">Başvurunu değerlendirebilmemiz için gerekli bilgiler. <span class="req"></span> ile işaretli alanlar zorunlu.</p>
-
-      <div class="field">
-        <label class="req" for="jAd">Ad Soyad</label>
-        <input id="jAd" name="entry.715307404" type="text" required autocomplete="name">
-      </div>
-      <div class="field">
-        <label class="req" for="jEmail">E-posta Adresi</label>
-        <input id="jEmail" name="entry.594352403" type="email" required autocomplete="email">
-      </div>
-      <div class="field">
-        <label class="req" for="jTel">Telefon Numarası</label>
-        <input id="jTel" name="entry.1559231557" type="tel" required autocomplete="tel" placeholder="05xx xxx xx xx">
-      </div>
-      <div class="field">
-        <label class="req" for="jBolum">Bölüm</label>
-        <input id="jBolum" name="entry.2093882172" type="text" required>
-      </div>
-      <div class="field">
-        <label class="req" for="jOgrNo">Öğrenci numarası</label>
-        <input id="jOgrNo" name="entry.1670716095" type="text" required inputmode="numeric">
-      </div>
-      <div class="field">
-        <label class="req" for="jTc">TC Kimlik</label>
-        <input id="jTc" name="entry.1508233597" type="text" required inputmode="numeric" pattern="[0-9]{11}" maxlength="11" autocomplete="off">
-        <span class="hint">11 haneli, sadece rakam.</span>
-      </div>
-
-      <h2 class="join-section-title">Deneyim ve katkı</h2>
-
-      <div class="field">
-        <label>Daha önce oyun tasarımı veya oyunlaştırma üzerine bir proje yaptınız mı?</label>
-        <div class="choice-group" role="radiogroup" aria-label="Daha önce oyun tasarımı veya oyunlaştırma üzerine bir proje yaptınız mı?">
-          <label><input type="radio" name="entry.860246774" value="Evet"> Evet</label>
-          <label><input type="radio" name="entry.860246774" value="Hayır"> Hayır</label>
-        </div>
-      </div>
-      <div class="field">
-        <label for="jDeneyimDetay">Cevabın evet ise, detaylandırmak ister misiniz?</label>
-        <textarea id="jDeneyimDetay" name="entry.2092844788" rows="3"></textarea>
-      </div>
-      <div class="field">
-        <label>Bir oyun geliştirme sürecine dahil olsaydınız, hangi rolü üstlenmek isterdiniz?</label>
-        <div class="choice-group">
-          <label><input type="checkbox" name="entry.1275043880" value="Oyun Tasarımcısı"> Oyun Tasarımcısı</label>
-          <label><input type="checkbox" name="entry.1275043880" value="Yazılımcı"> Yazılımcı</label>
-          <label><input type="checkbox" name="entry.1275043880" value="Grafik Sanatçısı"> Grafik Sanatçısı</label>
-          <label><input type="checkbox" name="entry.1275043880" value="Hikâye Yazarı"> Hikâye Yazarı</label>
-          <label><input type="checkbox" name="entry.1275043880" value="Test Uzmanı"> Test Uzmanı</label>
-          <label><input type="checkbox" id="jRolDiger" value="__other_option__" data-other-for="entry.1275043880"> Diğer</label>
-        </div>
-        <div class="other-row" id="jRolDigerRow">
-          <input type="text" id="jRolDigerInput" placeholder="Diğer rol...">
-        </div>
-      </div>
-      <div class="field">
-        <label for="jKatki">Topluluğa nasıl katkıda bulunabileceğinizi düşünüyorsunuz?</label>
-        <textarea id="jKatki" name="entry.1070764940" rows="3"></textarea>
-      </div>
-
-      <h2 class="join-section-title">Ek sorular</h2>
-
-      <div class="field">
-        <label for="jBeklenti">GGLab'den beklentileriniz nelerdir?</label>
-        <textarea id="jBeklenti" name="entry.970005994" rows="3"></textarea>
-      </div>
-      <div class="field">
-        <label for="jEk">Eklemek veya paylaşmak istediğiniz başka bir şey var mı?</label>
-        <textarea id="jEk" name="entry.1987817685" rows="3"></textarea>
-      </div>
-
-      <h2 class="join-section-title">Kişisel verilerin korunması</h2>
-      <!-- KVKK metni taslaktır: yayın öncesi üniversite / hukuk birimine onaylatılmalı -->
-      <details class="kvkk">
-        <summary>KVKK aydınlatma metni</summary>
-        <p><strong>Veri sorumlusu:</strong> Akdeniz Üniversitesi Oyun ve Oyunlaştırma Topluluğu (GG Lab).</p>
-        <p><strong>İşlenen veriler:</strong> ad soyad, TC kimlik numarası, e-posta, telefon, bölüm, öğrenci numarası ve bu formdaki diğer yanıtların.</p>
-        <p><strong>Amaç:</strong> üyelik başvurunun değerlendirilmesi, üye kaydının tutulması ve seninle iletişim kurulması (WhatsApp ve Discord davetleri dahil).</p>
-        <p><strong>Hukuki sebep:</strong> 6698 sayılı KVKK md. 5/1 uyarınca açık rızan.</p>
-        <p><strong>Aktarım:</strong> yanıtlar Google Forms / E-Tablolar (Google LLC) üzerinde, yurt dışındaki sunucularda saklanır; yalnızca topluluk yönetimi erişebilir, üçüncü kişilerle paylaşılmaz.</p>
-        <p><strong>Saklama süresi:</strong> üyeliğin süresince; başvuru kabul edilmezse ya da üyelik sona ererse silinir.</p>
-        <p><strong>Hakların:</strong> KVKK md. 11 kapsamında verilerinin işlenip işlenmediğini öğrenme, düzeltilmesini ya da silinmesini isteme ve rızanı geri çekme hakkın var. Başvuru: <a href="mailto:team@gglabakdeniz.com">team@gglabakdeniz.com</a></p>
-      </details>
-      <div class="field">
-        <div class="choice-group consent">
-          <label class="req"><input type="checkbox" id="jKvkk" required> Aydınlatma metnini okudum; kişisel verilerimin yukarıdaki amaçlarla işlenmesine ve yurt dışındaki sunucularda saklanmasına açık rıza veriyorum.</label>
-        </div>
-      </div>
-
-      <button class="btn btn-primary btn-block" type="submit">Başvuruyu gönder</button>
-    </form>
-
-    <div class="join-thanks" id="joinThanks">
-      <h2 style="font-size:1.75rem;margin-bottom:10px">Başvurun alındı 🎮</h2>
-      <p class="muted" style="max-width:54ch;margin:0 auto 20px;line-height:1.6">İlgilendiğin için teşekkürler! Ekibimiz başvurunu inceleyecek. Aramıza katılmak, ekiple tanışmak ve duyuruları kaçırmamak için topluluk kanallarımıza katılabilirsin:</p>
-
-      <nav class="portals" aria-label="Sosyal medya ve topluluk kanalları">
-        <a class="portal" href="https://www.instagram.com/gglabakdeniz/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram"><img src="../assets/img/icons/instagram.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">Instagram</span></a>
-        <a class="portal" href="https://www.youtube.com/@GGLabAkdeniz" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"><img src="../assets/img/icons/youtube.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">YouTube</span></a>
-        <a class="portal" href="https://discord.gg/9GABbAK2rw" target="_blank" rel="noopener noreferrer" aria-label="Discord" title="Discord"><img src="../assets/img/icons/discord.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">Discord</span></a>
-        <a class="portal" href="https://chat.whatsapp.com/H4brK4kgpm51uYVX11FQht" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp"><img src="../assets/img/icons/whatsapp.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">WhatsApp</span></a>
-        <a class="portal" href="https://x.com/gglabakdeniz" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter" title="X / Twitter"><img src="../assets/img/icons/x.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">X / Twitter</span></a>
-        <a class="portal" href="https://www.linkedin.com/company/gglab-oyun-ve-oyunlastirma-toplulugu/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><img src="../assets/img/icons/linkedin.svg" alt="" width="24" height="24"><span class="portal-name" lang="en">LinkedIn</span></a>
-      </nav>
-
-      <div style="margin-top:36px">
-        <a class="btn btn-primary" href="../index.html">Ana sayfaya dön</a>
-      </div>
+  <header class="join-header">
+    <div class="container join-bar">
+      <a class="brand" href="../index.html"><img src="../assets/img/logo-yazili-68.webp" alt="" width="34"
+          height="34"><span class="brand-text">GG<span class="accent">Lab</span></span></a>
+      <a class="muted" href="../index.html#uyelik" style="font-size:.9rem">&larr; Ana sayfaya dön</a>
     </div>
+  </header>
 
-    <iframe name="joinHiddenFrame" id="joinHiddenFrame" style="display:none" title="form-submit-target"></iframe>
-  </div>
-</main>
+  <main id="main" class="join-main">
+    <div class="container">
+      <p class="eyebrow">Üyelik</p>
+      <h1 style="font-size:clamp(2rem,5vw,2.8rem)">Topluluğa katıl</h1>
+      <p class="lead" style="margin-bottom:34px">Aşağıdaki formu doldurarak GG Lab (Oyun ve Oyunlaştırma Atölyesi)
+        topluluğuna başvurabilirsin. Yanıtların ekibimize ulaşır, başvurunun ardından WhatsApp ve Discord gruplarına
+        davet edileceksin.</p>
 
-<script>
-(function(){
-  var form = document.getElementById('joinForm');
-  var frame = document.getElementById('joinHiddenFrame');
-  var thanks = document.getElementById('joinThanks');
-  var submitBtn = form.querySelector('button[type="submit"]');
-  var originalBtnText = submitBtn ? submitBtn.textContent : 'Başvuruyu gönder';
-  var countdownTimer = null;
-  var isSubmitting = false;
+      <form class="join-form" id="joinForm"
+        action="https://docs.google.com/forms/d/e/1FAIpQLSfEpftE9JDVqMI04wBRz5IhrA6Ta3Fx3TKP5myDxRIIstmIMw/formResponse"
+        method="POST" target="joinHiddenFrame" novalidate>
+        <input type="hidden" name="fvv" value="1">
+        <input type="hidden" name="pageHistory" value="0,1,2">
 
-  var otherCheck = document.getElementById('jRolDiger');
-  var otherRow = document.getElementById('jRolDigerRow');
-  var otherInput = document.getElementById('jRolDigerInput');
-  var otherHiddenName = document.createElement('input');
-  otherHiddenName.type = 'hidden';
-  otherHiddenName.name = otherCheck.dataset.otherFor;
-  otherHiddenName.value = '__other_option__';
-  var otherHiddenResponse = document.createElement('input');
-  otherHiddenResponse.type = 'hidden';
-  otherHiddenResponse.name = otherCheck.dataset.otherFor + '.other_option_response';
+        <h2 class="join-section-title">Kişisel bilgiler</h2>
+        <p class="join-section-lead">Başvurunu değerlendirebilmemiz için gerekli bilgiler. <span class="req"></span> ile
+          işaretli alanlar zorunlu.</p>
 
-  otherCheck.addEventListener('change', function(){
-    otherRow.classList.toggle('show', otherCheck.checked);
-    otherInput.required = otherCheck.checked; /* "Diğer" seçildiyse rolü yazmak zorunlu */
-    if(otherCheck.checked){
-      form.appendChild(otherHiddenName);
-      form.appendChild(otherHiddenResponse);
-    } else {
-      if(otherHiddenName.parentNode) form.removeChild(otherHiddenName);
-      if(otherHiddenResponse.parentNode) form.removeChild(otherHiddenResponse);
-    }
-  });
-  otherInput.addEventListener('input', function(){
-    otherHiddenResponse.value = otherInput.value;
-  });
+        <div class="field">
+          <label class="req" for="jAd">Ad Soyad</label>
+          <input id="jAd" name="entry.715307404" type="text" required autocomplete="name">
+        </div>
+        <div class="field">
+          <label class="req" for="jEmail">E-posta Adresi</label>
+          <input id="jEmail" name="entry.594352403" type="email" required autocomplete="email">
+        </div>
+        <div class="field">
+          <label class="req" for="jTel">Telefon Numarası</label>
+          <input id="jTel" name="entry.1559231557" type="tel" required autocomplete="tel" placeholder="05xx xxx xx xx">
+        </div>
+        <div class="field">
+          <label class="req" for="jFakulte">Fakülte / Yüksekokul</label>
+          <input id="jFakulte" name="entry.2093882172" type="text" required placeholder="Örn: Mühendislik Fakültesi">
+        </div>
+        <div class="field">
+          <label class="req" for="jBolum">Bölüm</label>
+          <input id="jBolum" name="entry.1921067409" type="text" required>
+        </div>
+        <div class="field">
+          <label class="req" for="jOgrNo">Öğrenci numarası</label>
+          <input id="jOgrNo" name="entry.1670716095" type="text" required inputmode="numeric">
+        </div>
+        <div class="field">
+          <label class="req" for="jTc">TC Kimlik</label>
+          <input id="jTc" name="entry.1508233597" type="text" required inputmode="numeric" pattern="[0-9]{11}"
+            maxlength="11" autocomplete="off">
+          <span class="hint">11 haneli, sadece rakam.</span>
+        </div>
 
-  var submitted = false;
-  /* novalidate tarayıcının gönderimi durdurmasını kapatır; eksik form burada durdurulur */
-  form.addEventListener('submit', function(e){
-    // Zorunlu alanlar doldurulmamışsa gönderimi engelle ve kullanıcıya göster
-    if(!form.checkValidity()){
-      e.preventDefault();
-      form.reportValidity();
-      return;
-    }
+        <h2 class="join-section-title">Deneyim ve katkı</h2>
 
-    // Zaten gönderiliyorsa veya buton devre dışıysa tekrar gönderilmesini (spam) engelle
-    if(isSubmitting || (submitBtn && submitBtn.disabled)){
-      e.preventDefault();
-      return;
-    }
+        <div class="field">
+          <label>Daha önce oyun tasarımı veya oyunlaştırma üzerine bir proje yaptınız mı?</label>
+          <div class="choice-group" role="radiogroup"
+            aria-label="Daha önce oyun tasarımı veya oyunlaştırma üzerine bir proje yaptınız mı?">
+            <label><input type="radio" name="entry.860246774" value="Evet"> Evet</label>
+            <label><input type="radio" name="entry.860246774" value="Hayır"> Hayır</label>
+          </div>
+        </div>
+        <div class="field">
+          <label for="jDeneyimDetay">Cevabın evet ise, detaylandırmak ister misiniz?</label>
+          <textarea id="jDeneyimDetay" name="entry.2092844788" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>Bir oyun geliştirme sürecine dahil olsaydınız, hangi rolü üstlenmek isterdiniz?</label>
+          <div class="choice-group">
+            <label><input type="checkbox" name="entry.1275043880" value="Oyun Tasarımcısı"> Oyun Tasarımcısı</label>
+            <label><input type="checkbox" name="entry.1275043880" value="Yazılımcı"> Yazılımcı</label>
+            <label><input type="checkbox" name="entry.1275043880" value="Grafik Sanatçısı"> Grafik Sanatçısı</label>
+            <label><input type="checkbox" name="entry.1275043880" value="Hikâye Yazarı"> Hikâye Yazarı</label>
+            <label><input type="checkbox" name="entry.1275043880" value="Test Uzmanı"> Test Uzmanı</label>
+            <label><input type="checkbox" id="jRolDiger" value="__other_option__" data-other-for="entry.1275043880">
+              Diğer</label>
+          </div>
+          <div class="other-row" id="jRolDigerRow">
+            <input type="text" id="jRolDigerInput" placeholder="Diğer rol...">
+          </div>
+        </div>
+        <div class="field">
+          <label for="jKatki">Topluluğa nasıl katkıda bulunabileceğinizi düşünüyorsunuz?</label>
+          <textarea id="jKatki" name="entry.1070764940" rows="3"></textarea>
+        </div>
 
-    isSubmitting = true;
-    submitted = true;
+        <h2 class="join-section-title">Ek sorular</h2>
 
-    // Gönderim başladığında butonu anında tıklanamaz hale getir ve 10 saniyelik sayaç başlat
-    if(submitBtn){
-      setTimeout(function(){
-        submitBtn.disabled = true;
-      }, 0);
+        <div class="field">
+          <label for="jBeklenti">GGLab'den beklentileriniz nelerdir?</label>
+          <textarea id="jBeklenti" name="entry.970005994" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label for="jEk">Eklemek veya paylaşmak istediğiniz başka bir şey var mı?</label>
+          <textarea id="jEk" name="entry.1987817685" rows="3"></textarea>
+        </div>
 
-      var secondsLeft = 10;
-      submitBtn.textContent = 'Gönderiliyor... (' + secondsLeft + 's)';
-      countdownTimer = setInterval(function(){
-        secondsLeft--;
-        if(secondsLeft > 0){
-          submitBtn.textContent = 'Lütfen bekleyin (' + secondsLeft + 's)';
+        <h2 class="join-section-title">Kişisel verilerin korunması</h2>
+        <!-- KVKK metni -->
+        <details class="kvkk">
+          <summary>KVKK aydınlatma metni</summary>
+          <p><strong>Veri sorumlusu:</strong> Akdeniz Üniversitesi Oyun ve Oyunlaştırma Topluluğu (GG Lab).</p>
+          <p><strong>İşlenen veriler:</strong> ad soyad, TC kimlik numarası, e-posta, telefon, bölüm, öğrenci numarası
+            ve bu formdaki diğer yanıtların.</p>
+          <p><strong>Amaç:</strong> üyelik başvurunun değerlendirilmesi, üye kaydının tutulması ve seninle iletişim
+            kurulması (WhatsApp ve Discord davetleri dahil).</p>
+          <p><strong>Hukuki sebep:</strong> 6698 sayılı KVKK md. 5/1 uyarınca açık rızan.</p>
+          <p><strong>Aktarım:</strong> yanıtlar Google Forms / E-Tablolar (Google LLC) üzerinde, yurt dışındaki
+            sunucularda saklanır; yalnızca topluluk yönetimi erişebilir, üçüncü kişilerle paylaşılmaz.</p>
+          <p><strong>Saklama süresi:</strong> üyeliğin süresince; başvuru kabul edilmezse ya da üyelik sona ererse
+            silinir.</p>
+          <p><strong>Hakların:</strong> KVKK md. 11 kapsamında verilerinin işlenip işlenmediğini öğrenme, düzeltilmesini
+            ya da silinmesini isteme ve rızanı geri çekme hakkın var. Başvuru: <a
+              href="mailto:team@gglabakdeniz.com">team@gglabakdeniz.com</a></p>
+        </details>
+        <div class="field">
+          <div class="choice-group consent">
+            <label class="req"><input type="checkbox" id="jKvkk" required> Aydınlatma metnini okudum; kişisel
+              verilerimin yukarıdaki amaçlarla işlenmesine ve yurt dışındaki sunucularda saklanmasına açık rıza
+              veriyorum.</label>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-block" type="submit">Başvuruyu gönder</button>
+      </form>
+
+      <div class="join-thanks" id="joinThanks">
+        <h2 style="font-size:1.75rem;margin-bottom:10px">Başvurun alındı 🎮</h2>
+        <p class="muted" style="max-width:54ch;margin:0 auto 20px;line-height:1.6">İlgilendiğin için teşekkürler!
+          Ekibimiz başvurunu inceleyecek. Aramıza katılmak, ekiple tanışmak ve duyuruları kaçırmamak için topluluk
+          kanallarımıza katılabilirsin:</p>
+
+        <nav class="portals" aria-label="Sosyal medya ve topluluk kanalları">
+          <a class="portal" href="https://www.instagram.com/gglabakdeniz/" target="_blank" rel="noopener noreferrer"
+            aria-label="Instagram" title="Instagram"><img src="../assets/img/icons/instagram.svg" alt="" width="24"
+              height="24"><span class="portal-name" lang="en">Instagram</span></a>
+          <a class="portal" href="https://www.youtube.com/@GGLabAkdeniz" target="_blank" rel="noopener noreferrer"
+            aria-label="YouTube" title="YouTube"><img src="../assets/img/icons/youtube.svg" alt="" width="24"
+              height="24"><span class="portal-name" lang="en">YouTube</span></a>
+          <a class="portal" href="https://discord.gg/9GABbAK2rw" target="_blank" rel="noopener noreferrer"
+            aria-label="Discord" title="Discord"><img src="../assets/img/icons/discord.svg" alt="" width="24"
+              height="24"><span class="portal-name" lang="en">Discord</span></a>
+          <a class="portal" href="https://chat.whatsapp.com/H4brK4kgpm51uYVX11FQht" target="_blank"
+            rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp"><img src="../assets/img/icons/whatsapp.svg"
+              alt="" width="24" height="24"><span class="portal-name" lang="en">WhatsApp</span></a>
+          <a class="portal" href="https://x.com/gglabakdeniz" target="_blank" rel="noopener noreferrer"
+            aria-label="X / Twitter" title="X / Twitter"><img src="../assets/img/icons/x.svg" alt="" width="24"
+              height="24"><span class="portal-name" lang="en">X / Twitter</span></a>
+          <a class="portal" href="https://www.linkedin.com/company/gglab-oyun-ve-oyunlastirma-toplulugu/"
+            target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><img
+              src="../assets/img/icons/linkedin.svg" alt="" width="24" height="24"><span class="portal-name"
+              lang="en">LinkedIn</span></a>
+        </nav>
+
+        <div style="margin-top:36px">
+          <a class="btn btn-primary" href="../index.html">Ana sayfaya dön</a>
+        </div>
+      </div>
+
+      <iframe name="joinHiddenFrame" id="joinHiddenFrame" style="display:none" title="form-submit-target"></iframe>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var form = document.getElementById('joinForm');
+      var frame = document.getElementById('joinHiddenFrame');
+      var thanks = document.getElementById('joinThanks');
+      var submitBtn = form.querySelector('button[type="submit"]');
+      var originalBtnText = submitBtn ? submitBtn.textContent : 'Başvuruyu gönder';
+      var countdownTimer = null;
+      var isSubmitting = false;
+
+      var otherCheck = document.getElementById('jRolDiger');
+      var otherRow = document.getElementById('jRolDigerRow');
+      var otherInput = document.getElementById('jRolDigerInput');
+      var otherHiddenName = document.createElement('input');
+      otherHiddenName.type = 'hidden';
+      otherHiddenName.name = otherCheck.dataset.otherFor;
+      otherHiddenName.value = '__other_option__';
+      var otherHiddenResponse = document.createElement('input');
+      otherHiddenResponse.type = 'hidden';
+      otherHiddenResponse.name = otherCheck.dataset.otherFor + '.other_option_response';
+
+      otherCheck.addEventListener('change', function () {
+        otherRow.classList.toggle('show', otherCheck.checked);
+        otherInput.required = otherCheck.checked;
+        if (otherCheck.checked) {
+          form.appendChild(otherHiddenName);
+          form.appendChild(otherHiddenResponse);
         } else {
-          clearInterval(countdownTimer);
-          submitBtn.disabled = false;
-          submitBtn.textContent = originalBtnText;
-          isSubmitting = false;
+          if (otherHiddenName.parentNode) form.removeChild(otherHiddenName);
+          if (otherHiddenResponse.parentNode) form.removeChild(otherHiddenResponse);
         }
-      }, 1000);
-    }
-  });
+      });
+      otherInput.addEventListener('input', function () {
+        otherHiddenResponse.value = otherInput.value;
+      });
 
-  frame.addEventListener('load', function(){
-    if(submitted){
-      if(countdownTimer) clearInterval(countdownTimer);
-      form.classList.add('hide');
-      thanks.classList.add('show');
-      window.scrollTo({top:0,behavior:'smooth'});
-    }
-  });
-})();
-</script>
+      /* Üniversite ön kayıt sistemine paralel POST gönderimi */
+      function sendToUni(data) {
+        var adSoyad = (data.adSoyad || '').trim();
+        var parts = adSoyad.split(' ');
+        var ad = parts[0] || '';
+        var soyad = parts.slice(1).join(' ') || '';
+
+        var body = new URLSearchParams();
+        body.append('tc_no', data.tc);
+        body.append('student_no', data.ogrNo);
+        body.append('student_name', ad);
+        body.append('student_surname', soyad);
+        body.append('phone', data.tel);
+        body.append('email', data.email);
+        body.append('faculty', data.fakulte);
+        body.append('department', data.bolum);
+        body.append('selected_community', 'Oyun ve Oyunlaştırma Tasarım Atölyesi');
+        body.append('message', '');
+
+        fetch('https://etkinlik.akdeniz.edu.tr/topluluk-on-kayit', {
+          method: 'POST',
+          mode: 'no-cors',          /* Sunucu CORS header dönmediğinden no-cors; yanıt okunamaz ama istek gider */
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body.toString()
+        }).catch(function () {/* ağ hatası - sessiz geç, Google Forms kaydı zaten gitti */ });
+      }
+
+      var submitted = false;
+      /* novalidate tarayıcının gönderimi durdurmasını kapatır; eksik form burada durdurulur */
+      form.addEventListener('submit', function (e) {
+        if (!form.checkValidity()) {
+          e.preventDefault();
+          form.reportValidity();
+          return;
+        }
+
+        if (isSubmitting || (submitBtn && submitBtn.disabled)) {
+          e.preventDefault();
+          return;
+        }
+
+        isSubmitting = true;
+        submitted = true;
+
+        /* Üniversite sistemine paralel gönder (no-cors, sessiz) */
+        sendToUni({
+          adSoyad: document.getElementById('jAd').value,
+          email: document.getElementById('jEmail').value,
+          tel: document.getElementById('jTel').value,
+          fakulte: document.getElementById('jFakulte').value,
+          bolum: document.getElementById('jBolum').value,
+          ogrNo: document.getElementById('jOgrNo').value,
+          tc: document.getElementById('jTc').value
+        });
+
+        if (submitBtn) {
+          setTimeout(function () { submitBtn.disabled = true; }, 0);
+
+          var secondsLeft = 10;
+          submitBtn.textContent = 'Gönderiliyor... (' + secondsLeft + 's)';
+          countdownTimer = setInterval(function () {
+            secondsLeft--;
+            if (secondsLeft > 0) {
+              submitBtn.textContent = 'Lütfen bekleyin (' + secondsLeft + 's)';
+            } else {
+              clearInterval(countdownTimer);
+              submitBtn.disabled = false;
+              submitBtn.textContent = originalBtnText;
+              isSubmitting = false;
+            }
+          }, 1000);
+        }
+      });
+
+      frame.addEventListener('load', function () {
+        if (submitted) {
+          if (countdownTimer) clearInterval(countdownTimer);
+          form.classList.add('hide');
+          thanks.classList.add('show');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    })();
+  </script>
 </body>
+
 </html>

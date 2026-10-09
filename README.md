@@ -51,7 +51,25 @@ Form verileri doğrudan Google Form'un `/formResponse` uç noktasına gizli bir 
 
 - **Çok Sayfalı Form Yanıtları (`pageHistory`):** Google Form 3 bölümden (sayfadan) oluştuğu için form içerisinde `<input type="hidden" name="pageHistory" value="0,1,2">` ve `<input type="hidden" name="fvv" value="1">` yer alır. Bu gizli alanlar olmadan gönderilen verilerde Google Forms yalnızca ilk bölümü (TC Kimliğe kadar olan alanları) kaydeder.
 - **Spam Engeli:** Form geçerli bir şekilde doldurulup gönderildiğinde "Başvuruyu gönder" butonu 10 saniyeliğine tıklanamaz hale getirilir ve buton üzerinde geri sayım gösterilir.
-- **Alan Zorunlulukları:** Kişisel bilgiler (Ad Soyad, E-posta, Telefon, Bölüm, Öğrenci no, TC Kimlik) ve KVKK onayı zorunludur. Deneyim, rol seçimi ve katkı soruları opsiyoneldir.
+- **Alan Zorunlulukları:** Kişisel bilgiler (Ad Soyad, E-posta, Telefon, Fakülte, Bölüm, Öğrenci no, TC Kimlik) ve KVKK onayı zorunludur. Deneyim, rol seçimi ve katkı soruları opsiyoneldir.
+
+### Üniversite Ön Kayıt Sistemi Entegrasyonu
+
+Form gönderildiğinde iki işlem **paralel** çalışır:
+
+1. **Google Forms** — iframe POST yöntemiyle, yanıtlar Google E-Tablonuza düşmeye devam eder. ✅
+2. **Üniversite sistemi** — `fetch` + `no-cors` ile `https://etkinlik.akdeniz.edu.tr/topluluk-on-kayit`
+   adresine `application/x-www-form-urlencoded` formatında POST atılır.
+   Topluluk: `"Oyun ve Oyunlaştırma Tasarım Atölyesi"` (sabit, otomatik seçilir).
+
+> **`no-cors` notu:** Üniversite sunucusu CORS header döndürmediğinden tarayıcı yanıtı okuyamaz ama
+> istek sunucuya ulaşır ve kaydedilir. Hata olsa da sessizce geçilir; Google Forms kaydı her zaman tamamlanır.
+
+**Fakülte alanı Google Forms'a da eklemek istersen:**
+1. Google Forms'u aç, yeni "Fakülte / Yüksekokul" sorusu ekle.
+2. Sayfanın kaynak kodundan `entry.XXXXXXXXX` ID'sini bul.
+3. `uyelik/index.html`'de `jFakulte` input'unun `name="entry.FAKULTE"` kısmını o ID ile değiştir.
+
 - `css/style.css` — tema ve responsive kurallar
 - `css/hud.css` — header + hero'nun HUD tarzı katmanı
 - `js/main.js` — menü, scroll reveal, galeri lightbox, yaklaşan etkinlikler, form doğrulama
