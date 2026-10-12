@@ -655,15 +655,287 @@ if (spotlights.length && !reduceMotion) {
   });
 }
 
-/* --- hero mini oyunu: düşen tuşları yakala, puan topla ---
-   Tuşa tıklamak/dokunmak, klavyede A/B/X/Y'ye ya da bağlı bir Xbox
-   kumandasında aynı tuşlara basmak, ekrandaki eşleşen tuşu patlatır. */
+/* --- hero mini oyunu: CS2/Valorant tarzı nişangah, silah efekti ve puan toplama --- */
 const xbs = $$('.hud-hero .xb');
 const scoreBox = document.getElementById('xbScore');
+const crosshair = document.getElementById('hudCrosshair');
+const particleCanvas = document.getElementById('hudParticleCanvas');
+
 if (hero && xbs.length && scoreBox) {
   const scoreVal = $('.xb-score-val', scoreBox);
   const POINTS = 10;
   let score = 0;
+
+  /* Web Audio ile arcade silah ateşleme sesi */
+  const playGunshot = () => {
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = window._ggAudioCtx || (window._ggAudioCtx = new AudioCtx());
+      if (ctx.state === 'suspended') ctx.resume();
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(280, now);
+      osc.frequency.exponentialRampToValueAtTime(50, now + 0.08);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+      osc.start(now);
+      osc.stop(now + 0.08);
+    } catch (_) {}
+  };
+
+  /* Parçacık Tuvali (Canvas Particle System) */
+  let ctx = null;
+  let particles = [];
+  let animId = null;
+
+  const resizeCanvas = () => {
+    if (!particleCanvas) return;
+    const rect = hero.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    particleCanvas.width = rect.width * dpr;
+    particleCanvas.height = rect.height * dpr;
+    ctx = particleCanvas.getContext('2d');
+    if (ctx) ctx.scale(dpr, dpr);
+  };
+  if (particleCanvas) {
+    resizeCanvas();
+    window.addEventListener('resize', perFrame(resizeCanvas));
+  }
+
+  const loopParticles = () => {
+    if (!ctx || !particleCanvas) return;
+    const w = hero.clientWidth;
+    const h = hero.clientHeight;
+    ctx.clearRect(0, 0, w, h);
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.life++;
+      if (p.life >= p.maxLife) {
+        particles.splice(i, 1);
+        continue;
+      }
+
+      const progress = p.life / p.maxLife;
+      const alpha = Math.max(0, 1 - progress);
+
+      if (p.type === 'flash') {
+        // Namlu parlaması (Muzzle flash)
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        const r = p.size * (1 + progress * 0.4);
+        const g = ctx.createRadialGradient(0, 0, 0, 0, 0, r);
+        g.addColorStop(0, `rgba(255, 255, 255, ${alpha})`);
+        g.addColorStop(0.35, `rgba(255, 215, 80, ${alpha * 0.85})`);
+        g.addColorStop(0.7, `rgba(244, 124, 32, ${alpha * 0.45})`);
+        g.addColorStop(1, 'rgba(244, 124, 32, 0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(0, 0, r, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 4 kollu yıldız parlaması
+        ctx.strokeStyle = `rgba(255, 255, 255, ${alpha * 0.9})`;
+        ctx.lineWidth = 1.5;
+        const starLen = r * 1.5;
+        ctx.beginPath();
+        ctx.moveTo(-starLen, 0); ctx.lineTo(starLen, 0);
+        ctx.moveTo(0, -starLen); ctx.lineTo(0, starLen);
+        ctx.stroke();
+        ctx.restore();
+      } else if (p.type === 'ring') {
+        // Şok dalgası halkası
+        ctx.save();
+        ctx.strokeStyle = p.color || `rgba(255, 220, 130, ${alpha * 0.8})`;
+        ctx.lineWidth = Math.max(1, (1 - progress) * 2.5);
+        ctx.beginPath();
+        const r = p.r0 + (p.rMax - p.r0) * progress;
+        ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+      } else if (p.type === 'spark') {
+        // Yüksek hızlı mermi/namlu kıvılcımı
+        p.vx *= p.drag;
+        p.vy *= p.drag;
+        p.vy += p.grav;
+        const prevX = p.x;
+        const prevY = p.y;
+        p.x += p.vx;
+        p.y += p.vy;
+
+        ctx.save();
+        ctx.strokeStyle = p.color;
+        ctx.lineWidth = p.size * alpha;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(prevX, prevY);
+        ctx.lineTo(p.x, p.y);
+        ctx.stroke();
+        ctx.restore();
+      } else if (p.type === 'debris') {
+        // PlayStation kristal parçalanması
+        p.vx *= p.drag;
+        p.vy *= p.drag;
+        p.vy += p.grav;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vRot;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = `rgba(${p.rgb}, ${alpha})`;
+        ctx.shadowColor = `rgba(${p.rgb}, 0.8)`;
+        ctx.shadowBlur = 6;
+        const s = p.size * alpha;
+        ctx.fillRect(-s / 2, -s / 2, s, s);
+        ctx.restore();
+      }
+    }
+
+    if (particles.length > 0) {
+      animId = requestAnimationFrame(loopParticles);
+    } else {
+      animId = null;
+    }
+  };
+
+  const startParticleLoop = () => {
+    if (!animId) animId = requestAnimationFrame(loopParticles);
+  };
+
+  /* Silah atış parçacıkları üretir */
+  const fireParticles = (cx, cy, isHit = false, rgb = null) => {
+    if (!ctx) return;
+    const h = hero.getBoundingClientRect();
+    const x = cx - h.left;
+    const y = cy - h.top;
+
+    // 1. Namlu Parlaması
+    particles.push({
+      type: 'flash',
+      x, y,
+      size: isHit ? 34 : 24,
+      life: 0,
+      maxLife: isHit ? 8 : 6
+    });
+
+    // 2. Şok Dalgası Halkası
+    particles.push({
+      type: 'ring',
+      x, y,
+      r0: 4,
+      rMax: isHit ? 52 : 32,
+      color: isHit ? `rgba(${rgb || '255,220,100'}, 0.9)` : 'rgba(255, 200, 80, 0.8)',
+      life: 0,
+      maxLife: isHit ? 16 : 11
+    });
+
+    // 3. Namlu Kıvılcımları (Sparks)
+    const sparkCount = isHit ? 18 : 12;
+    for (let i = 0; i < sparkCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 4 + Math.random() * (isHit ? 9 : 6);
+      const colors = ['#ffffff', '#fff4a3', '#ffae42', '#f47c20'];
+      particles.push({
+        type: 'spark',
+        x, y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        drag: 0.92,
+        grav: 0.16,
+        size: 1.8 + Math.random() * 1.5,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        life: 0,
+        maxLife: 14 + Math.floor(Math.random() * 14)
+      });
+    }
+
+    // 4. Hedef Vurulduğunda Kristal Parçacık Patlaması
+    if (isHit && rgb) {
+      const debrisCount = 22;
+      for (let i = 0; i < debrisCount; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 3 + Math.random() * 8;
+        particles.push({
+          type: 'debris',
+          x, y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          drag: 0.93,
+          grav: 0.14,
+          rot: Math.random() * Math.PI * 2,
+          vRot: (Math.random() - 0.5) * 0.35,
+          size: 3 + Math.random() * 4,
+          rgb,
+          life: 0,
+          maxLife: 20 + Math.floor(Math.random() * 15)
+        });
+      }
+    }
+
+    startParticleLoop();
+  };
+
+  /* CS2 / Valorant Tarzı Nişangah Takibi ve Tepmesi */
+  const triggerRecoil = () => {
+    if (!crosshair) return;
+    crosshair.classList.remove('firing');
+    void crosshair.offsetWidth;
+    crosshair.classList.add('firing');
+    setTimeout(() => crosshair.classList.remove('firing'), 120);
+  };
+
+  if (crosshair && window.matchMedia('(pointer: fine)').matches) {
+    let mouseInside = false;
+
+    hero.addEventListener('pointerenter', () => {
+      mouseInside = true;
+      crosshair.classList.add('is-visible');
+      hero.classList.add('ch-active');
+    });
+
+    hero.addEventListener('pointerleave', () => {
+      mouseInside = false;
+      crosshair.classList.remove('is-visible');
+      hero.classList.remove('ch-active');
+    });
+
+    hero.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch') return;
+      if (!mouseInside) {
+        mouseInside = true;
+        crosshair.classList.add('is-visible');
+        hero.classList.add('ch-active');
+      }
+
+      crosshair.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+
+      // Normal buton/linklerin üzerine gelindiğinde nişangahı gizle, standart imleci aç
+      const isOverLink = e.target instanceof Element && e.target.closest('a, button, [role="button"], input, select, textarea, .cut-btn');
+      if (isOverLink) {
+        crosshair.classList.remove('is-visible');
+        hero.classList.remove('ch-active');
+        return;
+      }
+      crosshair.classList.add('is-visible');
+      hero.classList.add('ch-active');
+    }, { passive: true });
+  }
+
+  // Düşen ikonların renk paletleri
+  const KEY_COLORS = {
+    a: '88, 214, 140', // yeşil üçgen
+    b: '255, 96, 96',   // kırmızı daire
+    x: '122, 170, 255', // mavi çarpı
+    y: '238, 130, 200'  // pembe kare
+  };
 
   const inView = (el) => {
     const r = el.getBoundingClientRect();
@@ -685,30 +957,53 @@ if (hero && xbs.length && scoreBox) {
 
   const hit = (el, x, y) => {
     if (el.classList.contains('xb-hit')) return;
+    const r = el.getBoundingClientRect();
     if (x == null) {
-      const r = el.getBoundingClientRect();
       x = r.left + r.width / 2;
       y = r.top + r.height / 2;
     }
     el.classList.add('xb-hit');
+
     /* tuş bir sonraki düşüşünde (döngü başında) geri gelir */
     const back = () => el.classList.remove('xb-hit');
     if (reduceMotion) setTimeout(back, 1500);
     else el.addEventListener('animationiteration', back, { once: true });
 
+    const key = el.dataset.k || 'x';
+    const rgb = KEY_COLORS[key] || '122, 170, 255';
+
+    // Ateş tepmesi, sadece silah ateşleme sesi ve patlama parçacıkları
+    triggerRecoil();
+    playGunshot();
+    fireParticles(x, y, true, rgb);
+
     score += POINTS;
     scoreVal.textContent = String(score).padStart(4, '0');
-    scoreBox.hidden = false;
     scoreBox.classList.remove('bump');
-    void scoreBox.offsetWidth; /* animasyonu yeniden başlat */
+    void scoreBox.offsetWidth;
     scoreBox.classList.add('bump');
+
     popup(x, y);
   };
 
-  xbs.forEach((el) => el.addEventListener('pointerdown', (e) => {
-    e.preventDefault();
-    hit(el, e.clientX, e.clientY);
-  }));
+  // İkonlara tıklama
+  xbs.forEach((el) => {
+    el.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      hit(el, e.clientX, e.clientY);
+    });
+  });
+
+  // Hero alanında boşluğa ateş etme (Gun shot effect)
+  hero.addEventListener('pointerdown', (e) => {
+    const isInteractive = e.target instanceof Element && e.target.closest('a, button, [role="button"], input, select, textarea, .cut-btn');
+    const isXb = e.target instanceof Element && e.target.closest('.xb');
+    if (isInteractive || isXb) return;
+
+    triggerRecoil();
+    playGunshot();
+    fireParticles(e.clientX, e.clientY, false);
+  });
 
   /* ekranda görünen, eşleşen ilk tuşu patlatır */
   const press = (k) => {

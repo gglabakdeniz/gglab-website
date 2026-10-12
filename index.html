@@ -131,8 +131,16 @@
         <span class="light-orb orb-a"></span>
         <span class="light-orb orb-b"></span>
       </div>
-      <!-- mini oyun skoru: ilk puanda görünür (main.js) -->
-      <div class="xb-score" id="xbScore" aria-hidden="true" hidden><span data-i18n="game.score">SKOR</span> <b
+      <canvas class="hud-particle-canvas" id="hudParticleCanvas" aria-hidden="true"></canvas>
+      <div class="hud-crosshair" id="hudCrosshair" aria-hidden="true">
+        <span class="ch-dot"></span>
+        <span class="ch-line ch-t"></span>
+        <span class="ch-line ch-b"></span>
+        <span class="ch-line ch-l"></span>
+        <span class="ch-line ch-r"></span>
+      </div>
+      <!-- mini oyun skoru: PS ikonlarını vurarak puan topla -->
+      <div class="xb-score" id="xbScore" aria-label="Mini Oyun Skoru"><span data-i18n="game.score">SKOR</span> <b
           class="xb-score-val">0000</b></div>
       <div class="container">
         <div class="hud-frame">

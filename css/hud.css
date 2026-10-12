@@ -435,17 +435,18 @@
 /* yukarıdan aşağı düşen PlayStation tuşları */
 .xb{
   --xc:122,170,255;
-  position:absolute;top:-12vh;z-index:0;pointer-events:none;
+  position:absolute;top:-12vh;z-index:2;pointer-events:none;
   display:grid;place-items:center;
   width:var(--xs,44px);aspect-ratio:1;border-radius:50%;
-  color:rgba(var(--xc),.9);
-  border:2px solid rgba(var(--xc),.55);
-  background:radial-gradient(circle,rgba(var(--xc),.16),rgba(var(--xc),.03) 70%);
-  box-shadow:0 0 22px rgba(var(--xc),.28);
+  color:rgba(var(--xc),.95);
+  border:2px solid rgba(var(--xc),.65);
+  background:radial-gradient(circle,rgba(var(--xc),.22),rgba(var(--xc),.04) 70%);
+  box-shadow:0 0 20px rgba(var(--xc),.35);
   opacity:0;will-change:transform,opacity;
   animation:xb-fall var(--xd,18s) linear infinite;animation-delay:var(--xl,0s);
+  transition:transform .22s cubic-bezier(.2,.9,.3,1.2),border-color .2s ease,box-shadow .2s ease,filter .2s ease;
 }
-.xb svg{width:52%;height:52%;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}
+.xb svg{width:52%;height:52%;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round;transition:transform .2s ease,stroke .2s ease,filter .2s ease}
 /* a=üçgen  b=daire  x=çarpı  y=kare (PlayStation renkleri) */
 .xb[data-k=a]{--xc:88,214,140}
 .xb[data-k=b]{--xc:255,96,96}
@@ -461,9 +462,9 @@
 .xb-h{left:93vw;--xs:44px;--xd:18s;--xl:-7s}
 .xb-i{left:12vw;--xs:46px;--xd:20s;--xl:-12s}
 .xb-l{left:54vw;--xs:34px;--xd:23s;--xl:-9s}
-/* mini oyun: tuşlar tıklanabilir. Hero içeriği tam genişlikte olduğundan
-   kapsayıcılar tıklamayı geçirir, yalnızca gerçek içerik yakalar. */
-.hud-hero .xb{pointer-events:auto;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+
+/* mini oyun: tuşlar tıklanabilir */
+.hud-hero .xb{pointer-events:auto;cursor:crosshair;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .hud-hero .xb:hover{border-color:rgba(var(--xc),.95);box-shadow:0 0 30px rgba(var(--xc),.6)}
 .hud-hero .xb.xb-hit{visibility:hidden}
 .hud-hero .hero-bg::after{pointer-events:none}
@@ -473,16 +474,96 @@
 .hero-text,
 .hero-visual,
 .hud-partners{pointer-events:auto}
+
+/* Silah ateşi parçacık tuvali */
+.hud-particle-canvas{
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:6;
+}
+
+/* CS2 / Valorant Tarzı Nişangah (Crosshair) */
+.hud-crosshair{
+  --ch-color:#00ff88;
+  --ch-gap:4px;
+  --ch-len:7px;
+  --ch-thick:2px;
+  --ch-outline:rgba(0,0,0,.92);
+  position:fixed;top:0;left:0;
+  width:0;height:0;
+  pointer-events:none;z-index:9999;
+  opacity:0;visibility:hidden;
+  will-change:transform,opacity;
+  transition:opacity .15s ease,visibility .15s ease;
+}
+
+/* Masaüstü fine pointer cihazlarda özel imleç */
+@media (pointer:fine){
+  .hud-hero{cursor:crosshair}
+  .hud-hero.ch-active{cursor:none}
+  .hud-hero.ch-active .xb{cursor:none}
+  .hud-hero.ch-active a,
+  .hud-hero.ch-active button,
+  .hud-hero.ch-active [role="button"],
+  .hud-hero.ch-active input,
+  .hud-hero.ch-active .cut-btn{
+    cursor:pointer !important;
+  }
+  .hud-crosshair.is-visible{
+    opacity:1;visibility:visible;
+  }
+}
+
+.ch-dot{
+  position:absolute;left:-1px;top:-1px;
+  width:2px;height:2px;
+  background:var(--ch-color);
+  box-shadow:0 0 0 1px var(--ch-outline);
+  border-radius:.5px;
+}
+.ch-line{
+  position:absolute;background:var(--ch-color);
+  box-shadow:0 0 0 1px var(--ch-outline);
+  will-change:transform;
+  transition:transform .12s cubic-bezier(.1,.85,.25,1.2);
+}
+.ch-t{
+  left:-1px;bottom:var(--ch-gap);
+  width:var(--ch-thick);height:var(--ch-len);
+  transform-origin:bottom center;
+}
+.ch-b{
+  left:-1px;top:var(--ch-gap);
+  width:var(--ch-thick);height:var(--ch-len);
+  transform-origin:top center;
+}
+.ch-l{
+  right:var(--ch-gap);top:-1px;
+  width:var(--ch-len);height:var(--ch-thick);
+  transform-origin:right center;
+}
+.ch-r{
+  left:var(--ch-gap);top:-1px;
+  width:var(--ch-len);height:var(--ch-thick);
+  transform-origin:left center;
+}
+
+/* Ateş edildiğinde tepme (Recoil kick) */
+.hud-crosshair.firing .ch-t{transform:translateY(-8px) scaleY(1.15)}
+.hud-crosshair.firing .ch-b{transform:translateY(8px) scaleY(1.15)}
+.hud-crosshair.firing .ch-l{transform:translateX(-8px) scaleX(1.15)}
+.hud-crosshair.firing .ch-r{transform:translateX(8px) scaleX(1.15)}
+.hud-crosshair.firing .ch-dot{transform:scale(1.6);background:#fff}
+
 .xb-plus{
-  position:absolute;z-index:6;pointer-events:none;
-  font-family:Oswald,Inter,sans-serif;font-weight:700;font-size:1.3rem;letter-spacing:.04em;
-  color:#fff;text-shadow:0 0 12px rgba(244,124,32,.9),0 0 2px #000;
+  position:absolute;z-index:7;pointer-events:none;
+  font-family:Oswald,Inter,sans-serif;font-weight:700;font-size:1.4rem;letter-spacing:.04em;
+  color:#fff;text-shadow:0 0 14px rgba(244,124,32,1),0 0 4px #000;
   transform:translate(-50%,-50%);
   animation:xb-plus .8s var(--ease) forwards;
 }
 @keyframes xb-plus{
   0%{transform:translate(-50%,-50%) scale(.6);opacity:0}
-  20%{transform:translate(-50%,-90%) scale(1.15);opacity:1}
+  20%{transform:translate(-50%,-90%) scale(1.25);opacity:1}
   100%{transform:translate(-50%,-260%) scale(1);opacity:0}
 }
 .xb-score{
@@ -494,18 +575,17 @@
   border:1px solid var(--hud-line);border-radius:4px 14px 4px 14px;
 }
 .xb-score[hidden]{display:none}
-.xb-score b{font-size:1.15rem;letter-spacing:.08em;color:#fff;font-variant-numeric:tabular-nums}
+.xb-score b{font-size:1.15rem;letter-spacing:.08em;color:#fff;font-variant-numeric:tabular-nums;display:inline-block}
 .xb-score.bump b{animation:xb-bump .3s var(--ease)}
 @keyframes xb-bump{50%{color:var(--accent-2);transform:scale(1.18)}}
-.xb-score b{display:inline-block}
 @media (max-width:760px){
   .xb-score{top:96px;right:16px}
 }
 
 @keyframes xb-fall{
   0%{transform:translate3d(0,0,0) rotate(-14deg);opacity:0}
-  10%{opacity:.5}
-  78%{opacity:.4}
+  10%{opacity:.75}
+  78%{opacity:.7}
   100%{transform:translate3d(2vw,112vh,0) rotate(20deg);opacity:0}
 }
 @keyframes target-spin{
