@@ -160,7 +160,7 @@ sosyal,YouTube,https://www.youtube.com/@GGLabAkdeniz,assets/img/icons/youtube.sv
   `baslik` ve `link` (http/https) zorunlu; geçerli `sosyal` satırı yoksa HTML'deki liste kalır.
 - `ikon` yalnızca repodaki bir dosya olabilir (`assets/…`, `.svg/.webp/.png`); Drive linki kabul
   edilmez. Boşsa ya da geçersizse genel bağlantı ikonu (`assets/img/icons/link.svg`) çıkar.
-  Hazır ikonlar `assets/img/icons/` altında: instagram, youtube, discord, whatsapp, x, linkedin, link.
+  Hazır ikonlar `assets/img/icons/` altında: instagram, youtube, discord, whatsapp, x, linkedin, tiktok, link.
   Yeni ikon: açık renkli (`#eef2ff`) tek renk SVG, 24×24 viewBox.
 - "Başvuru Formu" düğmesi tablodan gelmez, HTML'de sabit.
 
