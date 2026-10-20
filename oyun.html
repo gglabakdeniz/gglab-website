@@ -295,8 +295,8 @@ const SPRITE_DATA = {"enemies": [{"name": "siklop", "pts": 40, "hp": 2, "shot": 
 const W = 400, H = 600, S = 2;           // logical size, backing-store scale
 const PX = 3;                            // sprite pixel size
 const PLAYER_Y = 548;
-const COLS = 7, ROWS = 5, GX = 46, GY = 34;
-const BOSS_HP = 48;
+const COLS = 7, ROWS = 3, GX = 46, GY = 34;
+const BOSS_HP = 30;
 const REDUCED = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const cv = document.getElementById('game');
@@ -352,7 +352,7 @@ const SP = {
 const SHIELD_LETTERS = ["G", "G", "L", "A", "B"];
 const SHIELD_GLYPHS = {"G": ["..llllllllllll...","llooooooooooooll.","loooddddddddooodn","loodnnnnnnnnloodn","loodn.......ldddn","loodn........nnnn","loodn............","loodn............","loodn...llllllll.","loodn...loooooodn","loodn...ldddooodn","loodn....nnnloodn","loodn.......loodn","loodn.......loodn","looollllllllooodn","ldooooooooooooddn",".nldddddddddddnnn","...nnnnnnnnnnnn.."],"L": ["llll.............","loodn............","loodn............","loodn............","loodn............","loodn............","loodn............","loodn............","loodn............","loodn............","loodn............","loodn............","loodn............","loodn............","looollllllllllll.","loooooooooooooodn","lddddddddddddddnn",".nnnnnnnnnnnnnnn."],"A": ["....llllllll.....","...looooooool....","..loooddddoool...","..loodnnnnloodn..",".loodnn....lool..",".loodn.....loodn.",".loodn.....loodn.","loodnn......lool.","looollllllllooodn","loooooooooooooodn","loooddddddddooodn","loodnnnnnnnnloodn","loodn.......loodn","loodn.......loodn","loodn.......loodn","loodn.......loodn","ldddn.......ldddn",".nnnn........nnnn"],"B": ["llllllllllll.....","loooooooooooll...","looodddddddoool..","loodnnnnnnnloodn.","loodn......loodn.","loodn......loodn.","looollllllloddnn.","loooooooooodnnn..","looodddddddoll...","loodnnnnnnnlool..","loodn......loodn.","loodn......loodn.","loodn......loodn.","loodn......loodn.","looolllllllooodn.","loooooooooooddnn.","ldddddddddddnnn..",".nnnnnnnnnnnn...."]};
 const SHIELD_PAL = { o: '#f5792a', l: '#ffa86a', d: '#a84a10', n: '#1b3a7a' };
-const SH_W = SHIELD_GLYPHS.G[0].length, SH_H = SHIELD_GLYPHS.G.length, SH_CELL = 3;
+const SH_W = SHIELD_GLYPHS.G[0].length, SH_H = SHIELD_GLYPHS.G.length, SH_CELL = 2.5;
 
 function drawSet(set, x, y, scale, variant) {
   const img = variant ? set[variant] : set.c;
