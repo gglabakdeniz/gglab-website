@@ -13,7 +13,7 @@ Cloudflare panelinde Workers & Pages → gglab-website → Settings → Build ay
 | Ayar | Değer |
 | --- | --- |
 | Framework preset | None |
-| Build command | `mkdir -p dist && cp -r index.html 404.html oyun.html uyelik css js assets dist/` |
+| Build command | `mkdir -p dist && cp -r index.html 404.html oyun.html uyelik ggj27 css js assets dist/` |
 | Build output directory | `dist` |
 
 Build komutu yalnızca siteye ait dosyaları `dist/`'e kopyalar; `README.md` ve `content/` yayına çıkmaz.
@@ -43,7 +43,9 @@ npx stylelint@16 "css/*.css"
 
 - `index.html` — tek sayfa, tüm bölümler
 - `404.html` — Cloudflare Pages'in eksik adreslerde gösterdiği sayfa
-- `uyelik/index.html` — başvuru formu (Google Form'a `formResponse` ile post eder)
+- `uyelik/index.html` — üyelik başvuru formu (Google Form'a `formResponse` ile post eder)
+- `ggj27/index.html` — Global Game Jam 27 başvuru formu (Google Form & E-Tablo doğrulama sistemi)
+- `ggj27/apps-script.js` — E-Tablo doğrulama servisi için Google Apps Script kodu
 
 ## Üyelik Başvuru Formu (`uyelik/index.html`)
 
@@ -69,6 +71,18 @@ Form gönderildiğinde iki işlem **paralel** çalışır:
 1. Google Forms'u aç, yeni "Fakülte / Yüksekokul" sorusu ekle.
 2. Sayfanın kaynak kodundan `entry.XXXXXXXXX` ID'sini bul.
 3. `uyelik/index.html`'de `jFakulte` input'unun `name="entry.FAKULTE"` kısmını o ID ile değiştir.
+
+## Global Game Jam 27 Başvuru Formu (`ggj27/index.html`)
+
+GGJ 27 başvurularını toplayan form. Üyelik formunun aksine Akdeniz Üniversitesi sistemine kayıt atmaz; doğrudan Google Forms ve bağlı Google E-Tabloya yazar.
+
+- **Alan Zorunlulukları:** Son iki soru (Eklemek istedikleriniz ve Etkinliği nereden duydunuz) hariç tüm alanlar ve KVKK onayı zorunludur.
+- **Bireysel / Takım Desteği:** "Kendim katılıyorum" seçildiğinde ekip adı ("Bireysel"), kişi sayısı ("1") ve takım arkadaşları alanları otomatik tanımlanır; "Bir takımım var" seçildiğinde takım bilgileri girilir.
+- **E-Tabloya Yazılma Kontrolü (Doğrulama Sistemi):**
+  1. Google E-Tablosunda **Uzantılar → Apps Script** açılır.
+  2. `ggj27/apps-script.js` içindeki kod yapıştırılıp **Dağıt → Yeni dağıtım → Web uygulaması** (Erişim: Herkes) olarak yayınlanır.
+  3. Alınan URL `ggj27/index.html` içindeki `APPS_SCRIPT_URL` değişkenine yazılır.
+  4. Form gönderildiğinde verinin E-Tabloya ulaştığı doğrulanır. Başarısız olursa "Başvurunuz gönderilemedi" uyarısı gösterilir; başarılı olursa "Başvurun başarıyla alındı" ekranı açılır.
 
 - `css/style.css` — tema ve responsive kurallar
 - `css/hud.css` — header + hero'nun HUD tarzı katmanı
