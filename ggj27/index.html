@@ -11,7 +11,7 @@
   <meta name="robots" content="noindex">
   <meta property="og:title" content="Global Game Jam 27 Başvuru Formu — GG Lab">
   <meta property="og:description"
-    content="Akdeniz Üniversitesi Global Game Jam 27 (GGJ 27) maratonuna katılmak için başvuru formu.">
+    content="Akdeniz Global Game Jam 27 (GGJ 27) maratonuna katılmak için başvuru formu.">
   <meta property="og:type" content="website">
   <link rel="icon" href="../assets/img/logo-yazisiz.png" type="image/png">
   <link rel="apple-touch-icon" href="../assets/img/logo-yazisiz.png">
@@ -130,6 +130,129 @@
       margin-bottom: 4px;
     }
 
+    .ggj-callout {
+      background: rgba(244, 124, 32, 0.08);
+      border: 1px solid rgba(244, 124, 32, 0.35);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin-bottom: 22px;
+      font-size: .88rem;
+      line-height: 1.55;
+    }
+
+    .ggj-callout strong {
+      display: block;
+      color: var(--accent);
+      margin-bottom: 4px;
+      font-size: .95rem;
+    }
+
+    .ggj-callout a {
+      color: var(--accent);
+      text-decoration: underline;
+      font-weight: 600;
+      word-break: break-all;
+    }
+
+    .ggj-callout a:hover {
+      color: #ff9b4e;
+    }
+
+    /* Dinamik Takım Arkadaşı Kartları */
+    .team-box {
+      margin-top: 12px;
+      display: none;
+    }
+
+    .team-box.show {
+      display: block;
+    }
+
+    .team-members-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 16px 0;
+    }
+
+    .member-card {
+      background: rgba(16, 33, 77, 0.72);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      transition: border-color .2s;
+    }
+
+    .member-card:hover {
+      border-color: rgba(244, 124, 32, 0.4);
+    }
+
+    .member-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .member-badge {
+      font-family: "Space Grotesk", Inter, sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: .02em;
+    }
+
+    .btn-remove-member {
+      background: transparent;
+      border: 1px solid rgba(255, 90, 95, 0.3);
+      color: #ff5a5f;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: .78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .btn-remove-member:hover {
+      background: rgba(255, 90, 95, 0.15);
+      border-color: #ff5a5f;
+    }
+
+    .member-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .member-grid .col-full {
+      grid-column: 1 / -1;
+    }
+
+    .btn-add-member {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(244, 124, 32, 0.12);
+      border: 1px dashed var(--accent);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: var(--radius);
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      width: 100%;
+      justify-content: center;
+      margin-top: 4px;
+    }
+
+    .btn-add-member:hover {
+      background: rgba(244, 124, 32, 0.22);
+      border-style: solid;
+      transform: translateY(-1px);
+    }
+
     .kvkk {
       font-size: .85rem;
       color: var(--muted);
@@ -170,8 +293,26 @@
     }
 
     .join-thanks .portals {
+      --p: clamp(36px, 4.2vw, 52px);
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(8px, 1.8vw, 18px);
       margin: 36px auto 26px;
-      padding-bottom: 34px
+      padding-bottom: 34px;
+      max-width: 100%;
+    }
+
+    .join-thanks .portal {
+      flex: 0 0 auto;
+    }
+
+    @media (max-width: 560px) {
+      .join-thanks .portals {
+        --p: 38px;
+        gap: 8px;
+      }
     }
 
     .join-form.hide {
@@ -185,7 +326,11 @@
       pointer-events: none
     }
 
-    @media (max-width:560px) {
+    @media (max-width:600px) {
+      .member-grid {
+        grid-template-columns: 1fr;
+      }
+
       .join-bar {
         padding: 12px 16px
       }
@@ -208,9 +353,17 @@
     <div class="container">
       <p class="eyebrow">Global Game Jam 27</p>
       <h1 style="font-size:clamp(2rem,5vw,2.8rem)">GGJ 27 Başvuru Formu</h1>
-      <p class="lead" style="margin-bottom:34px">Akdeniz Üniversitesi Global Game Jam 27 (GGJ 27) maratonuna katılmak
-        için aşağıdaki formu doldurabilirsin. Yanıtların ekibimize ulaştıktan sonra başvurunun ardından Discord ve
-        iletişim kanallarına davet edileceksin.</p>
+      <p class="lead" style="margin-bottom:28px">Akdeniz Global Game Jam 27 (GGJ 27) maratonuna katılmak
+        için aşağıdaki formu doldurabilirsin. Yanıtların ekibimize ulaştıktan sonra başvurunun ardından koordinasyon
+        kanallarına davet edileceksin.</p>
+
+      <!-- Global Game Jam Üyelik Hatırlatması -->
+      <div class="ggj-callout">
+        <strong>🌐 Global Game Jam Resmi Kaydı Zorunludur</strong>
+        Etkinliğe katılacak her geliştiricinin global sisteme kayıt olması gerekmektedir. Lütfen formu doldurmadan önce
+        <a href="https://globalgamejam.org/user/register" target="_blank" rel="noopener noreferrer">globalgamejam.org/user/register</a>
+        üzerinden üyeliğinizi açın ve kullanıcı adınızı forma girin. Takımınız varsa takım arkadaşlarınızın da üye olması ve kullanıcı adlarını vermesi zorunludur.
+      </div>
 
       <div class="alert-error" id="formError" role="alert"></div>
 
@@ -219,67 +372,86 @@
         method="POST" target="ggjHiddenFrame" novalidate>
         <input type="hidden" name="fvv" value="1">
         <input type="hidden" name="pageHistory" value="0">
-        <input type="hidden" name="fbzx" value="3983006562636888000">
+        <input type="hidden" name="fbzx" value="3500432648877954196">
 
-        <!-- 1. BÖLÜM: TAKIM DURUMU -->
-        <h2 class="join-section-title">Takım ve Katılım Durumu</h2>
-        <p class="join-section-lead">Etkinliğe bireysel mi yoksa bir ekiple mi katıldığını belirt. <span class="req"></span> ile işaretli alanlar zorunludur.</p>
+        <!-- GOOGLE FORMS ENTRY MAPPINGS (Doldurulan veriler bu gizli inputlarla arka plana aktarılır) -->
+        <input type="hidden" name="entry.1997965049" id="realTakimDurumu" value="">
+        <input type="hidden" name="entry.1184375414" id="realEkipAdi" value="">
+        <input type="hidden" name="entry.1134329616" id="realEkipSayisi" value="">
+        <input type="hidden" name="entry.1931800937" id="realAdSoyad" value="">
+        <input type="hidden" name="entry.1902448112" id="realTel" value="">
+        <input type="hidden" name="entry.1688247342" id="realEmail" value="">
+        <input type="hidden" name="entry.825839302" id="realGgjUsers" value="">
+        <input type="hidden" name="entry.2134735804" id="realTakimArkadasAd" value="">
+        <input type="hidden" name="entry.668568936" id="realTakimArkadasTel" value="">
+        <input type="hidden" name="entry.495135122" id="realRol" value="">
+
+        <!-- 1. BÖLÜM: BAŞVURAN KİŞİNİN BİLGİLERİ (EKİP LİDERİ / BİREYSEL KATILIMCI) -->
+        <h2 class="join-section-title">Kişisel Bilgileriniz (Başvuran / Ekip Lideri)</h2>
+        <p class="join-section-lead">Başvuruyu yapan kişi olarak sizin iletişim bilgileriniz. <span class="req"></span> ile işaretli alanlar zorunludur.</p>
+
+        <div class="field">
+          <label class="req" for="uiAd">Ad Soyad</label>
+          <input id="uiAd" type="text" required autocomplete="name" placeholder="Adınız Soyadınız">
+        </div>
+
+        <div class="field">
+          <label class="req" for="uiTel">Telefon Numarası</label>
+          <input id="uiTel" type="tel" required autocomplete="tel" placeholder="05xx xxx xx xx">
+        </div>
+
+        <div class="field">
+          <label class="req" for="uiEmail">E-Posta Adresi</label>
+          <input id="uiEmail" type="email" required autocomplete="email" placeholder="ornek@email.com">
+        </div>
+
+        <div class="field">
+          <label class="req" for="uiGgjUser">Global Game Jam Kullanıcı Adınız</label>
+          <input id="uiGgjUser" type="text" required placeholder="Örn: kullanici_adiniz">
+          <span class="hint"><a href="https://globalgamejam.org/user/register" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">globalgamejam.org</a> profilinizdeki kullanıcı adı.</span>
+        </div>
+
+        <div class="field">
+          <label class="req" for="uiRol">Bu Game Jam'de Hangi Rolü Üstlenmeyi Planlıyorsunuz?</label>
+          <input id="uiRol" type="text" required placeholder="Örn: Oyun Tasarımcısı, Yazılımcı, 2D/3D Sanatçı, Ses...">
+        </div>
+
+        <!-- 2. BÖLÜM: TAKIM DURUMU & DİNAMİK EKİP YÖNETİMİ -->
+        <h2 class="join-section-title">Katılım ve Takım Durumu</h2>
+        <p class="join-section-lead">Etkinliğe bireysel mi yoksa bir ekiple mi katıldığınızı seçin.</p>
 
         <div class="field">
           <label class="req">Takım Durumu</label>
           <div class="choice-group" role="radiogroup" aria-label="Takım Durumu">
-            <label><input type="radio" name="entry.1997965049" id="jTakimKendim" value="Kendim katılıyorum." required> Kendim katılıyorum.</label>
-            <label><input type="radio" name="entry.1997965049" id="jTakimVar" value="Bir takımım var." required> Bir takımım var.</label>
+            <label><input type="radio" name="uiTakimDurumu" id="jTakimKendim" value="Kendim katılıyorum." checked> Kendim katılıyorum.</label>
+            <label><input type="radio" name="uiTakimDurumu" id="jTakimVar" value="Bir takımım var."> Bir takımım var.</label>
           </div>
         </div>
 
-        <div class="field" id="fEkipAdi">
-          <label class="req" for="jEkipAdi">Ekip Adı</label>
-          <input id="jEkipAdi" name="entry.1184375414" type="text" required placeholder="Örn: PixelCraft">
-          <span class="hint">Bireysel katılıyorsanız 'Bireysel' yazabilirsiniz.</span>
-        </div>
+        <!-- Takım Bilgileri ve Dinamik Kişi Ekleme Kutusu -->
+        <div class="team-box" id="teamBox">
+          <div class="field">
+            <label class="req" for="uiEkipAdi">Ekip Adı</label>
+            <input id="uiEkipAdi" type="text" placeholder="Örn: PixelForge">
+          </div>
 
-        <div class="field" id="fEkipSayisi">
-          <label class="req" for="jEkipSayisi">Ekip Kişi Sayısı</label>
-          <input id="jEkipSayisi" name="entry.1134329616" type="text" required placeholder="Örn: 4">
-          <span class="hint">Bireysel katılıyorsanız '1' yazabilirsiniz.</span>
-        </div>
+          <div class="field">
+            <label>Ekip Kişi Sayısı</label>
+            <input id="uiEkipSayisi" type="text" readonly style="opacity:.85;cursor:default" value="2 (Siz + 1 Takım Arkadaşı)">
+            <span class="hint">Kişi sayısı aşağıya eklediğiniz takım arkadaşlarına göre otomatik hesaplanır.</span>
+          </div>
 
-        <div class="field" id="fTakimArkadasAd">
-          <label class="req" for="jTakimArkadasAd">Takım Arkadaşlarınızın Adı Soyadı</label>
-          <textarea id="jTakimArkadasAd" name="entry.2134735804" rows="2" required placeholder="Ekibinizdeki diğer üyelerin isimleri..."></textarea>
-          <span class="hint">Bireysel katılıyorsanız 'Yok' veya '-' yazabilirsiniz.</span>
-        </div>
+          <label class="req" style="margin-top:16px;display:block">Takım Arkadaşlarınız</label>
+          <p class="join-section-lead" style="margin-bottom:10px">Ekibinizdeki diğer üyeleri ekleyin. Her üyenin Global Game Jam kullanıcı adını girmesi zorunludur.</p>
 
-        <div class="field" id="fTakimArkadasTel">
-          <label class="req" for="jTakimArkadasTel">Takım Arkadaşlarınızın Telefon Numarası</label>
-          <textarea id="jTakimArkadasTel" name="entry.668568936" rows="2" required placeholder="Ekibinizdeki diğer üyelerin telefon numaraları..."></textarea>
-          <span class="hint">Bireysel katılıyorsanız 'Yok' veya '-' yazabilirsiniz.</span>
-        </div>
+          <div class="team-members-list" id="teamMembersList">
+            <!-- Dinamik Takım Arkadaşı Kartları buraya JS ile eklenir -->
+          </div>
 
-        <!-- 2. BÖLÜM: KİŞİSEL BİLGİLER -->
-        <h2 class="join-section-title">İletişim ve Kişisel Bilgiler</h2>
-        <p class="join-section-lead">Başvurunu değerlendirebilmemiz ve seninle iletişime geçebilmemiz için gerekli bilgiler.</p>
-
-        <div class="field">
-          <label class="req" for="jAd">Ad Soyad</label>
-          <input id="jAd" name="entry.1931800937" type="text" required autocomplete="name">
-        </div>
-
-        <div class="field">
-          <label class="req" for="jTel">Telefon Numarası</label>
-          <input id="jTel" name="entry.1902448112" type="tel" required autocomplete="tel" placeholder="05xx xxx xx xx">
-        </div>
-
-        <div class="field">
-          <label class="req" for="jEmail">E-Posta Adresi</label>
-          <input id="jEmail" name="entry.1688247342" type="email" required autocomplete="email" placeholder="ornek@email.com">
-        </div>
-
-        <div class="field">
-          <label class="req" for="jDiscord">Discord Kullanıcı Adı</label>
-          <input id="jDiscord" name="entry.1100947727" type="text" required placeholder="Örn: kullaniciadi veya kullanici#1234">
-          <span class="hint">Jam koordinasyonu ve duyurular Discord sunucumuz üzerinden yapılacaktır.</span>
+          <button type="button" class="btn-add-member" id="btnAddMember">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Takım Arkadaşı Ekle
+          </button>
         </div>
 
         <!-- 3. BÖLÜM: DENEYİM VE ROL -->
@@ -302,11 +474,6 @@
           <textarea id="jJamDeneyimi" name="entry.803991046" rows="2" required placeholder="Daha önce katıldığınız jamler veya ilk deneyiminiz olup olmadığı..."></textarea>
         </div>
 
-        <div class="field">
-          <label class="req" for="jRol">Bu Game Jam'de Hangi Rolü Üstlenmeyi Planlıyorsunuz?</label>
-          <textarea id="jRol" name="entry.495135122" rows="2" required placeholder="Örn: Oyun Tasarımcısı, Yazılımcı, 2D/3D Sanatçı, Ses / Müzik, vb."></textarea>
-        </div>
-
         <!-- 4. BÖLÜM: EK SORULAR (OPSİYONEL) -->
         <h2 class="join-section-title">Ek Sorular</h2>
         <p class="join-section-lead">Aşağıdaki alanlar isteğe bağlıdır, doldurmadan da gönderebilirsiniz.</p>
@@ -326,8 +493,8 @@
         <details class="kvkk">
           <summary>KVKK aydınlatma metni</summary>
           <p><strong>Veri sorumlusu:</strong> Akdeniz Üniversitesi Oyun ve Oyunlaştırma Topluluğu (GG Lab).</p>
-          <p><strong>İşlenen veriler:</strong> Ad soyad, e-posta, telefon, Discord kullanıcı adı, takım bilgileri ve bu formdaki diğer yanıtlarınız.</p>
-          <p><strong>Amaç:</strong> Global Game Jam 27 etkinliğine başvurunun değerlendirilmesi, katılımcı ve takım organizasyonunun sağlanması ve koordinasyon kanallarına davet edilmeniz.</p>
+          <p><strong>İşlenen veriler:</strong> Ad soyad, e-posta, telefon, Global Game Jam kullanıcı adları, takım bilgileri ve bu formdaki diğer yanıtlarınız.</p>
+          <p><strong>Amaç:</strong> Global Game Jam 27 etkinliğine başvurunun değerlendirilmesi, katılımcı ve takım organizasyonunun sağlanması ve koordinasyon süreçleri.</p>
           <p><strong>Hukuki sebep:</strong> 6698 sayılı KVKK md. 5/1 uyarınca açık rızanız.</p>
           <p><strong>Aktarım:</strong> Yanıtlar Google Forms / E-Tablolar altyapısında saklanır; yalnızca topluluk ve etkinlik yönetimi erişebilir, üçüncü kişilerle paylaşılmaz.</p>
           <p><strong>Haklarınız:</strong> KVKK md. 11 kapsamında verilerinizin işlenip işlenmediğini öğrenme ve silinmesini isteme hakkınız saklıdır. Başvuru: <a href="mailto:team@gglabakdeniz.com">team@gglabakdeniz.com</a></p>
@@ -382,12 +549,9 @@
   <script>
     (function () {
       /*
-       * E-TABLO DOĞRULAMA AYARI:
-       * Google E-Tablonuzdaki (Uzantılar > Apps Script) Web App URL'sini
-       * aşağıdaki değişkene yapıştırdığınızda sistem formun excele gidip gitmediğini
-       * kesin olarak doğrular ve hata varsa ekrana hata kutusu çıkarır.
+       * E-TABLO DOĞRULAMA SERVİSİ
        */
-      var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyDUBTRso1UF5TnvhFNItdeBqOfKpQFxL-yUw7AeyJdcMNgsnQ47lZzyGr84yYpy3UX/exec"; 
+      var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCpEBhRCopZnbtkxFwATduos54lTColiE78bF2zstPtyxFTlX_Opz8MRDTF7ewUDuMFg/exec";
 
       var form = document.getElementById('ggjForm');
       var frame = document.getElementById('ggjHiddenFrame');
@@ -397,31 +561,118 @@
       var originalBtnText = submitBtn ? submitBtn.textContent : 'Başvuruyu gönder';
       var isSubmitting = false;
 
-      /* Bireysel / Takım seçimi kolaylığı */
+      // Radio & Box
       var radioKendim = document.getElementById('jTakimKendim');
       var radioVar = document.getElementById('jTakimVar');
-      var ekipAdiInput = document.getElementById('jEkipAdi');
-      var ekipSayisiInput = document.getElementById('jEkipSayisi');
-      var takimArkadasAd = document.getElementById('jTakimArkadasAd');
-      var takimArkadasTel = document.getElementById('jTakimArkadasTel');
+      var teamBox = document.getElementById('teamBox');
+      var uiEkipAdi = document.getElementById('uiEkipAdi');
+      var uiEkipSayisi = document.getElementById('uiEkipSayisi');
+      var teamMembersList = document.getElementById('teamMembersList');
+      var btnAddMember = document.getElementById('btnAddMember');
 
-      radioKendim.addEventListener('change', function () {
-        if (radioKendim.checked) {
-          if (!ekipAdiInput.value || ekipAdiInput.value === 'PixelCraft') ekipAdiInput.value = 'Bireysel';
-          if (!ekipSayisiInput.value) ekipSayisiInput.value = '1';
-          if (!takimArkadasAd.value) takimArkadasAd.value = 'Yok (Bireysel katılım)';
-          if (!takimArkadasTel.value) takimArkadasTel.value = 'Yok';
-        }
-      });
+      // Başvuran bilgileri
+      var uiAd = document.getElementById('uiAd');
+      var uiTel = document.getElementById('uiTel');
+      var uiEmail = document.getElementById('uiEmail');
+      var uiGgjUser = document.getElementById('uiGgjUser');
+      var uiRol = document.getElementById('uiRol');
 
-      radioVar.addEventListener('change', function () {
+      // Arka plan gizli inputları (Google Form entry'leri)
+      var realTakimDurumu = document.getElementById('realTakimDurumu');
+      var realEkipAdi = document.getElementById('realEkipAdi');
+      var realEkipSayisi = document.getElementById('realEkipSayisi');
+      var realAdSoyad = document.getElementById('realAdSoyad');
+      var realTel = document.getElementById('realTel');
+      var realEmail = document.getElementById('realEmail');
+      var realGgjUsers = document.getElementById('realGgjUsers');
+      var realTakimArkadasAd = document.getElementById('realTakimArkadasAd');
+      var realTakimArkadasTel = document.getElementById('realTakimArkadasTel');
+      var realRol = document.getElementById('realRol');
+
+      /* Takım Durumu Değişimi */
+      function updateTeamMode() {
         if (radioVar.checked) {
-          if (ekipAdiInput.value === 'Bireysel') ekipAdiInput.value = '';
-          if (ekipSayisiInput.value === '1') ekipSayisiInput.value = '';
-          if (takimArkadasAd.value.indexOf('Yok') !== -1) takimArkadasAd.value = '';
-          if (takimArkadasTel.value.indexOf('Yok') !== -1) takimArkadasTel.value = '';
+          teamBox.classList.add('show');
+          uiEkipAdi.required = true;
+          if (teamMembersList.children.length === 0) {
+            addMemberCard(); // En az 1 takım arkadaşı ile başlat
+          }
+          updateTeamCount();
+        } else {
+          teamBox.classList.remove('show');
+          uiEkipAdi.required = false;
         }
-      });
+      }
+
+      radioKendim.addEventListener('change', updateTeamMode);
+      radioVar.addEventListener('change', updateTeamMode);
+
+      /* Takım Kişi Sayısını Güncelle */
+      function updateTeamCount() {
+        var count = 1 + teamMembersList.children.length;
+        uiEkipSayisi.value = count + ' (Siz + ' + teamMembersList.children.length + ' Takım Arkadaşı)';
+      }
+
+      /* Kart Sıra Başlıklarını Yenile */
+      function reindexMemberCards() {
+        var cards = teamMembersList.querySelectorAll('.member-card');
+        cards.forEach(function (card, index) {
+          var badge = card.querySelector('.member-badge');
+          if (badge) {
+            badge.textContent = (index + 1) + '. Takım Arkadaşı';
+          }
+        });
+        updateTeamCount();
+      }
+
+      /* Yeni Takım Arkadaşı Kartı Ekle */
+      function addMemberCard() {
+        var cardIndex = teamMembersList.children.length + 1;
+        if (cardIndex > 7) {
+          alert('Bir takıma en fazla 7 takım arkadaşı (toplam 8 kişi) ekleyebilirsiniz.');
+          return;
+        }
+
+        var card = document.createElement('div');
+        card.className = 'member-card';
+        card.innerHTML = 
+          '<div class="member-card-header">' +
+            '<span class="member-badge">' + cardIndex + '. Takım Arkadaşı</span>' +
+            '<button type="button" class="btn-remove-member" title="Üyeyi kaldır">Kaldır</button>' +
+          '</div>' +
+          '<div class="member-grid">' +
+            '<div class="field">' +
+              '<label class="req">Ad Soyad</label>' +
+              '<input type="text" class="m-name" required placeholder="Adı Soyadı">' +
+            '</div>' +
+            '<div class="field">' +
+              '<label class="req">Telefon Numarası</label>' +
+              '<input type="tel" class="m-phone" required placeholder="05xx xxx xx xx">' +
+            '</div>' +
+            '<div class="field">' +
+              '<label class="req">Global Game Jam Kullanıcı Adı</label>' +
+              '<input type="text" class="m-ggj" required placeholder="globalgamejam.org kullanıcı adı">' +
+            '</div>' +
+            '<div class="field">' +
+              '<label class="req">Üstleneceği Rol</label>' +
+              '<input type="text" class="m-role" required placeholder="Örn: Yazılımcı, Sanatçı, Ses...">' +
+            '</div>' +
+          '</div>';
+
+        card.querySelector('.btn-remove-member').addEventListener('click', function () {
+          if (teamMembersList.children.length <= 1) {
+            alert('Takım başvurusu için en az 1 takım arkadaşı girmelisiniz.');
+            return;
+          }
+          card.remove();
+          reindexMemberCards();
+        });
+
+        teamMembersList.appendChild(card);
+        updateTeamCount();
+      }
+
+      btnAddMember.addEventListener('click', addMemberCard);
 
       function showError(msg) {
         errorBox.innerHTML = '<strong>Başvurunuz gönderilemedi!</strong> ' + (msg || 'Bilgileriniz sisteme kaydedilemedi. Lütfen internet bağlantınızı kontrol edip formu tekrar doldurunuz.');
@@ -441,7 +692,9 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
+      /* Form Gönderimi */
       form.addEventListener('submit', function (e) {
+        // Tarayıcı geçerlilik kontrolü
         if (!form.checkValidity()) {
           e.preventDefault();
           form.reportValidity();
@@ -453,6 +706,70 @@
           return;
         }
 
+        // Verileri Google Forms / Excel formatına derle
+        var isTeam = radioVar.checked;
+        realTakimDurumu.value = isTeam ? 'Bir takımım var.' : 'Kendim katılıyorum.';
+        realAdSoyad.value = uiAd.value.trim();
+        realTel.value = uiTel.value.trim();
+        realEmail.value = uiEmail.value.trim();
+
+        var leaderGgj = uiGgjUser.value.trim();
+        var leaderRole = uiRol.value.trim();
+
+        if (isTeam) {
+          var ekipAdi = uiEkipAdi.value.trim();
+          if (!ekipAdi) {
+            e.preventDefault();
+            uiEkipAdi.focus();
+            return;
+          }
+
+          var cards = teamMembersList.querySelectorAll('.member-card');
+          if (cards.length === 0) {
+            e.preventDefault();
+            alert('Lütfen en az bir takım arkadaşı ekleyiniz.');
+            return;
+          }
+
+          realEkipAdi.value = ekipAdi;
+          realEkipSayisi.value = (1 + cards.length).toString();
+
+          var ggjList = [];
+          var namesList = [];
+          var telsList = [];
+          var rolesList = [];
+
+          // Başvuran liderin GGJ adı ve rolü
+          ggjList.push('1. [Lider] ' + uiAd.value.trim() + ': ' + leaderGgj);
+          rolesList.push('1. ' + uiAd.value.trim() + ' (' + leaderRole + ')');
+
+          cards.forEach(function (card, idx) {
+            var mName = (card.querySelector('.m-name').value || '').trim();
+            var mTel = (card.querySelector('.m-phone').value || '').trim();
+            var mGgj = (card.querySelector('.m-ggj').value || '').trim();
+            var mRole = (card.querySelector('.m-role').value || '').trim();
+
+            namesList.push((idx + 1) + '. ' + mName);
+            telsList.push((idx + 1) + '. ' + mName + ' (' + mTel + ')');
+            ggjList.push((idx + 2) + '. ' + mName + ': ' + mGgj);
+            rolesList.push((idx + 2) + '. ' + mName + ' (' + mRole + ')');
+          });
+
+          realGgjUsers.value = ggjList.join('\n');
+          realTakimArkadasAd.value = namesList.join('\n');
+          realTakimArkadasTel.value = telsList.join('\n');
+          realRol.value = rolesList.join('\n');
+
+        } else {
+          // Bireysel katılım
+          realEkipAdi.value = 'Bireysel';
+          realEkipSayisi.value = '1';
+          realGgjUsers.value = leaderGgj;
+          realTakimArkadasAd.value = 'Yok (Bireysel katılım)';
+          realTakimArkadasTel.value = 'Yok (Bireysel katılım)';
+          realRol.value = uiAd.value.trim() + ' (' + leaderRole + ')';
+        }
+
         errorBox.classList.remove('show');
         isSubmitting = true;
 
@@ -461,10 +778,7 @@
           submitBtn.textContent = 'Bilgileriniz kontrol ediliyor ve gönderiliyor...';
         }
 
-        /* 
-         * Eğer Apps Script Web App URL tanımlıysa, veriyi canlı doğrulama servisine post eder.
-         * Servis yanıtı dönerse (başarılıysa) formu onaylar, yanıt gelmez veya hata dönerse hata mesajını basar.
-         */
+        /* Canlı E-Tablo Doğrulama Servisi */
         if (APPS_SCRIPT_URL) {
           e.preventDefault();
 
@@ -499,10 +813,9 @@
             clearTimeout(timeout);
             showError('Bağlantı hatası oluştu. Başvurunuz gönderilemedi, lütfen bilgilerinizi kontrol edip yeniden deneyiniz.');
           });
+
         } else {
-          /* 
-           * Apps Script tanımlı değilken standart Google Forms iframe fallback'i çalışır.
-           */
+          /* Yedek Fallback */
           var frameTimeout = setTimeout(function () {
             if (isSubmitting) {
               showError('Bağlantı zaman aşımına uğradı. Bilgilerinizin ulaştığı teyit edilemedi, lütfen tekrar deneyiniz.');

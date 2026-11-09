@@ -155,8 +155,26 @@
     }
 
     .join-thanks .portals {
+      --p: clamp(36px, 4.2vw, 52px);
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(8px, 1.8vw, 18px);
       margin: 36px auto 26px;
-      padding-bottom: 34px
+      padding-bottom: 34px;
+      max-width: 100%;
+    }
+
+    .join-thanks .portal {
+      flex: 0 0 auto;
+    }
+
+    @media (max-width: 560px) {
+      .join-thanks .portals {
+        --p: 38px;
+        gap: 8px;
+      }
     }
 
     .join-form.hide {

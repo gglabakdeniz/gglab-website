@@ -6,25 +6,25 @@ function doPost(e) {
     var payload = {
       "fvv": "1",
       "pageHistory": "0",
-      "fbzx": "3983006562636888000",
+      "fbzx": "3500432648877954196",
       "entry.1997965049": p["entry.1997965049"] || "", // Takım Durumu
       "entry.1184375414": p["entry.1184375414"] || "", // Ekip Adı
       "entry.1134329616": p["entry.1134329616"] || "", // Ekip Kişi Sayısı
-      "entry.1931800937": p["entry.1931800937"] || "", // Ad Soyad
+      "entry.1931800937": p["entry.1931800937"] || "", // Ad Soyad (Başvuran)
       "entry.1902448112": p["entry.1902448112"] || "", // Telefon Numarası
       "entry.1688247342": p["entry.1688247342"] || "", // E-Posta Adresi
-      "entry.1100947727": p["entry.1100947727"] || "", // Discord Kullanıcı Adı
+      "entry.825839302":  p["entry.825839302"]  || "", // Ekiptedeki herkesin GGJ kullanici isimleri
       "entry.2134735804": p["entry.2134735804"] || "", // Takım Arkadaşları Adı Soyadı
       "entry.668568936":  p["entry.668568936"]  || "", // Takım Arkadaşları Telefon Numarası
       "entry.1128498041": p["entry.1128498041"] || "", // Deneyimler
       "entry.779154997":  p["entry.779154997"]  || "", // Portfolyo
       "entry.803991046":  p["entry.803991046"]  || "", // Jam Deneyimi
       "entry.495135122":  p["entry.495135122"]  || "", // Rol
-      "entry.1752156407": p["entry.1752156407"] || "", // Sorular / Eklemek istedikleriniz
-      "entry.151869497":  p["entry.151869497"]  || ""  // Etkinlikten nasıl haberdar oldunuz
+      "entry.1752156407": p["entry.1752156407"] || "", // Sorular / Eklemek istedikleriniz (Opsiyonel)
+      "entry.151869497":  p["entry.151869497"]  || ""  // Etkinlikten nasıl haberdar oldunuz (Opsiyonel)
     };
 
-    // 1. Google Form'a arka plandan gönderilir
+    // 1. Google Form'a arka plandan gönderilir (ve bağlı E-Tabloya yazar)
     var response = UrlFetchApp.fetch(formUrl, {
       method: "post",
       payload: payload,
@@ -50,7 +50,7 @@ function doPost(e) {
       payload["entry.1931800937"],
       payload["entry.1902448112"],
       payload["entry.1688247342"],
-      payload["entry.1100947727"],
+      payload["entry.825839302"],
       payload["entry.2134735804"],
       payload["entry.668568936"],
       payload["entry.1128498041"],

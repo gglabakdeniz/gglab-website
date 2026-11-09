@@ -118,13 +118,13 @@
     'act.f6p': 'Gatherings and community nights that strengthen communication between members.',
 
     /* --- game jam --- */
-    'jam.head': 'Game Jam <span class="accent">Akdeniz</span>',
+    'jam.head': 'Akdeniz <span class="accent">Game Jam</span>',
     'jam.when': '2–4 May 2026 · Antalya',
     'jam.p1': 'The <strong>largest event we have run so far</strong>. A 48-hour game development marathon organised together by Akdeniz University, AÜBT and GG Lab, supported by sixteen institutions, studios and brands.',
     'jam.p2': 'Over 48 hours participants formed teams and built playable prototypes from scratch around the announced theme.',
     'jam.shotsH': 'Gallery',
     'jam.nextK': 'Next level · Level 02',
-    'jam.nextH': 'Game Jam Akdeniz 2027',
+    'jam.nextH': 'Akdeniz Game Jam 2027',
     'jam.nextP': 'The date is not set yet. It will be announced first on Discord and in the "Upcoming" section above.',
     'jam.nextCta': 'Get notified',
     'jam.creditsH': 'Our Supporters',
@@ -138,7 +138,7 @@
     'jam.sponsorH': 'Sponsors',
     'jam.unknown': 'full name to be added',
     'jam.itch': 'Play the jam games',
-    'jam.itchSub': 'Game Jam Akdeniz 2026 games · itch.io',
+    'jam.itchSub': 'Akdeniz Game Jam 2026 games · itch.io',
 
     /* --- düzenli etkinlikler --- */
     'ev.eyebrow': '04 — Regular Events',

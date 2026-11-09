@@ -169,7 +169,7 @@
   font-family:Oswald,Inter,sans-serif;letter-spacing:.2em;
   margin-bottom:clamp(6px,1.4vh,14px);
 }
-.hud-hero .eyebrow .tick{width:26px;height:1px;background:var(--accent);display:inline-block}
+.hud-hero .eyebrow .tick{display:none}
 .hud-hero .lead{
   border-left:2px solid var(--accent);padding-left:16px;max-width:44ch;margin-bottom:0;
   font-size:clamp(.88rem,min(1.15vw,1.85vh),1.02rem);line-height:1.55;

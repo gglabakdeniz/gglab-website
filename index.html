@@ -37,8 +37,8 @@
   <link rel="preload" href="assets/fonts/oswald-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/oswald-tr.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/hud.css">
+  <link rel="stylesheet" href="css/style.css?v=1.2">
+  <link rel="stylesheet" href="css/hud.css?v=1.2">
 </head>
 
 <body>
@@ -346,12 +346,12 @@
             <!-- [html-validate-disable-block element-required-attributes: src tablodan gelir (main.js)] -->
             <img class="level-cover-img" data-slot="kapak" alt="" width="700" height="933" loading="lazy"
               decoding="async">
-            <img class="level-logo" src="assets/img/gamejam-logo.svg" alt="Game Jam Akdeniz" width="1281" height="489"
+            <img class="level-logo" src="assets/img/gamejam-logo.svg" alt="Akdeniz Game Jam" width="1281" height="489"
               loading="lazy">
           </figure>
 
           <div class="level-info">
-            <h2 data-head="baslik" data-i18n="jam.head">Game Jam <span class="accent">Akdeniz</span></h2>
+            <h2 data-i18n="jam.head">Akdeniz <span class="accent">Game Jam</span></h2>
             <p class="level-when">
               <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M7 3v3M17 3v3M4 9h16M5 6h14a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z" />
@@ -384,16 +384,13 @@
             </dl>
 
             <div class="level-actions">
-              <a class="cut-btn cut-btn-light" href="ggj27/">
-                <span>GGJ 27'ye Başvur <i>&rarr;</i></span>
-              </a>
               <a class="cut-btn cut-btn-play" href="https://itch.io/jam/akdeniz-gamejam-2026/entries" target="_blank"
                 rel="noopener noreferrer">
                 <span><svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M8 5.5v13l10.5-6.5Z" />
                   </svg><span data-i18n="jam.itch">Jam oyunlarını oyna</span></span>
               </a>
-              <span class="level-actions-sub" data-i18n="jam.itchSub">Game Jam Akdeniz 2026 oyunları · itch.io</span>
+              <span class="level-actions-sub" data-i18n="jam.itchSub">Akdeniz Game Jam 2026 oyunları · itch.io</span>
             </div>
 
             <p class="level-by">
@@ -406,6 +403,38 @@
               <span class="level-by-sep" aria-hidden="true">·</span>
               <img class="logo-mark" src="assets/img/logo-yazili-68.webp" alt="GG Lab" width="68" height="68"
                 decoding="async">
+            </p>
+          </div>
+        </article>
+
+        <!-- AKDENİZ GLOBAL GAME JAM 27 (GGJ 27) -->
+        <article class="level reveal" id="ggj27" style="margin-top: clamp(28px, 4vw, 44px); display: block; width: 100%;">
+          <div class="level-info" style="max-width: 100%;">
+            <p class="eyebrow" style="margin-bottom: 6px;">Etkinlik Başvurusu</p>
+            <h2>Akdeniz <span class="accent">GGJ 27</span></h2>
+            <p class="level-when" style="margin-bottom: 14px;">
+              <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7 3v3M17 3v3M4 9h16M5 6h14a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z" />
+              </svg>
+              <span>29–31 Ocak · Akdeniz Üniversitesi</span>
+            </p>
+            <p style="max-width: none;">Dünyanın en büyük oyun geliştirme maratonu olan <strong>Global Game Jam</strong> heyecanı Akdeniz'e taşınıyor! 48 saat boyunca takımlar halinde bir araya gelip gizli tema etrafında sıfırdan oyun geliştireceğimiz bu büyük maratona davetlisiniz.</p>
+            <p style="max-width: none;">Etkinlikle ilgili organizasyon ve hazırlık sürecimiz devam ediyor; detaylı program ve atölye takvimi yakında açıklanacaktır. Kontenjan dolmadan takımını kurarak veya bireysel olarak başvurunu yapabilirsin.</p>
+
+            <div class="level-actions" style="margin: 20px 0 16px;">
+              <a class="cut-btn cut-btn-light cut-btn-lg" href="ggj27/">
+                <span>GGJ 27'ye Başvur <i>&rarr;</i></span>
+              </a>
+              <span class="level-actions-sub">Takım veya bireysel katılım · Başvurular açık</span>
+            </div>
+
+            <p class="level-by" style="margin-top: 16px; padding-top: 14px;">
+              <span class="level-label">Düzenleyen</span>
+              <span>Akdeniz Üniversitesi</span>
+              <span class="level-by-sep" aria-hidden="true">·</span>
+              <span>GG Lab</span>
+              <span class="level-by-sep" aria-hidden="true">·</span>
+              <span>Girişimcilik ve Kariyer Ofisi</span>
             </p>
           </div>
         </article>
@@ -740,192 +769,111 @@
 <script src="js/i18n.js"></script> -->
   <script type="module" src="js/main.js"></script>
 
-  <!-- ===== Retro Akademisyen floating widget ===== -->
+  <!-- ===== Akdeniz GGJ Floating Widget ===== -->
   <style>
-    /* Widget container */
-    #retro-widget {
+    #floating-ggj-btn {
       position: fixed;
-      bottom: clamp(12px, 3vw, 24px);
-      right: clamp(12px, 3vw, 24px);
+      bottom: clamp(14px, 3vw, 24px);
+      right: clamp(14px, 3vw, 24px);
       z-index: 9000;
-      display: flex;
-      align-items: flex-end;
-      gap: 10px;
-      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 18px;
+      background: rgba(16, 33, 77, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--accent, #f47c20);
+      border-radius: 40px;
+      box-shadow: 0 0 22px rgba(244, 124, 32, 0.32), 0 8px 32px rgba(0, 0, 0, 0.65);
       text-decoration: none;
-      color: inherit;
-      /* Slide-in on load */
-      animation: retro-slidein .6s cubic-bezier(.22,.8,.3,1) both;
+      color: #eef2ff;
+      font-family: "Space Grotesk", Inter, sans-serif;
+      transition: transform .25s cubic-bezier(.22,.8,.3,1), box-shadow .25s, border-color .25s;
+      animation: ggj-float-in .6s cubic-bezier(.22,.8,.3,1) both;
     }
-    @keyframes retro-slidein {
+    @keyframes ggj-float-in {
       from { transform: translateY(120%); opacity: 0; }
       to   { transform: translateY(0);   opacity: 1; }
     }
-    @media (prefers-reduced-motion: reduce) {
-      #retro-widget { animation: none; }
+    #floating-ggj-btn:hover,
+    #floating-ggj-btn:focus-visible {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 0 30px rgba(244, 124, 32, 0.55), 0 12px 40px rgba(0, 0, 0, 0.8);
+      border-color: #ff9d47;
     }
-
-    /* Speech bubble */
-    #retro-bubble {
+    .ggj-float-pulse {
       position: relative;
-      background: #10214d;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #f47c20;
+      box-shadow: 0 0 8px #f47c20;
+      flex-shrink: 0;
+    }
+    .ggj-float-pulse::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
       border: 2px solid #f47c20;
-      border-radius: 8px;
-      padding: clamp(6px, 1.5vw, 10px) clamp(8px, 2vw, 14px);
-      max-width: clamp(140px, 30vw, 220px);
-      box-shadow: 0 0 0 1px rgba(244,124,32,.25), 0 8px 32px rgba(0,0,0,.55);
-      transition: transform .25s cubic-bezier(.22,.8,.3,1), box-shadow .25s;
+      animation: ggj-pulse-anim 1.8s infinite;
     }
-    /* Arrow pointing right toward the sprite */
-    #retro-bubble::after {
-      content: '';
-      position: absolute;
-      right: -10px;
-      bottom: 18px;
-      border: 5px solid transparent;
-      border-left-color: #f47c20;
+    @keyframes ggj-pulse-anim {
+      0% { transform: scale(0.6); opacity: 1; }
+      100% { transform: scale(2.2); opacity: 0; }
     }
-    #retro-bubble::before {
-      content: '';
-      position: absolute;
-      right: -7px;
-      bottom: 19px;
-      border: 4px solid transparent;
-      border-left-color: #10214d;
-      z-index: 1;
+    .ggj-float-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
     }
-    #retro-bubble-text {
-      font-family: "Space Grotesk", Inter, sans-serif;
+    .ggj-float-title {
       font-weight: 700;
-      font-size: clamp(10px, 1.8vw, 13px);
-      line-height: 1.35;
-      color: #eef2ff;
-      letter-spacing: -.01em;
+      font-size: clamp(12px, 1.4vw, 14px);
+      line-height: 1.2;
+      color: #ffffff;
+      white-space: nowrap;
     }
-    #retro-bubble-cta {
-      display: inline-block;
-      margin-top: 6px;
-      font-size: clamp(9px, 1.5vw, 11px);
-      color: #f47c20;
+    .ggj-float-dates {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent, #f47c20);
+      letter-spacing: .02em;
+      white-space: nowrap;
+    }
+    .ggj-float-arrow {
+      color: var(--accent, #f47c20);
+      font-size: 15px;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .04em;
+      transition: transform .2s ease;
+      margin-left: 2px;
     }
-
-    /* Canvas wrapper */
-    #retro-sprite-wrap {
-      flex: none;
-      position: relative;
-      width: clamp(52px, 10vw, 78px);
-      height: clamp(52px, 10vw, 78px);
-      filter: drop-shadow(0 0 8px rgba(244,124,32,.5));
-      transition: transform .25s cubic-bezier(.22,.8,.3,1), filter .25s;
+    #floating-ggj-btn:hover .ggj-float-arrow {
+      transform: translateX(3px);
     }
-    #retro-boss-canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-      image-rendering: pixelated;
-    }
-
-    /* Hover effects */
-    #retro-widget:hover #retro-bubble,
-    #retro-widget:focus-visible #retro-bubble {
-      transform: translateY(-4px);
-      box-shadow: 0 0 0 1px rgba(244,124,32,.5), 0 12px 40px rgba(0,0,0,.7);
-    }
-    #retro-widget:hover #retro-sprite-wrap,
-    #retro-widget:focus-visible #retro-sprite-wrap {
-      transform: translateY(-6px) scale(1.06);
-      filter: drop-shadow(0 0 14px rgba(244,124,32,.8));
-    }
-
-    /* Mobile: hide bubble text on very small screens to save space */
-    @media (max-width: 360px) {
-      #retro-bubble { display: none; }
+    @media (max-width: 480px) {
+      #floating-ggj-btn {
+        padding: 8px 14px;
+        gap: 10px;
+      }
+      .ggj-float-title {
+        font-size: 12px;
+      }
+      .ggj-float-dates {
+        font-size: 10px;
+      }
     }
   </style>
 
-  <a href="oyun.html" id="retro-widget" aria-label="Retro Akademisyeni yen! — Oyunu oyna">
-    <div id="retro-bubble">
-      <p id="retro-bubble-text">Sınavı geçmek için<br><strong>Retro Akademisyeni</strong> yen!</p>
-      <span id="retro-bubble-cta">Oyunu Oyna →</span>
-    </div>
-    <div id="retro-sprite-wrap">
-      <canvas id="retro-boss-canvas" width="27" height="24" aria-hidden="true"></canvas>
-    </div>
+  <a href="#ggj27" id="floating-ggj-btn" aria-label="Akdeniz GGJ'ye Katıl — 29-31 Ocak">
+    <span class="ggj-float-pulse" aria-hidden="true"></span>
+    <span class="ggj-float-text">
+      <span class="ggj-float-title">Akdeniz GGJ'ye Katıl</span>
+      <span class="ggj-float-dates">29–31 Ocak · Başvuru &amp; Bilgi</span>
+    </span>
+    <span class="ggj-float-arrow" aria-hidden="true">&rarr;</span>
   </a>
-
-  <script>
-  (function () {
-    /* Minimal inline render of the Retro Akademisyen boss sprite.
-       Uses the same palette as oyun.html — no external dependency. */
-    var PAL = {
-      k:'#1a1030', K:'#3a2a66', g:'#ffcf3f', s:'#f2c48d', S:'#d49a62',
-      h:'#d7dbe8', f:'#15102a', w:'#ffffff', p:'#222244', m:'#9aa0b8',
-      o:'#7a2a2a', j:'#6a2fb5', J:'#4a1f85', l:'#9a6be8', r:'#ff3f5e', e:'#c98a4b'
-    };
-    /* A compact 27×24 crop of the boss sprite (rows 0-23 — head + body).
-       Same pixel data as SPRITE_DATA.boss.rows in oyun.html. */
-    var ROWS = [
-      '......kkkkkkkkkkkkkkk......',
-      '....kkkkkkkkkkkkkkkkkkk....',
-      '..kkkkkkkkkkkkkkkkkkkkkkk..',
-      'kkkkkkkkkkkkkkkkkkkkkkkkkkk',
-      '..kkkkkkkkkkkkkkkkkkkkkkk..',
-      '...KKKKKKKKKKKKKKKKKKKKK...',
-      '...KKKKKKKKKKKKKKKKKKKKK...',
-      '...hhssssssssssssssssshh...',
-      '...hhssssssssssssssssshh...',
-      '...hhsfffffffffffffffshh...',
-      '...hhsfwwpwfsssfwpwwfshh...',
-      '...hhsfwwpwfsssfwpwwfshh...',
-      '...hhsfffffsssssfffffshh...',
-      '...hhssssssssssssssssshh...',
-      '...hhsssmmmmmmmmmmmssshh...',
-      '...hhsssssooooooossssshh...',
-      '....hSsssssssssssssssSh....',
-      '......SSsssssssssssSS......',
-      '....jjwwwwwrrrrrwwwwwjj....',
-      '..jjjjjjjjjjjrjjjjjjjjjjj..',
-      '.jjjjjjjjjjllJlljjjjjjjjjj.',
-      'jjjjjjjjjjjlJJJljjjjjjjjjjj',
-      'jjeejjjjjjjjJJJjjjjjjjjeejj',
-      'jjeejjjjjjjjJJJjjjjjjjjeejj'
-    ];
-
-    var cv = document.getElementById('retro-boss-canvas');
-    if (!cv) return;
-    var W = ROWS[0].length, H = ROWS.length;
-    cv.width = W; cv.height = H;
-    var ctx = cv.getContext('2d');
-
-    for (var y = 0; y < H; y++) {
-      var row = ROWS[y];
-      for (var x = 0; x < W; x++) {
-        var ch = row[x];
-        if (ch !== '.' && PAL[ch]) {
-          ctx.fillStyle = PAL[ch];
-          ctx.fillRect(x, y, 1, 1);
-        }
-      }
-    }
-
-    /* Subtle bob animation on the sprite wrapper */
-    var wrap = document.getElementById('retro-sprite-wrap');
-    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!reduced && wrap) {
-      var t0 = performance.now();
-      function bob(now) {
-        var t = (now - t0) / 1000;
-        wrap.style.transform = 'translateY(' + (-Math.abs(Math.sin(t * 2)) * 5) + 'px)';
-        requestAnimationFrame(bob);
-      }
-      requestAnimationFrame(bob);
-    }
-  })();
-  </script>
-  <!-- ===== /Retro Akademisyen floating widget ===== -->
 </body>
 
 </html>
