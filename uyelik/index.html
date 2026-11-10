@@ -181,6 +181,29 @@
       display: none
     }
 
+    .alert-error {
+      display: none;
+      background: rgba(239, 68, 68, 0.16);
+      border: 1px solid rgba(239, 68, 68, 0.55);
+      color: #fca5a5;
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 22px;
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    .alert-error.show {
+      display: block;
+    }
+
+    .alert-error strong {
+      display: block;
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
     .btn:disabled {
       opacity: .6;
       cursor: not-allowed;
@@ -214,6 +237,8 @@
       <p class="lead" style="margin-bottom:34px">Aşağıdaki formu doldurarak GG Lab (Oyun ve Oyunlaştırma Atölyesi)
         topluluğuna başvurabilirsin. Yanıtların ekibimize ulaşır, başvurunun ardından WhatsApp ve Discord gruplarına
         davet edileceksin.</p>
+
+      <div class="alert-error" id="formError" role="alert"></div>
 
       <form class="join-form" id="joinForm"
         action="https://docs.google.com/forms/d/e/1FAIpQLSfEpftE9JDVqMI04wBRz5IhrA6Ta3Fx3TKP5myDxRIIstmIMw/formResponse"
@@ -379,6 +404,32 @@
       var originalBtnText = submitBtn ? submitBtn.textContent : 'Başvuruyu gönder';
       var countdownTimer = null;
       var isSubmitting = false;
+      var errorBox = document.getElementById('formError');
+
+      /* E-TABLO DOĞRULAMA SERVİSİ: uyelik/apps-script.js web uygulaması olarak yayınlanınca URL buraya yazılır.
+         Boşsa eski yöntem (gizli iframe yüklendi = başarı) kullanılır. */
+      var APPS_SCRIPT_URL = "";
+
+      function showError(msg) {
+        if (countdownTimer) clearInterval(countdownTimer);
+        errorBox.innerHTML = '<strong>Başvurunuz gönderilemedi!</strong> ' + (msg || 'Bilgileriniz sisteme kaydedilemedi. Lütfen internet bağlantınızı kontrol edip formu tekrar doldurunuz.');
+        errorBox.classList.add('show');
+        errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Tekrar Deneyin';
+        }
+        isSubmitting = false;
+        submitted = false;
+      }
+
+      function showSuccess() {
+        if (countdownTimer) clearInterval(countdownTimer);
+        errorBox.classList.remove('show');
+        form.classList.add('hide');
+        thanks.classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
 
       var otherCheck = document.getElementById('jRolDiger');
       var otherRow = document.getElementById('jRolDigerRow');
@@ -447,6 +498,7 @@
           return;
         }
 
+        errorBox.classList.remove('show');
         isSubmitting = true;
         submitted = true;
 
@@ -460,6 +512,48 @@
           ogrNo: document.getElementById('jOgrNo').value,
           tc: document.getElementById('jTc').value
         });
+
+        /* Canlı E-Tablo Doğrulama Servisi */
+        if (APPS_SCRIPT_URL) {
+          e.preventDefault();
+
+          var params = new URLSearchParams();
+          new FormData(form).forEach(function (value, key) {
+            params.append(key, value);
+          });
+
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Bilgileriniz kontrol ediliyor ve gönderiliyor...';
+          }
+
+          var timeout = setTimeout(function () {
+            showError('İşlem zaman aşımına uğradı. Sunucuya ulaşılamadı, lütfen tekrar deneyiniz.');
+          }, 15000);
+
+          fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString()
+          })
+            .then(function (res) {
+              clearTimeout(timeout);
+              if (!res.ok) throw new Error('HTTP ' + res.status);
+              return res.json();
+            })
+            .then(function (data) {
+              if (data && (data.result === 'success' || data.status === 'success')) {
+                showSuccess();
+              } else {
+                showError((data && data.message) ? data.message : 'E-Tabloya kayıt yapılamadı. Lütfen tekrar deneyiniz.');
+              }
+            })
+            .catch(function () {
+              clearTimeout(timeout);
+              showError('Bağlantı hatası oluştu. Başvurunuz gönderilemedi, lütfen bilgilerinizi kontrol edip yeniden deneyiniz.');
+            });
+          return;
+        }
 
         if (submitBtn) {
           setTimeout(function () { submitBtn.disabled = true; }, 0);
@@ -481,12 +575,7 @@
       });
 
       frame.addEventListener('load', function () {
-        if (submitted) {
-          if (countdownTimer) clearInterval(countdownTimer);
-          form.classList.add('hide');
-          thanks.classList.add('show');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        if (submitted && !APPS_SCRIPT_URL) showSuccess();
       });
     })();
   </script>

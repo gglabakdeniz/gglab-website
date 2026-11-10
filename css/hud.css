@@ -102,9 +102,9 @@
    sağa sola sallanır, kalan süre durur. isolation sayesinde şerit zeminin üstünde, yazının altında
    kalır; kesik köşe span'in clip-path'iyle kırpılır. Sallanma ayrı `rotate` özelliğiyle: hover'daki
    transform'la çakışmaz. */
-.hud-menu{animation:join-wiggle 5s ease-in-out 2s infinite}
-.hud-menu > span{position:relative;isolation:isolate}
-.hud-menu > span::after{
+.hud-menu,.ggj-cta{animation:join-wiggle 5s ease-in-out 2s infinite}
+.hud-menu > span,.ggj-cta > span{position:relative;isolation:isolate}
+.hud-menu > span::after,.ggj-cta > span::after{
   content:"";position:absolute;inset:0 auto 0 0;width:50%;z-index:-1;pointer-events:none;
   background:linear-gradient(100deg,transparent,rgba(255,176,102,.95) 45%,rgba(244,124,32,.9) 55%,transparent);
   transform:translateX(-120%) skewX(-20deg);
@@ -123,8 +123,15 @@
   14%{rotate:-1.5deg}
 }
 @media (prefers-reduced-motion:reduce){
-  .hud-menu{animation:none}
-  .hud-menu > span::after{animation:none;display:none}
+  .hud-menu,.ggj-cta{animation:none}
+  .hud-menu > span::after,.ggj-cta > span::after{animation:none;display:none}
+}
+/* GGJ 27 kartı: içerik solda, logo sağda */
+#ggj27{grid-template-columns:minmax(0,1fr) clamp(160px,22vw,260px)}
+.ggj-logo{width:100%;height:auto;align-self:center}
+@media (max-width:860px){
+  #ggj27{grid-template-columns:1fr}
+  .ggj-logo{width:min(200px,60%);justify-self:center}
 }
 
 /* ---------------- HERO ----------------
